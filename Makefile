@@ -1,5 +1,5 @@
 
-pages_url    := https://the-ai-alliance.github.io/trust-safety-evals/
+pages_url    := https://the-ai-alliance.github.io/REPO_NAME/
 docs_dir     := docs
 site_dir     := ${docs_dir}/_site
 clean_dirs   := ${site_dir} ${docs_dir}/.sass-cache
@@ -123,7 +123,7 @@ view-local:: setup-jekyll do-view-local
 do-view-local: clean run-jekyll
 
 # Passing --baseurl '' allows us to use `localhost:4000` rather than require
-# `localhost:4000/The-AI-Alliance/trust-safety-evals` when -ping locally.
+# `localhost:4000/The-AI-Alliance/MICROSITE_TITLE` when -ping locally.
 run-jekyll:
 	@echo
 	@echo "Once you see the http://127.0.0.1:${JEKYLL_PORT}/ URL printed, open it with command+click..."

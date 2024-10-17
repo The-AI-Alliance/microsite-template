@@ -1,5 +1,13 @@
 #!/usr/bin/env zsh
-# Publish a new version.
+#------------------------------------------------------------------------
+# Publish a new version of the site.
+# This script can be used to publish a new version of this site, which in
+# this case means bump the version number and corresponding new timestamp
+# that appears on the index page (optionally), the footer of every page in
+# the Just the Docs template, and the _config.yaml file, which is where 
+# the footer gets the value. 
+# NOTE: It's not required to use this script...
+#------------------------------------------------------------------------
 
 tsformat="%Y-%m-%d %H:%M %z"
 script=$0

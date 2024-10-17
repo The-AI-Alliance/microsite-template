@@ -1,12 +1,23 @@
-# README
+# README for MICROSITE_TITLE
 
-[Published Documentation](https://the-ai-alliance.github.io/trust-safety-evals/)
+> [!NOTE]
+> If you are reading this page on GitHub and you want to create a microsite from this template repo,
+> do the following:
+> 1. Create a working directory and change to it.
+> 2. Run this command to pull down the `zsh` script `create-microsite.sh`:
+>    `curl -L https://api.github.com/repos/The-AI-Alliance/microsite-template//tarball > create-microsite.sh`
+> 3. When executed, this script will download a `tar.gz` file of the whole repo and creates your new website.
+> 4. To see what options you need to provide, run this command:
+>    `create-microsite.sh --help`
+> 5. Now run it with the required arguments shown.
+>
+> If you are reading this file after creating your new microsite, delete this note!!
 
-This repo contains the code and documentation for the AI Alliance _Trust and Safety Evaluations_ project, which defines a reference stack for AI model and system evaluation, with evaluations, benchmarks, and leaderboards.
+[Published Documentation](https://the-ai-alliance.github.io/REPO_NAME/)
 
-See the [documentation](https://the-ai-alliance.github.io/trust-safety-evals/) for a more detailed description of the project.
+This repo contains the code and documentation for the AI Alliance _MICROSITE_TITLE_.
 
-At this time, only the "skeleton" documentation is provided. We will be making initial commits of code, etc. soon.
+See the [documentation](https://the-ai-alliance.github.io/REPO_NAME/) for a more detailed description of the project.
 
 ## Getting Involved
 
@@ -28,18 +39,14 @@ We use the "Developer Certificate of Origin" (DCO).
 See the Alliance contributing guide [section on DCO](https://github.com/The-AI-Alliance/community/blob/main/CONTRIBUTING.md#developer-certificate-of-origin) for details. In practical terms, supporting this requirement means you must use the `-s` flag with your `git commit` commands.
 
 
-## About the Code
+## About the GitHub Pages Website Published from this Repo
 
-TODO
-
-## About the Documentation
-
-The documentation is published using [GitHub Pages](https://pages.github.com/), where the pages are written in Markdown and served using [Jekyll](https://github.com/jekyll/jekyll). We use the [Just the Docs](https://just-the-docs.github.io/just-the-docs/) Jekyll theme.
+The website is published using [GitHub Pages](https://pages.github.com/), where the pages are written in Markdown and served using [Jekyll](https://github.com/jekyll/jekyll). We use the [Just the Docs](https://just-the-docs.github.io/just-the-docs/) Jekyll theme.
 
 > [!NOTE]
 > As described above, all documentation is licensed under Creative Commons Attribution 4.0 International. See [LICENSE.CDLA-2.0](LICENSE.CDLA-2.0)).
 
-### Contributing New or Improved Web Site Content
+### Contributing New or Improved Website Content
 
 What gets displayed by GitHub Pages is the Markdown files in the `docs` directory. If you need to create a new page, copy an existing page to get the correct "header" information, then edit as needed. Note the `nav_order` field in the header; change the value to a number that falls between the two existing pages where your new page should go. This number determines the order of the links shown in the left-hand side navigation bar.
 
@@ -65,7 +72,7 @@ For external links, add a `target` tag using the following syntax, which works f
 [title]({{site.baseurl}}/relative_URL){:target="_target"}
 ```
 
-The `target` value is arbitrary; use whatever you want. While this is a little more tedious to type, it is usually better for users so they don't lose their place in the document. Also, [our stylesheet](https://github.com/The-AI-Alliance/trust-safety-evals/blob/main/docs/_includes/css/custom.scss.liquid) is configured to put the little up-and-to-the-right arrows after every link that isn't relative, i.e., links that start with `http` or `https`. This provides a visual clue that a new tab will be opened.
+The `target` value is arbitrary; use whatever you want. While this is a little more tedious to type, it is usually better for users so they don't lose their place in the document. Also, [our stylesheet](https://github.com/The-AI-Alliance/REPO_NAME/blob/main/docs/_includes/css/custom.scss.liquid) is configured to put the little up-and-to-the-right arrows after every link that isn't relative, i.e., links that start with `http` or `https`. This provides a visual clue that a new tab will be opened.
 
 #### Emojis
 
@@ -94,7 +101,7 @@ Install a recent version of Ruby 3. Note that on MacOS, the default Ruby install
 This project's `Makefile` will attempt to install the remaining dependencies, including `jekyll`, when you run `make all` or `make view-local`.
 
 > [!WARNING]
-> The automatic setup of `jekyll` in the `Makefile` has only been tested on MacOS and it most likely doesn't work on Windows, unless you use the Linux subsystem. If you encounter problems on other platforms, please [post an issue](https://github.com/The-AI-Alliance/trust-safety-evals/issues) to get help, or if you can fix the issue, a [pull request](https://github.com/The-AI-Alliance/trust-safety-evals/pulls) (PR) is always welcome :nerd_face:. (More details on PRs below.)
+> The automatic setup of `jekyll` in the `Makefile` has only been tested on MacOS and it most likely doesn't work on Windows, unless you use the Linux subsystem. If you encounter problems on other platforms, please [post an issue](https://github.com/The-AI-Alliance/REPO_NAME/issues) to get help, or if you can fix the issue, a [pull request](https://github.com/The-AI-Alliance/REPO_NAME/pulls) (PR) is always welcome :nerd_face:. (More details on PRs below.)
 
 So, try `make view-local` and see if Jekyll is installed successfully and the website is rendered.
 
@@ -192,7 +199,7 @@ The `make` target runs the following command:
 cd docs && bundle exec jekyll serve --baseurl '' --incremental
 ```
 
-The `--baseurl` flag effectively supports the simple URL, `localhost:4000`. (Without it, the URL would be `localhost:4000/The-AI-Alliance/trust-safety-evals/`.) The `--incremental` flag lets you edit the pages and refresh the browser tab to see the updates immediately. 
+The `--baseurl` flag effectively supports the simple URL, `localhost:4000`. (Without it, the URL would be `localhost:4000/The-AI-Alliance/REPO_NAME/`.) The `--incremental` flag lets you edit the pages and refresh the browser tab to see the updates immediately. 
 
 > [!NOTE]
 > Well, more or less immediately. It can take several seconds for new pages to be generated and sometimes you'll get weird behaviors if you change URL paths, etc. So, occasionally it is useful to _control-c_ in the terminal and rerun `make view-local`.
@@ -251,7 +258,7 @@ bundle install
 bundle update html-pipeline
 ```
 
-Finally, if you are still stuck, please [post an issue](https://github.com/The-AI-Alliance/trust-safety-evals/issues) to get help.
+Finally, if you are still stuck, please [post an issue](https://github.com/The-AI-Alliance/REPO_NAME/issues) to get help.
 
 > **Help Needed:**
 >
