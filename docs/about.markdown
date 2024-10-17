@@ -8,7 +8,7 @@ show_contribute_dataset_button: true
 
 # About The AI Alliance
 
-**MICROSITE_TITLE** is a project of the [WORK_GROUP_NAME](https://thealliance.ai/focusareas/WORK_GROUP_URL_NAME){:target="wg"} work group in [The AI Alliance](https://thealliance.ai){:target="ai-alliance"}. 
+**MICROSITE_TITLE** is a project of the [WORK_GROUP_NAME](https://thealliance.ai/focus-areas/WORK_GROUP_URL_NAME){:target="wg"} work group in [The AI Alliance](https://thealliance.ai){:target="ai-alliance"}. 
 
 The AI Alliance is a global collaboration of startups, enterprises, academic, and other research institutions interested in advancing the state of the art, the availability, and the safety of AI technology and uses. The AI Alliance's core projects seek to address substantial cross-community challenges and are an opportunity for contributors to collaborate, build, and make an impact on the future of AI. Core Projects are managed directly by the AI Alliance and governed as described in our [community GitHub repository](https://github.com/The-AI-Alliance/community){:target="community"}. You can find a list of all AI Alliance projects on [our website](https://thealliance.ai/our-work){:target="our-work"}.
 
