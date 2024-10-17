@@ -10,7 +10,7 @@ has_children: false
 [GitHub Repo](https://github.com/The-AI-Alliance/MICROSITE_TITLE){:target="repo" .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 .no-glyph}
 [The AI Alliance](https://thealliance.ai){:target="ai-alliance" .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 .no-glyph} 
 
-| **Authors** | [WORKGROUP_NAME](https://thealliance.ai/focusareas/WORKGROUP_URL_NAME){:target="ai-alliance-wg"} |
+| **Authors** | [WORK_GROUP_NAME](https://thealliance.ai/focus-areas/WORK_GROUP_URL_NAME){:target="ai-alliance-wg"} |
 | **History** | V0.1.0, TIMESTAMP |
 
 Welcome to the **The AI Alliance**: **MICROSITE_TITLE**.

@@ -202,27 +202,31 @@ info "Processing Files:"
 for file in "${files[@]}" "${markdown_files[@]}" "${html_files[@]}"
 do
 	info "  $file"
-	$NOOP mv $file $file.back
 	if [[ -z $NOOP ]]
 	then 
-		m4 --define=REPO_NAME="$repo_name" --define=MICROSITE_TITLE="$microsite_title" --define=WORK_GROUP_NAME="$work_group" --define=WORK_GROUP_URL_NAME="$work_group_url" --define=TIMESTAMP="$timestamp" "$file.back" > "$file"
+		sed -e "s/REPO_NAME/$repo_name/g" \
+		    -e "s/MICROSITE_TITLE/$microsite_title/g" \
+		    -e "s/WORK_GROUP_NAME/$work_group/g" \
+		    -e "s/WORK_GROUP_URL_NAME/$work_group_url/g" \
+		    -e "s/TIMESTAMP/$timestamp/g" \
+		    -i ".back" "$file"
 	else
-		$NOOP "m4 --define=REPO_NAME=$repo_name --define=MICROSITE_TITLE=$microsite_title --define=WORK_GROUP_NAME=$work_group --define=WORK_GROUP_URL_NAME=$work_group_url --define=TIMESTAMP=$timestamp $file.back > $file"
+		$NOOP sed ... -i .back $file
 	fi
 done
 
 info "Delete the backup '*.back' files that were just made:"
-$NOOP find . -name '*back' -exec rm {} \;
+$NOOP find . -name '*.back' -exec rm {} \;
+
 
 info "Initialize $repo_name as a git repo and add all the files to it:"
 $NOOP git init
-$NOOP git add * .gitignore docs/* docs/.*
+$NOOP git add * .gitignore docs docs/.prettier* docs/.stylelintrc.json
 $NOOP git commit -m 'Initial commit for repo $repo_name'
 
 info "Create a 'latest' branch from which the pages will be published:"
 $NOOP git checkout -b latest
 $NOOP git commit -m 'publication branch: latest' .
-
 
 info <<EOF
 

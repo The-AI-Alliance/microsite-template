@@ -7,7 +7,7 @@ Rather than copy the repo contents and edit manually, use the `create-microsite.
 1. Create a working directory and change to it.
 2. Run this command to pull down the `zsh` script `create-microsite.sh`:
    ```shell
-   curl -L https://github.com/The-AI-Alliance/microsite-template/blob/main/create-microsite.sh create-microsite.sh
+   curl -L https://raw.githubusercontent.com/The-AI-Alliance/microsite-template/refs/heads/main/create-microsite.sh > create-microsite.sh
    ```
 3. When executed, this script will download a `tar.gz` file of the whole repo and creates your new website.
 4. To see what options you need to provide, run this command:
