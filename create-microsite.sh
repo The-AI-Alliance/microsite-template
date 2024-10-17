@@ -14,12 +14,12 @@ work_branch=main
 publish_branch=latest
 
 declare -A fa_names
-fa_names["FA1"]="Skills and Education"
-fa_names["FA2"]="Trust and Safety"
-fa_names["FA3"]="Applications and Tools"
-fa_names["FA4"]="Hardware Enablement"
-fa_names["FA5"]="Foundation Models and Datasets"
-fa_names["FA6"]="Advocacy"
+fa_names["FA1"]="FA1: Skills and Education"
+fa_names["FA2"]="FA2: Trust and Safety"
+fa_names["FA3"]="FA3: Applications and Tools"
+fa_names["FA4"]="FA4: Hardware Enablement"
+fa_names["FA5"]="FA5: Foundation Models and Datasets"
+fa_names["FA6"]="FA6: Advocacy"
 
 declare -A fa_url_names
 fa_url_names["FA1"]=skills-education
@@ -169,8 +169,9 @@ do
 	$NOOP mv $dir $repo_name
 done
 
-info "Removing this script file, $script, from your copy of the repo!"
-$NOOP rm $repo_name/$(basename $script)
+info "Removing this script file, $script and README.md from your copy of the repo, and moving README-template.md to README.md!"
+$NOOP rm "$repo_name/$(basename $script)" "$repo_name/README.md"
+$NOOP mv "$repo_name/README-template.md" "$repo_name/README.md"
 
 info "Replacing macro placeholders with values:"
 [[ -z "$timestamp" ]] && timestamp=$(date +"$tsformat")
@@ -204,9 +205,9 @@ do
 	$NOOP mv $file $file.back
 	if [[ -z $NOOP ]]
 	then 
-		$NOOP "m4 --define=REPO_NAME=$repo_name --define=MICROSITE_TITLE=$microsite_title --define=WORK_GROUP_NAME=$work_group --define=WORK_GROUP_URL_NAME=$work_group_url --define=TIMESTAMP=$timestamp $file.back > $file"
+		m4 --define=REPO_NAME="$repo_name" --define=MICROSITE_TITLE="$microsite_title" --define=WORK_GROUP_NAME="$work_group" --define=WORK_GROUP_URL_NAME="$work_group_url" --define=TIMESTAMP="$timestamp" "$file.back" > "$file"
 	else
-		$NOOP "m4 --define=REPO_NAME="$repo_name" --define=MICROSITE_TITLE="$microsite_title" --define=WORK_GROUP_NAME="$work_group" --define=WORK_GROUP_URL_NAME="$work_group_url" --define=TIMESTAMP="$timestamp" $file.back > $file"
+		$NOOP "m4 --define=REPO_NAME=$repo_name --define=MICROSITE_TITLE=$microsite_title --define=WORK_GROUP_NAME=$work_group --define=WORK_GROUP_URL_NAME=$work_group_url --define=TIMESTAMP=$timestamp $file.back > $file"
 	fi
 done
 
