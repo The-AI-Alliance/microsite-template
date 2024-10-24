@@ -10,7 +10,7 @@ Rather than copy the repo contents and edit manually, use the `create-microsite.
    curl -L https://raw.githubusercontent.com/The-AI-Alliance/microsite-template/refs/heads/main/create-microsite.sh > create-microsite.sh
    ```
 3. When executed, this script will download a `tar.gz` file of the whole repo and create your new website.
-4. To see what script arguments you need to provide, run this command:
+4. To see what script arguments you need to provide, run this command (more details below):
    ```shell
    zsh create-microsite.sh --help
    ```
@@ -33,3 +33,48 @@ Next, replace the placeholder text and `*.markdown` files with your real content
 4. Make any changes you want to make in the `docs/_config.yml` file. (None are required.)
 
 See also the `README.md` that was created in your new repo for more tips and guidance on development tasks. 
+
+## More about `create-microsite.sh`
+
+Run the command with the `--help` option:
+
+```shell
+zsh create-microsite.sh --help
+```
+
+It (currently) prints the following:
+
+```text
+create-microsite.sh [-h|--help] [-n|--noop] --repo-name|-r name --microsite-title|--site-title|-t title --work-group|-w work_group
+
+Where the options and required arguments are the following:
+-h | --help            Print this message and exit
+-n | --noop            Just print the commands but don't make changes.
+
+These arguments are required, but they can appear in any order. See the example below:
+
+--repo-name | -r name  The name of gitHub repo. See example below.
+--microsite-title | --site-title | -t title
+                       The title of microsite.
+--work-group | -w work_group
+                       The name of work group this site is associated with.
+
+For example, suppose you want to create a microsite with the title "AI for Evil Project",
+under the FA2: Trust and Safety work group, then use the following the command:
+
+create-microsite.sh --repo-name ai-for-evil-project --microsite-title "AI for Evil Project" --work-group fa2
+
+Note that just specifying "fa1" or "FA1", etc. for any of the focus areas will result in the
+following names being used:
+
+FA1: FA1: Skills and Education
+FA2: FA2: Trust and Safety
+FA3: FA3: Applications and Tools
+FA4: FA4: Hardware Enablement
+FA5: FA5: Foundation Models and Datasets
+FA6: FA6: Advocacy
+
+NOTE: The title and work group strings need to be quoted if they contain spaces!
+```
+
+The example shows the required arguments: `--repo-name`, `--microsite-title`, and `--work-group`. The values provided are used to replace placeholders in the template files. Other dynamic input includes a timestamp, "now", for when the initial version of the website was created.
