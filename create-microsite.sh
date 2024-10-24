@@ -50,7 +50,7 @@ under the FA2: Trust and Safety work group, then use the following the command:
 
 $script --repo-name ai-for-evil-project --microsite-title "AI for Evil Project" --work-group fa2
 
-Note that jsut specifying "fa1" or "FA1", etc. for any of the focus areas will result in the 
+Note that just specifying "fa1" or "FA1", etc. for any of the focus areas will result in the 
 following names being used:
 
 FA1: ${fa_names["FA1"]}
