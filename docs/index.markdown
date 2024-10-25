@@ -32,3 +32,10 @@ Additional links:
 * [The AI Alliance](https://thealliance.ai){:target="ai-alliance"}: The AI Alliance website.
 * [Project GitHub Repo](https://github.com/The-AI-Alliance/REPO_NAME){:target="repo"}
 
+<!-- 
+Use the following construct to automatically show a table of
+contents (ToC) for the child pages.
+For this page, you already have a "manual" ToC in the bullet 
+lists above.
+-->
+{:toc}

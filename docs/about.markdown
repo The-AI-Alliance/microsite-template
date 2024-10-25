@@ -14,9 +14,6 @@ The AI Alliance is a global collaboration of startups, enterprises, academic, an
 
 If you have any questions or concerns about this initiative, please contact us at [contact@thealliance.ai](mailto:contact@thealliance.ai).
 
-## Maintainers of This Project
-
-* TODO - add maintainers with contact information
 
 ## Other AI Alliance Information
 
