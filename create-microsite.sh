@@ -96,7 +96,8 @@ Next, replace the placeholder text and "*.markdown" files with your content, e.g
    but change the "nav_order" field!
 3. Use the "nested" directory content as an example of nesting content or delete it
    if you don't need it.
-4. Make any changes you want to make in the "docs/_config.yml" file. (None required.)
+4. Add "contributors" to the docs/contributors.markdown page.
+5. Make any changes you want to make in the "docs/_config.yml" file. (None required.)
 
 See also the "README.md" that was created in your new repo for more tips and guidance
 on development tasks. 

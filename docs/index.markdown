@@ -7,10 +7,10 @@ has_children: false
 
 # MICROSITE_TITLE
 
-[GitHub Repo](https://github.com/The-AI-Alliance/MICROSITE_TITLE){:target="repo" .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 .no-glyph}
+[GitHub Repo](https://github.com/The-AI-Alliance/REPO_NAME){:target="repo" .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 .no-glyph}
 [The AI Alliance](https://thealliance.ai){:target="ai-alliance" .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 .no-glyph} 
 
-| **Authors** | [WORK_GROUP_NAME](https://thealliance.ai/focus-areas/WORK_GROUP_URL_NAME){:target="ai-alliance-wg"} |
+| **Authors** | [WORK_GROUP_NAME](https://thealliance.ai/focus-areas/WORK_GROUP_URL_NAME){:target="ai-alliance-wg"} (See the [Contributors]({{site.baseurl}}/contributing/#contributors)) |
 | **History** | V0.1.0, TIMESTAMP |
 
 Welcome to the **The AI Alliance**: **MICROSITE_TITLE**.
@@ -30,5 +30,5 @@ Additional links:
 * [Contributing]({{site.baseurl}}/contributing): We welcome your contributions! Here's how you can contribute.
 * [About Us]({{site.baseurl}}/about): More about the AI Alliance and this project.
 * [The AI Alliance](https://thealliance.ai){:target="ai-alliance"}: The AI Alliance website.
-* [Project GitHub Repo](https://github.com/The-AI-Alliance/MICROSITE_TITLE){:target="repo"}
+* [Project GitHub Repo](https://github.com/The-AI-Alliance/REPO_NAME){:target="repo"}
 

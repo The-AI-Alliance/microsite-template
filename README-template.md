@@ -2,7 +2,7 @@
 
 [Published Documentation](https://the-ai-alliance.github.io/REPO_NAME/)
 
-This repo contains the code and documentation for the AI Alliance _MICROSITE_TITLE_.
+This repo contains the code and documentation for the AI Alliance: "_MICROSITE_TITLE_".
 
 See the [documentation](https://the-ai-alliance.github.io/REPO_NAME/) for a more detailed description of the project.
 

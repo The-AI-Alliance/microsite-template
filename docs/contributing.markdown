@@ -23,3 +23,9 @@ However, notice that every page on this website has _Edit this page on GitHub_ l
 The repo [README](https://github.com/The-AI-Alliance/REPO_NAME){:target="repo"} explains more details for contributing to this project.
 
 However, all these ways of contributing require you to have a GitHub account. If you don't have one and you want to provide feedback for improvements, then [send us email](mailto:contact@thealliance.ai) with your suggestions. Be sure to mention this particular website, as we have many AI Alliance project websites that look similar!
+
+# Contributors
+
+The following people have contributed to the creation and maintenance of this project:
+
+* TODO

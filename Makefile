@@ -123,7 +123,7 @@ view-local:: setup-jekyll do-view-local
 do-view-local: clean run-jekyll
 
 # Passing --baseurl '' allows us to use `localhost:4000` rather than require
-# `localhost:4000/The-AI-Alliance/MICROSITE_TITLE` when -ping locally.
+# `localhost:4000/The-AI-Alliance/REPO_NAME` when -ping locally.
 run-jekyll:
 	@echo
 	@echo "Once you see the http://127.0.0.1:${JEKYLL_PORT}/ URL printed, open it with command+click..."
