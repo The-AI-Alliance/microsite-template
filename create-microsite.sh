@@ -31,12 +31,15 @@ fa_url_names["FA6"]=advocacy
 
 help() {
 	cat << EOF
-$script [-h|--help] [-n|--noop] --repo-name|-r name --microsite-title|--site-title|-t title --work-group|-w work_group
+$script [-h|--help] [-n|--noop] [--ns|--next-steps] \ 
+  --repo-name|-r name --microsite-title|--site-title|-t title --work-group|-w work_group
 
 Where the options and required arguments are the following:
 -h | --help            Print this message and exit
 -n | --noop            Just print the commands but don't make changes.
-
+-s | --next-steps      At the end of running this script to create a new repo,
+                       some "next steps" are printed. If you want to see them again,
+                       use this flag to print them.
 These arguments are required, but they can appear in any order. See the example below:
 
 --repo-name | -r name  The name of gitHub repo. See example below.
@@ -64,12 +67,52 @@ NOTE: The title and work group strings need to be quoted if they contain spaces!
 EOF
 }
 
+next_steps() {
+	cat << EOF
+
+Next Steps:
+
+1. Go to https://github.com/The-AI-Alliance and create a _public_ repo named with 
+   the same name you used. If you don't have permissions, ask Dean Wampler, 
+   Adam Pingel, Joe Olson, or Trevor Grant to do this.
+3. Follow the instructions given for adding a remote (upstream) location to your 
+   local repo. If someone else creates the repo for you, remind them to give you 
+   the instructions!
+4. Push your local content up to the remote repo! 
+   TIP: Make sure both the "main" and "latest" branches are pushed upstream.
+5. In GitHub, go to the repo Settings, "Pages" section (left-hand side) to set up
+   GitHub Pages publishing. You want to select "docs" as the folder from which the
+   site is published and "latest" as the branch. (There are detailed instructions
+   in the "README.md" generated for your site, if needed.)
+
+A simpler experience is just to use "main" as the publication branch, so every 
+merge to "main" automatically publishes your updated content. If you really want 
+to do this, ask Dean Wampler for help.
+
+Next, replace the placeholder text and "*.markdown" files with your content, e.g.,
+
+1. Replace all occurrences of "TODO" with appropriate content.
+2. Rename or delete the "second_page.markdown". Copy it to add more top-level pages,
+   but change the "nav_order" field!
+3. Use the "nested" directory content as an example of nesting content or delete it
+   if you don't need it.
+4. Make any changes you want to make in the "docs/_config.yml" file. (None required.)
+
+See also the "README.md" that was created in your new repo for more tips and guidance
+on development tasks. 
+
+If you want to see these instructions again, run the following command:
+
+  $script --next-steps
+EOF
+}
+
 error() {
 	for arg in "$@"
 	do
 		echo "ERROR ($script): $arg"
 	done
-	help
+	echo "ERROR: Try: $script --help"
 	exit 1
 }
 
@@ -89,6 +132,10 @@ do
 			;;
 		-n|--n*)
 			NOOP=echo
+			;;
+		-s|--next-steps)
+			next_steps
+			exit 0
 			;;
 		--repo-name|-r)
 			shift
@@ -151,8 +198,10 @@ info "  Title:       $microsite_title"
 info "  Work group:  $work_group"
 
 upstream_repo="microsite-template"
-targz=microsite-template.tar.gz
+targz="$upstream_repo-$$.tar.gz"
+untardir="The-AI-Alliance-$upstream_repo"
 info "Downloading $targz..."
+
 if [[ -z $NOOP ]]
 then 
 	curl -L https://api.github.com/repos/The-AI-Alliance/$upstream_repo/tarball > $targz
@@ -160,13 +209,12 @@ else
 	$NOOP "curl -L https://api.github.com/repos/The-AI-Alliance/$upstream_repo/tarball > $targz"
 fi
 $NOOP tar xzf $targz
-$NOOP rm $targz
+#$NOOP rm $targz
 
-# The directory should only 
-for dir in *${upstream_repo}*
+for d in ${untardir}*
 do
-	info "Renaming $dir to $repo_name:"
-	$NOOP mv $dir $repo_name
+	info "Renaming downloaded directory "$d" to $repo_name:"
+	$NOOP mv "$d" $repo_name
 done
 
 info "Removing this script file, $script and README.md from your copy of the repo, and moving README-template.md to README.md!"
@@ -228,51 +276,5 @@ info "Create a 'latest' branch from which the pages will be published:"
 $NOOP git checkout -b latest
 $NOOP git commit -m 'publication branch: latest' .
 
-info <<EOF
-
-Done! The current working directory is $PWD.
-
-Next Steps:
-
-1. Go to https://github.com/The-AI-Alliance and create a _public_ repo named with the same name you used. 
-   If you don't have permissions, ask Dean Wampler, Adam Pingel, Joe Olson, or Trevor Grant to do this.
-3. Follow the instructions given for adding a remote (upstream) location to your local repo. 
-   If someone else creates the repo for you, remind them to give you the instructions!
-4. Push your local content up to the remote repo! TIP: Make sure both the "main" and "latest" branches are
-   pushed upstream.
-5. In GitHub, go to the repo Settings, "Pages" section (left-hand side) to set up GitHub Pages publishing.
-   You want to select "docs" as the folder from which the site is published and "latest" as the branch.
-   (There are more detail instructions in the "README.md" generated for your site, if needed.)
-
-A simpler experience is just to use "main" as the publication branch, so every merge to "main" 
-automatically publishes your updated content. If you really want to do this, ask Dean Wampler for help.
-
-Next, replace the placeholder text and "*.markdown" files with your real content, e.g.,
-
-1. Replace all occurrences of "TODO" with appropriate content.
-2. Rename or delete the "second_page.markdown". Copy it to add more top-level pages, but change the 
-   "nav_order" field!
-3. Use the "nested" directory content as an example of nesting content or delete it if you don't need it.
-4. Make any changes you want to make in the "docs/_config.yml" file. (None are required.)
-
-See also the "README.md" that was created in your new repo for more tips and guidance on development tasks. 
-
-1. Go to https://github.com/The-AI-Alliance and create a repo named "$repo_name". 
-   If you don't have permissions, as Dean Wampler, Adam Pingel, Joe Olson, or Trevor Grant to do this.
-2. Follow the instructions given for adding a remote (upstream) location to your local repo.
-   If someone else creates the repo for you, remind them to give you the instructions!
-3. Push your local content up to the remote repo!
-   TIP: Make sure both the "main" and "latest" branches are pushed upstream.
-4. In GitHub, go to the repo Settings, "Pages" section (left-hand side) to set up GitHub Pages publishing. 
-   You want to select "docs" as the folder from which the site is published and "latest" as the branch!!
-   A simpler experience is just to publish from the "main" branch, but ask Dean Wampler how to do that, 
-   if that's what you decide to do.
-
-Next, replace the placeholder text and files with your real files, e.g.,
-
-1. Replace all occurrences of "TODO" with appropriate content.
-2. Rename or delete the "second_page.markdown". Copy it to add more top-level pages, but change the "nav_order" field!
-3. Use the "nested" directory content as an example of nesting content or delete it if you don't need it.
-
-See also the README.md that was created for more tips and guidance on development tasks. 
-EOF
+info	"Done! The current working directory is $PWD."
+next_steps
