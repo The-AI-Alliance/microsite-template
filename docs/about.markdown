@@ -3,7 +3,6 @@ layout: default
 title: About Us
 nav_order: 100
 has_children: false
-show_contribute_dataset_button: true
 ---
 
 # About The AI Alliance
