@@ -6,6 +6,16 @@ This repo contains the code and documentation for the AI Alliance: "_MICROSITE_T
 
 See the [documentation](https://the-ai-alliance.github.io/REPO_NAME/) for a more detailed description of the project.
 
+## Quick Tip - View the Website Locally
+
+Want to view the website locally, make sure you have Ruby 3.3 or later installed (`ruby -v` - see below for help if you need to install it), then run this command:
+
+```shell
+make view-local
+```
+
+It will bootstrap other dependencies, like `jekyll` and launch the website at URL http://127.0.0.1:4000/.
+
 ## Getting Involved
 
 We welcome contributions as PRs. Please see our [Alliance community repo](https://github.com/The-AI-Alliance/community/) for general information about contributing to any of our projects. This section provides some specific details you need to know.
