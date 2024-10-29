@@ -210,7 +210,7 @@ else
 	$NOOP "curl -L https://api.github.com/repos/The-AI-Alliance/$upstream_repo/tarball > $targz"
 fi
 $NOOP tar xzf $targz
-#$NOOP rm $targz
+$NOOP rm $targz
 
 for d in ${untardir}*
 do
