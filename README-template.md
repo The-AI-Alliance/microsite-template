@@ -4,7 +4,7 @@
 
 This repo contains the code and documentation for the AI Alliance: "_MICROSITE_TITLE_".
 
-See the [documentation](https://the-ai-alliance.github.io/REPO_NAME/) for a more detailed description of the project.
+See the [repo README](https://the-ai-alliance.github.io/REPO_NAME/) for additional details about this project.
 
 ## Quick Tip - View the Website Locally
 
@@ -69,7 +69,9 @@ For external links, add a `target` tag using the following syntax, which works f
 [title]({{site.baseurl}}/relative_URL){:target="_target"}
 ```
 
-The `target` value is arbitrary; use whatever you want. While this is a little more tedious to type, it is usually better for users so they don't lose their place in the document. Also, [our stylesheet](https://github.com/The-AI-Alliance/REPO_NAME/blob/main/docs/_includes/css/custom.scss.liquid) is configured to put the little up-and-to-the-right arrows after every link that isn't relative, i.e., links that start with `http` or `https`. This provides a visual clue that a new tab will be opened.
+The `target` value is arbitrary; use whatever you want. While this is a little more tedious to type, it is usually better for users so they don't lose their place in this site. Also, [our stylesheet](https://github.com/The-AI-Alliance/REPO_NAME/blob/main/docs/_includes/css/custom.scss.liquid) is configured to put the little up-and-to-the-right arrows after every link that isn't relative, i.e., links that start with `http` or `https`. This provides a visual clue that a new tab will be opened.
+
+> **TIP:** There is a script included in the repo, `check-external-links.sh`, that will look for external URLs that are missing the `{:target="foo"}` annotations.
 
 #### Emojis
 
