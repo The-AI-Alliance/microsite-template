@@ -10,8 +10,8 @@ has_children: false
 [GitHub Repo](https://github.com/The-AI-Alliance/REPO_NAME){:target="repo" .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 .no-glyph}
 [The AI Alliance](https://thealliance.ai){:target="ai-alliance" .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 .no-glyph} 
 
-| **Authors** | [WORK_GROUP_NAME](https://thealliance.ai/focus-areas/WORK_GROUP_URL_NAME){:target="ai-alliance-wg"} (See the [Contributors]({{site.baseurl}}/contributing/#contributors)) |
-| **History** | V0.1.0, TIMESTAMP |
+| **Authors**     | [WORK_GROUP_NAME](https://thealliance.ai/focus-areas/WORK_GROUP_URL_NAME){:target="ai-alliance-wg"} (See the [Contributors]({{site.baseurl}}/contributing/#contributors)) |
+| **Last Update** | V0.1.0, TIMESTAMP |
 
 Welcome to the **The AI Alliance**: **MICROSITE_TITLE**.
 
@@ -31,6 +31,12 @@ Additional links:
 * [About Us]({{site.baseurl}}/about): More about the AI Alliance and this project.
 * [The AI Alliance](https://thealliance.ai){:target="ai-alliance"}: The AI Alliance website.
 * [Project GitHub Repo](https://github.com/The-AI-Alliance/REPO_NAME){:target="repo"}
+
+
+### Version History
+
+| **Version** | **Date**   |
+| V0.1.0      | TIMESTAMP |
 
 <!-- 
 Use the following construct to automatically show a table of
