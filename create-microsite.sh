@@ -271,7 +271,7 @@ $NOOP find . -name '*.back' -exec rm {} \;
 info "Initialize $repo_name as a git repo and add all the files to it:"
 $NOOP git init
 $NOOP git add * .gitignore docs docs/.prettier* docs/.stylelintrc.json
-$NOOP git commit -m 'Initial commit for repo $repo_name'
+$NOOP git commit -m "Initial commit for repo $repo_name"
 
 info "Create a 'latest' branch from which the pages will be published:"
 $NOOP git checkout -b latest
