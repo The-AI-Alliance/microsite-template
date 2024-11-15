@@ -99,6 +99,7 @@ echo "Timestamp: $timestamp"
 branch=$(git branch --show-current)
 [[ "$branch" != "$work_branch" ]] && error "You must be on the $work_branch branch to run this command."
 
+echo "Updating _config.yml..."
 cfg_temp=${cfg}.$$
 if [[ -z "$NOOP" ]]
 then
@@ -118,7 +119,7 @@ then
 	grep "last_modified_timestamp: $timestamp" $cfg -q || error "New timestamp $timestamp not found in $cfg"
 fi
 
-# Update the index page table with versions.
+Echo "Updating the index page tables with the new version..."
 latest_history_line=$(grep '\*\*Last Update\*\*' "$index")
 latest_history=$(echo $latest_history_line | sed -e 's/[^V]*V\([^, ]*\).*/\1/')
 
