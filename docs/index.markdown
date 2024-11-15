@@ -11,7 +11,7 @@ has_children: false
 [The AI Alliance](https://thealliance.ai){:target="ai-alliance" .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 .no-glyph} 
 
 | **Authors**     | [WORK_GROUP_NAME](https://thealliance.ai/focus-areas/WORK_GROUP_URL_NAME){:target="ai-alliance-wg"} (See the [Contributors]({{site.baseurl}}/contributing/#contributors)) |
-| **Last Update** | V0.1.0, TIMESTAMP |
+| **Last Update** | V0.0.1, TIMESTAMP |
 
 Welcome to the **The AI Alliance**: **MICROSITE_TITLE**.
 
@@ -36,7 +36,7 @@ Additional links:
 ### Version History
 
 | **Version** | **Date**   |
-| V0.1.0      | TIMESTAMP |
+| V0.0.1      | TIMESTAMP |
 
 <sup>1</sup> This is an example footnote.
 
