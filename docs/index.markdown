@@ -20,7 +20,7 @@ Welcome to the **The AI Alliance**: **MICROSITE_TITLE**.
 TODO - your "welcome" content
 
 
-This site is organized into the following sections:
+This site is organized into the following sections{% fn %}:
 
 * [TODO - second top-level page]({{site.baseurl}}/second_page)
 * [TODO - nested]({{site.baseurl}}/nested/nested)
@@ -37,6 +37,17 @@ Additional links:
 
 | **Version** | **Date**   |
 | V0.1.0      | TIMESTAMP |
+
+<!--
+The Gemfile and _config.yaml add a footnotes plugin, which we used above ("{% fn %}"). Here are the footnotes.
+See: https://github.com/orangejulius/jekyll-footnotes 
+-->
+
+{% footnotes %}
+   {% fnbody %}
+      <p>This is an example footnote. The numbering is automatic. See the [jekyll-footnotes](https://github.com/orangejulius/jekyll-footnotes){:target="jf"} site for more options.</p>
+   {% endfnbody %}
+{% endfootnotes %}
 
 <!-- 
 Use the following construct to automatically show a table of
