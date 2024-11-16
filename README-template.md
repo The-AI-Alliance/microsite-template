@@ -22,7 +22,7 @@ All _documentation_ contributions are licensed under the [Creative Commons Attri
 
 All _data_ contributions are licensed under the [Community Data License Agreement - Permissive - Version 2.0](https://github.com/The-AI-Alliance/community/blob/main/LICENSE.CDLA-2.0) (which is also in this repo, [LICENSE.CDLA-2.0](LICENSE.CDLA-2.0)).
 
-We use the "Developer Certificate of Origin" (DCO).
+### We use the "Developer Certificate of Origin" (DCO).
 
 > [!WARNING]
 > Before you make any git commits with changes, understand what's required for DCO.
