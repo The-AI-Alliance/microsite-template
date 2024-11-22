@@ -19,8 +19,7 @@ Welcome to the **The AI Alliance**: **MICROSITE_TITLE**.
 
 TODO - your "welcome" content
 
-
-This site is organized into the following sections<sup><a href="#footnote-1">1</a></sup> (with an example footnote):
+This site is organized into the following sections[&sup1;](#footnote-1) (with an example footnote):
 
 * [TODO - second top-level page]({{site.baseurl}}/second_page)
 * [TODO - nested]({{site.baseurl}}/nested/nested)
@@ -39,7 +38,7 @@ Additional links:
 | V0.0.1      | TIMESTAMP |
 
 <a name="footnote-1"></a>
-<sup>1</sup> This is an example footnote with a link to it from above. If you don't want the extra HTML tags for this link (especially on short page where it's easy to scroll to the footnote), just use `<sup>1</sup>` above and omit the named anchor `footnote-1` here.
+&sup1; Using `&sup1;` to mark "footnote 1". This is an example footnote with a link to it from above. If you don't want the footnote to be a link, just remove the `[...](...)` wrapper above and the anchor tag here. There are HTML character codes for four numbered footnotes: `&sup0`, `&sup1`, `&sup2`, and `&sup3`, plus unicodes for more. See [here](https://web.archive.org/web/20160922000043/http://symbolcodes.tlt.psu.edu/bylanguage/mathchart.html#super) for a table. Finally, if you have more than one footnote per page, use a blank line between them so they are treated as part of one paragraph.
 
 <!-- 
 Use the following construct to automatically show a table of
