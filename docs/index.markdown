@@ -20,7 +20,7 @@ Welcome to the **The AI Alliance**: **MICROSITE_TITLE**.
 TODO - your "welcome" content
 
 
-This site is organized into the following sections<sup>1</sup>:
+This site is organized into the following sections<sup><a href="#footnote-1">1</a></sup> (with an example footnote):
 
 * [TODO - second top-level page]({{site.baseurl}}/second_page)
 * [TODO - nested]({{site.baseurl}}/nested/nested)
@@ -38,7 +38,8 @@ Additional links:
 | **Version** | **Date**   |
 | V0.0.1      | TIMESTAMP |
 
-<sup>1</sup> This is an example footnote.
+<a name="footnote-1"></a>
+<sup>1</sup> This is an example footnote with a link to it from above. If you don't want the extra HTML tags for this link (especially on short page where it's easy to scroll to the footnote), just use `<sup>1</sup>` above and omit the named anchor `footnote-1` here.
 
 <!-- 
 Use the following construct to automatically show a table of
