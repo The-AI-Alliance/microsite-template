@@ -35,18 +35,18 @@ $script [-h|--help] [-n|--noop] [--ns|--next-steps] \
   --repo-name|-r name --microsite-title|--site-title|-t title --work-group|-w work_group
 
 Where the options and required arguments are the following:
--h | --help            Print this message and exit
--n | --noop            Just print the commands but don't make changes.
+-h | --help            Print this message and exit.
+-n | --noop            Just print the commands but don't run them.
 -s | --next-steps      At the end of running this script to create a new repo,
-                       some "next steps" are printed. If you want to see them again,
-                       use this flag to print them.
+                       some information about "next steps" is printed. If you want to see
+                       this information again, run this script again just using this flag.
 These arguments are required, but they can appear in any order. See the example below:
 
---repo-name | -r name  The name of gitHub repo. See example below.
+--repo-name | -r name  The name of gitHub repo.
 --microsite-title | --site-title | -t title
-                       The title of microsite. 
+                       The title of the microsite. 
 --work-group | -w work_group
-                       The name of work group this site is associated with.
+                       The name of work group sponsoring this site.
 
 For example, suppose you want to create a microsite with the title "AI for Evil Project",
 under the FA2: Trust and Safety work group, then use the following the command:
@@ -72,37 +72,11 @@ next_steps() {
 
 Next Steps:
 
-1. Go to https://github.com/The-AI-Alliance and create a _public_ repo named with 
-   the same name you used. If you don't have permissions, ask Dean Wampler, 
-   Adam Pingel, Joe Olson, or Trevor Grant to do this.
-3. Follow the instructions given for adding a remote (upstream) location to your 
-   local repo. If someone else creates the repo for you, remind them to give you 
-   the instructions!
-4. Push your local content up to the remote repo! 
-   TIP: Make sure both the "main" and "latest" branches are pushed upstream.
-5. In GitHub, go to the repo Settings, "Pages" section (left-hand side) to set up
-   GitHub Pages publishing. You want to select "docs" as the folder from which the
-   site is published and "latest" as the branch. (There are detailed instructions
-   in the "README.md" generated for your site, if needed.)
+Return to the microsite-template README and continue at step "2. Create an Upstream Repo"
 
-A simpler experience is just to use "main" as the publication branch, so every 
-merge to "main" automatically publishes your updated content. If you really want 
-to do this, ask Dean Wampler for help.
+  https://github.com/The-AI-Alliance/microsite-template/blob/main/README.md#2--create-an-upstream-repo
 
-Next, replace the placeholder text and "*.markdown" files with your content, e.g.,
-
-1. Replace all occurrences of "TODO" with appropriate content.
-2. Rename or delete the "second_page.markdown". Copy it to add more top-level pages,
-   but change the "nav_order" field!
-3. Use the "nested" directory content as an example of nesting content or delete it
-   if you don't need it.
-4. Add "contributors" to the docs/contributors.markdown page.
-5. Make any changes you want to make in the "docs/_config.yml" file. (None required.)
-
-See also the "README.md" that was created in your new repo for more tips and guidance
-on development tasks. 
-
-If you want to see these instructions again, run the following command:
+To see these instructions again, run the following command:
 
   $script --next-steps
 EOF
