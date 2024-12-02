@@ -74,7 +74,7 @@ Next Steps:
 
 Return to the microsite-template README and continue at step "2. Create an Upstream Repo"
 
-  https://github.com/The-AI-Alliance/microsite-template/blob/main/README.md#2--create-an-upstream-repo
+  https://github.com/The-AI-Alliance/microsite-template/blob/main/README.md#2-create-an-upstream-repo
 
 To see these instructions again, run the following command:
 
