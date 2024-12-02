@@ -6,6 +6,8 @@ This repo contains the code and documentation for the AI Alliance: "_MICROSITE_T
 
 See the [repo README](https://the-ai-alliance.github.io/REPO_NAME/) for additional details about this project.
 
+TODO - Describe the project
+
 ## Quick Tip - View the Website Locally
 
 See [GITHUB_PAGES.md](GITHUB_PAGES.md) for information on viewing the site locally with `jekyll`.
