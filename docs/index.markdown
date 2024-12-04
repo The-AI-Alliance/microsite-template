@@ -32,9 +32,17 @@ Additional links: [^2]
 * [Project GitHub Repo](https://github.com/The-AI-Alliance/REPO_NAME){:target="repo"}
 
 
+A table example (standard Markdown - the extra whitespace is not necessary):
+
+| Column 1 (Left Aligned) | Column 2 (Centered) | Column 3 (Numbers - Right Aligned) |
+| :------- | :------------------: | -----: |
+| text 1   | centered             | 1      |
+| text 2   | also centered        | 20     |
+| text 3   | and this is centered | 300    |
+
 ### Version History
 
-| **Version** | **Date**   |
+| Version     | Date       |
 | V0.0.1      | TIMESTAMP |
 
 [^1]: Use `[^N]` (for increasing `N` values) to mark "footnote #N" in text, as shown above. This is an example footnote with a link to it from above, and a link at the end of the footnote to go back to the point in the text (the "curled" arrow). **WARNING**, you must include the colon in the footnote definition as shown here, `[^1]:`.
