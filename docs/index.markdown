@@ -19,12 +19,12 @@ Welcome to the **The AI Alliance**: **MICROSITE_TITLE**.
 
 TODO - your "welcome" content
 
-This site is organized into the following sections[&sup1;](#footnote-1) (with an example footnote):
+This site is organized into the following sections [^1] (with an example footnote):
 
 * [TODO - second top-level page]({{site.baseurl}}/second_page)
 * [TODO - nested]({{site.baseurl}}/nested/nested)
 
-Additional links:
+Additional links: [^2]
 
 * [Contributing]({{site.baseurl}}/contributing): We welcome your contributions! Here's how you can contribute.
 * [About Us]({{site.baseurl}}/about): More about the AI Alliance and this project.
@@ -37,8 +37,8 @@ Additional links:
 | **Version** | **Date**   |
 | V0.0.1      | TIMESTAMP |
 
-<a name="footnote-1"></a>
-&sup1; Using `&sup1;` to mark "footnote 1". This is an example footnote with a link to it from above. If you don't want the footnote to be a link, just remove the `[...](...)` wrapper above and the anchor tag here. There are HTML character codes for four numbered footnotes: `&sup0`, `&sup1`, `&sup2`, and `&sup3`, plus unicodes for more. See [here](https://web.archive.org/web/20160922000043/http://symbolcodes.tlt.psu.edu/bylanguage/mathchart.html#super) for a table. Finally, if you have more than one footnote per page, use a blank line between them so they are treated as part of one paragraph.
+[^1]: Use `[^N]` (for increasing `N` values) to mark "footnote #N" in text, as shown above. This is an example footnote with a link to it from above, and a link at the end of the footnote to go back to the point in the text (the "curled" arrow). **WARNING**, you must include the colon in the footnote definition as shown here, `[^1]:`.
+[^2]: A second example footnote. Note that you don't need to put a blank line between them; they work like lists.
 
 <!-- 
 Use the following construct to automatically show a table of
