@@ -17,7 +17,7 @@ Welcome to the **The AI Alliance**: **MICROSITE_TITLE**.
 
 > **Tip:** Use the search box at the top of this page to find specific content.
 
-> **TODO:** - This is a work-in-progress website for the MICROSITE_TITLE.
+> **TODO:** This is a work-in-progress website for the MICROSITE_TITLE.
 
 TODO: add more "welcome" content here...
 
