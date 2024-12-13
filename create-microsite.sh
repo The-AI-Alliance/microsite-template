@@ -5,7 +5,8 @@
 #------------------------------------------------------------------------
 set -e
 
-tsformat="%Y-%m-%d %H:%M %z"
+ymdformat="%Y-%m-%d"
+tsformat="$ymdformat %H:%M %z"
 script=$0
 dir=$(dirname $script)
 cfg="$dir/docs/_config.yml"
@@ -40,6 +41,7 @@ Where the options and required arguments are the following:
 -s | --next-steps      At the end of running this script to create a new repo,
                        some information about "next steps" is printed. If you want to see
                        this information again, run this script again just using this flag.
+
 These arguments are required, but they can appear in any order. See the example below:
 
 --repo-name | -r name  The name of gitHub repo.
@@ -197,9 +199,13 @@ $NOOP rm "$repo_name/$(basename $script)" "$repo_name/README.md"
 $NOOP mv "$repo_name/README-template.md" "$repo_name/README.md"
 
 info "Replacing macro placeholders with values:"
+[[ -z "$ymdtimestamp" ]] && ymdtimestamp=$(date +"$ymdformat")
+date -j -f "$ymdformat" +"$ymdformat" "$ymdtimestamp" > /dev/null 2>&1
+[[ $? -ne 0 ]] && error "Invalid YMD timestamp format for timestamp: $ymdtimestamp" "Required format: $ymdformat"
 [[ -z "$timestamp" ]] && timestamp=$(date +"$tsformat")
 date -j -f "$tsformat" +"$tsformat" "$timestamp" > /dev/null 2>&1
 [[ $? -ne 0 ]] && error "Invalid timestamp format for timestamp: $timestamp" "Required format: $tsformat"
+
 
 $NOOP cd $repo_name
 
@@ -218,6 +224,7 @@ info "  REPO_NAME:            $repo_name"
 info "  MICROSITE_TITLE:      $microsite_title"
 info "  WORK_GROUP_NAME:      $work_group"
 info "  WORK_GROUP_URL_NAME:  $work_group_url"
+info "  YMD_TIMESTAMP:        $ymdtimestamp"
 info "  TIMESTAMP:            $timestamp"
 info
 info "Processing Files:"
@@ -232,6 +239,7 @@ do
 		    -e "s/WORK_GROUP_NAME/$work_group/g" \
 		    -e "s/WORK_GROUP_URL_NAME/$work_group_url/g" \
 		    -e "s/TIMESTAMP/$timestamp/g" \
+		    -e "s/YMD_TIMESTAMP/$ymdtimestamp/g" \
 		    -i ".back" "$file"
 	else
 		$NOOP sed ... -i .back $file

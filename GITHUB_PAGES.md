@@ -80,7 +80,7 @@ Where the options are the following:
                        "last_version" in _config.yml is extracted (e.g., 1.0.1)
                        and the last digit is incremented.
 -t | --timestamp "T"   Use this timestamp "T", which you'll need to quote on
-                       the command line, because it must be of the form
+                       the command line, because it MUST be of the form
                        "%Y-%m-%d %H:%M %z". Without this option, the current
                        system time is used.
 ```
