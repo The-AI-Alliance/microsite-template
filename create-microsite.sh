@@ -224,7 +224,7 @@ info "  REPO_NAME:            $repo_name"
 info "  MICROSITE_TITLE:      $microsite_title"
 info "  WORK_GROUP_NAME:      $work_group"
 info "  WORK_GROUP_URL_NAME:  $work_group_url"
-info "  YMD_TIMESTAMP:        $ymdtimestamp"
+info "  YMD_TSTAMP:           $ymdtimestamp"
 info "  TIMESTAMP:            $timestamp"
 info
 info "Processing Files:"
@@ -238,7 +238,7 @@ do
 		    -e "s/MICROSITE_TITLE/$microsite_title/g" \
 		    -e "s/WORK_GROUP_NAME/$work_group/g" \
 		    -e "s/WORK_GROUP_URL_NAME/$work_group_url/g" \
-		    -e "s/YMD_TIMESTAMP/$ymdtimestamp/g" \
+		    -e "s/YMD_TSTAMP/$ymdtimestamp/g" \
 		    -e "s/TIMESTAMP/$timestamp/g" \
 		    -i ".back" "$file"
 	else
