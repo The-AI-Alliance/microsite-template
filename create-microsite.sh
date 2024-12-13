@@ -238,8 +238,8 @@ do
 		    -e "s/MICROSITE_TITLE/$microsite_title/g" \
 		    -e "s/WORK_GROUP_NAME/$work_group/g" \
 		    -e "s/WORK_GROUP_URL_NAME/$work_group_url/g" \
-		    -e "s/TIMESTAMP/$timestamp/g" \
 		    -e "s/YMD_TIMESTAMP/$ymdtimestamp/g" \
+		    -e "s/TIMESTAMP/$timestamp/g" \
 		    -i ".back" "$file"
 	else
 		$NOOP sed ... -i .back $file
