@@ -44,9 +44,9 @@ A table example (standard Markdown - the extra whitespace is not necessary):
 
 ### Version History
 
-| Version     | Date       |
-| :---------- | :--------: |
-| V0.0.1      | YMD_TSTAMP |
+| Version  | Date       |
+| :------- | :--------- |
+| V0.0.1   | YMD_TSTAMP |
 
 [^1]: Use `[^N]` (for increasing `N` values) to mark "footnote #N" in text, as shown above. This is an example footnote with a link to it from above, and a link at the end of the footnote to go back to the point in the text (the "curled" arrow). **WARNING**, you must include the colon in the footnote definition as shown here, `[^1]:`.
 [^2]: A second example footnote. Note that you don't need to put a blank line between them; they work like lists.
