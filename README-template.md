@@ -14,6 +14,9 @@ These are the main steps:
 1. Add the website to the Alliance GitHub Pages and the Alliance website.
 1. When finished, delete this file.
 
+> [!NOTE] 
+> We are planning to automate as many of the manual steps as we can.
+
 Let's look at these steps in more detail.
 
 ### 1. Create your repo from the `microsite-template`.
@@ -23,6 +26,9 @@ Pick a name for your new repo and follow [these GitHub instructions](https://doc
 ### 2. Convert the placeholder _variables_.
 
 After step 1., your repo will have placeholder values for the project name, etc. Next, change to the repo root directory and run the script [`finish-microsite.sh`](https://github.com/The-AI-Alliance/microsite-template/blob/main/finish-microsite.sh) to replace the placeholder _variables_ with appropriate strings for your project.
+
+> [!WARN]
+> You must run this script with `zsh`. If you don't have it available, then look at the `sed` command used in the script and try running it yourself.
 
 At the time of this writing, here are the required arguments shown with example values for a repo named `ai-for-evil-project` under the auspices of the _FA2 Trust and Safety_ focus area work group:
 
