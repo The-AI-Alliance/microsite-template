@@ -5,19 +5,19 @@ nav_order: 10
 has_children: false
 ---
 
-# MICROSITE_TITLE
+# Foo bar
 
-[GitHub Repo](https://github.com/The-AI-Alliance/REPO_NAME){:target="repo" .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 .no-glyph}
+[GitHub Repo](https://github.com/The-AI-Alliance/microsite-template){:target="repo" .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 .no-glyph}
 [The AI Alliance](https://thealliance.ai){:target="ai-alliance" .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 .no-glyph} 
 
-| **Authors**     | [WORK_GROUP_NAME](https://thealliance.ai/focus-areas/WORK_GROUP_URL_NAME){:target="ai-alliance-wg"} (See the [Contributors]({{site.baseurl}}/contributing/#contributors)) |
-| **Last Update** | V0.0.1, YMD_TSTAMP |
+| **Authors**     | [FA2: Trust and Safety](https://thealliance.ai/focus-areas/trust-and-safety){:target="ai-alliance-wg"} (See the [Contributors]({{site.baseurl}}/contributing/#contributors)) |
+| **Last Update** | V0.0.1, 2025-01-14 |
 
-Welcome to the **The AI Alliance**: **MICROSITE_TITLE**.
+Welcome to the **The AI Alliance**: **Foo bar**.
 
 > **Tip:** Use the search box at the top of this page to find specific content.
 
-> **TODO:** This is a work-in-progress website for the MICROSITE_TITLE.
+> **TODO:** This is a work-in-progress website for the Foo bar.
 
 TODO: add more "welcome" content here...
 
@@ -31,7 +31,7 @@ Additional links: [^2]
 * [Contributing]({{site.baseurl}}/contributing): We welcome your contributions! Here's how you can contribute.
 * [About Us]({{site.baseurl}}/about): More about the AI Alliance and this project.
 * [The AI Alliance](https://thealliance.ai){:target="ai-alliance"}: The AI Alliance website.
-* [Project GitHub Repo](https://github.com/The-AI-Alliance/REPO_NAME){:target="repo"}
+* [Project GitHub Repo](https://github.com/The-AI-Alliance/microsite-template){:target="repo"}
 
 
 A table example (standard Markdown - the extra whitespace is not necessary):
@@ -46,7 +46,7 @@ A table example (standard Markdown - the extra whitespace is not necessary):
 
 | Version  | Date       |
 | :------- | :--------- |
-| V0.0.1   | YMD_TSTAMP |
+| V0.0.1   | 2025-01-14 |
 
 [^1]: Use `[^N]` (for increasing `N` values) to mark "footnote #N" in text, as shown above. This is an example footnote with a link to it from above, and a link at the end of the footnote to go back to the point in the text (the "curled" arrow). **WARNING**, you must include the colon in the footnote definition as shown here, `[^1]:`.
 [^2]: A second example footnote. Note that you don't need to put a blank line between them; they work like lists.

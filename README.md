@@ -1,12 +1,12 @@
-# README for MICROSITE_TITLE
+# README for Foo bar
 
 > **NOTE:** Did you just clone the `microsite-template` repo to get here? Follow the instructions in `README-template.md` and then delete that file and this note!
 
-[Published Documentation](https://the-ai-alliance.github.io/REPO_NAME/)
+[Published Documentation](https://the-ai-alliance.github.io/microsite-template/)
 
-This repo contains the code and documentation for the AI Alliance: "_MICROSITE_TITLE_".
+This repo contains the code and documentation for the AI Alliance: "_Foo bar_".
 
-See the [repo README](https://the-ai-alliance.github.io/REPO_NAME/) for additional details about this project.
+See the [repo README](https://the-ai-alliance.github.io/microsite-template/) for additional details about this project.
 
 TODO - Describe the project
 

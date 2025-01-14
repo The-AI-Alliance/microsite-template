@@ -235,19 +235,26 @@ do
 	fi
 done
 
-info "Delete the backup '*.back' files that were just made:"
+info "Delete the backup '*.back' files that were just made."
 $NOOP find . -name '*.back' -exec rm {} \;
 
-info "Create a 'latest' branch, if it doesn't already exist, from which the pages will be published:"
+info "Committing changes to the main branch."
+$NOOP git commit -m "$0: Committing changes after variable substitution." .
+
 exists=$(git br -a | grep latest | wc -l)
 if [[ $exists -eq 0 ]]
 then
+	info "Create a 'latest' branch, from which the pages will be published."
 	$NOOP git checkout -b latest
+	$NOOP git commit -m 'publication branch: latest' .
 else
+	info "Merge the changes to the 'latest' branch, from which the pages will be published."
 	$NOOP git checkout latest
+	$NOOP git merge main
 fi
-$NOOP git commit -m 'publication branch: latest' .
-$NOOP git checkout -b main
+
+info "Switching back to the main branch."
+$NOOP git checkout main
 
 info	"Done! The current working directory is $PWD."
 next_steps

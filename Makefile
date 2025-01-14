@@ -1,5 +1,5 @@
 
-pages_url    := https://the-ai-alliance.github.io/REPO_NAME/
+pages_url    := https://the-ai-alliance.github.io/microsite-template/
 docs_dir     := docs
 site_dir     := ${docs_dir}/_site
 clean_dirs   := ${site_dir} ${docs_dir}/.sass-cache
@@ -15,7 +15,7 @@ JEKYLL_PORT         ?= 4000
 
 # Used for version tagging release artifacts.
 GIT_HASH            ?= $(shell git show --pretty="%H" --abbrev-commit |head -1)
-TIMESTAMP           ?= $(shell date +"%Y%m%d-%H%M%S")
+2025-01-14 14:18 -0600           ?= $(shell date +"%Y%m%d-%H%M%S")
 
 define help_message
 Quick help for this make process.
@@ -105,13 +105,13 @@ print-info:
 	@echo "clean dirs:          ${clean_dirs} (deleted by 'make clean')"
 	@echo
 	@echo "GIT_HASH:            ${GIT_HASH}"
-	@echo "TIMESTAMP:           ${TIMESTAMP}"
+	@echo "2025-01-14 14:18 -0600:           ${2025-01-14 14:18 -0600}"
 	@echo "MAKEFLAGS:           ${MAKEFLAGS}"
 	@echo "MAKEFLAGS_RECURSIVE: ${MAKEFLAGS_RECURSIVE}"
 	@echo "UNAME:               ${UNAME}"
 	@echo "ARCHITECTURE:        ${ARCHITECTURE}"
 	@echo "GIT_HASH:            ${GIT_HASH}"
-	@echo "TIMESTAMP:           ${TIMESTAMP}"
+	@echo "2025-01-14 14:18 -0600:           ${2025-01-14 14:18 -0600}"
 	@echo "JEKYLL_PORT:         ${JEKYLL_PORT}"
 
 clean::
@@ -125,7 +125,7 @@ view-pages::
 view-local:: setup-jekyll run-jekyll
 
 # Passing --baseurl '' allows us to use `localhost:4000` rather than require
-# `localhost:4000/The-AI-Alliance/REPO_NAME` when running locally.
+# `localhost:4000/The-AI-Alliance/microsite-template` when running locally.
 run-jekyll: clean 
 	@echo
 	@echo "Once you see the http://127.0.0.1:${JEKYLL_PORT}/ URL printed, open it with command+click..."
