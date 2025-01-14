@@ -29,13 +29,11 @@ There are more detailed instructions for the following steps, if needed. See the
 
 1. Go to [https://github.com/The-AI-Alliance](https://github.com/The-AI-Alliance) and create a _public_ repo with the same name you used. If you don't have permission to do this, ask Dean Wampler, Adam Pingel, Joe Olson, or Trevor Grant to do this for you.
 1. Follow the instructions given for adding a remote (upstream) location to your local repo. If someone else creates the repo for you, remind them to give you the instructions!
-1. Push your local content up to the remote repo! 
-> [!WARNING]
-> Make sure both the `main` and `latest` branches are pushed upstream.[&sup1;](#footnote-1)
-4. Back in the GitHub repo, go to the repo _Settings_ tab (at the top), then the _Pages_ section (link on the left-hand side) to set up GitHub Pages publishing. You want to select `docs` as the folder from which the site is published and `latest` as the branch (or `main`[&sup1;](#footnote-1)). 
+1. Push your local content up to the remote repo! Use `git push --all` to ensure you push both the `main` and `latest` branches upstream.
+1. Back in the GitHub repo, go to the repo _Settings_ tab (at the top), then the _Pages_ section (link on the left-hand side) to set up GitHub Pages publishing. You want to select `docs` as the folder from which the site is published and `latest` as the branch (or `main`[&sup1;](#footnote-1)). 
 
 <a name="footnote-1"></a>
-&sup1; A simpler experience is just using `main` as the publication branch, so every merge to `main` automatically publishes your updated content. This is best used for temporary sites (e.g., for conference workshops) with infrequent updates. If you really want to do this, ask [Dean Wampler](mailto@dwampler@thealliance.ai) for help.
+&sup1; An overall simpler experience is to just use `main` as the publication branch, so every merge to `main` automatically publishes your updated content. However, this is only suggested for temporary sites (e.g., for conference workshops) with infrequent updates. If you want to do this, ask [Dean Wampler](mailto@dwampler@thealliance.ai) for help.
 
 ### 3. Replace the Placeholder Markdown Text
 
