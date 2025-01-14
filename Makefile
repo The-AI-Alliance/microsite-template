@@ -15,7 +15,7 @@ JEKYLL_PORT         ?= 4000
 
 # Used for version tagging release artifacts.
 GIT_HASH            ?= $(shell git show --pretty="%H" --abbrev-commit |head -1)
-TIMESTAMP           ?= $(shell date +"%Y%m%d-%H%M%S")
+NOW                 ?= $(shell date +"%Y%m%d-%H%M%S")
 
 define help_message
 Quick help for this make process.
@@ -104,15 +104,13 @@ print-info:
 	@echo "site dir:            ${site_dir}"
 	@echo "clean dirs:          ${clean_dirs} (deleted by 'make clean')"
 	@echo
-	@echo "GIT_HASH:            ${GIT_HASH}"
-	@echo "TIMESTAMP:           ${TIMESTAMP}"
 	@echo "MAKEFLAGS:           ${MAKEFLAGS}"
 	@echo "MAKEFLAGS_RECURSIVE: ${MAKEFLAGS_RECURSIVE}"
+	@echo "JEKYLL_PORT:         ${JEKYLL_PORT}"
 	@echo "UNAME:               ${UNAME}"
 	@echo "ARCHITECTURE:        ${ARCHITECTURE}"
 	@echo "GIT_HASH:            ${GIT_HASH}"
-	@echo "TIMESTAMP:           ${TIMESTAMP}"
-	@echo "JEKYLL_PORT:         ${JEKYLL_PORT}"
+	@echo "NOW:                 ${NOW}"
 
 clean::
 	rm -rf ${clean_dirs} 
