@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #------------------------------------------------------------------------
 # Convert this microsite template into your desired microsite.
-# Run create-microsite.sh -h to see the required arguments and options.
+# Run finish-microsite.sh -h to see the required arguments and options.
 #------------------------------------------------------------------------
 set -e
 
@@ -33,7 +33,9 @@ fa_url_names["FA6"]=advocacy
 help() {
 	cat << EOF
 $script [-h|--help] [-n|--noop] [--ns|--next-steps] \ 
-  --repo-name|-r name --microsite-title|--site-title|-t title --work-group|-w work_group
+  [--repo-name|-r name] \
+  --microsite-title|--site-title|-t title \
+  --work-group|-w work_group
 
 Where the options and required arguments are the following:
 -h | --help            Print this message and exit.
@@ -41,10 +43,14 @@ Where the options and required arguments are the following:
 -s | --next-steps      At the end of running this script to create a new repo,
                        some information about "next steps" is printed. If you want to see
                        this information again, run this script again just using this flag.
+--repo-name | -r name  The name of GitHub repo. If you are running this script in the 
+                       repo's root directory, its name will be used, by default.
+--repo-dir | -d name   The absolute path to the repo root directory or the relative
+                       path from the current directory. Only needed when you aren't 
+                       running this script in the repo root directory.
 
 These arguments are required, but they can appear in any order. See the example below:
 
---repo-name | -r name  The name of gitHub repo.
 --microsite-title | --site-title | -t title
                        The title of the microsite. 
 --work-group | -w work_group
@@ -74,9 +80,9 @@ next_steps() {
 
 Next Steps:
 
-Return to the microsite-template README and continue at step "2. Create an Upstream Repo"
+Return to the README-template for any additional instructions to follow:
 
-  https://github.com/The-AI-Alliance/microsite-template/blob/main/README.md#2-create-an-upstream-repo
+  https://github.com/The-AI-Alliance/microsite-template/blob/main/README-template.md
 
 To see these instructions again, run the following command:
 
@@ -100,6 +106,7 @@ info() {
 	done
 }
 
+repo_dir=
 while [[ $# -gt 0 ]]
 do
 	case $1 in
@@ -107,7 +114,7 @@ do
 			help
 			exit 0
 			;;
-		-n|--n*)
+		-n|--noop)
 			NOOP=echo
 			;;
 		-s|--next-steps)
@@ -117,6 +124,10 @@ do
 		--repo-name|-r)
 			shift
 			repo_name="$1"
+			;;
+		--repo-dir|-d)
+			shift
+			repo_dir="$1"
 			;;
 		--microsite-title|--site-title|-t)
 			shift
@@ -163,40 +174,19 @@ do
 	shift
 done
 
+[[ -z "$repo_name" ]] && repo_name=$(basename $PWD)
+
 missing=()
-[[ -z "$repo_name" ]] && missing+=("The repo name is required. ")
 [[ -z "$microsite_title" ]] && missing+=("The microsite title is required. ")
 [[ -z "$work_group" ]] && missing+=("The work group name is required. ")
 [[ ${#missing[@]} > 0 ]] && error "${missing[@]}"
 
-info "Creating a microsite:"
+info "Updating data in the repo:"
 info "  Repo name:   $repo_name"
+[[ -n "$repo_dir" ]] && \
+  info "  Repo dir:    $repo_dir"
 info "  Title:       $microsite_title"
 info "  Work group:  $work_group"
-
-upstream_repo="microsite-template"
-targz="$upstream_repo-$$.tar.gz"
-untardir="The-AI-Alliance-$upstream_repo"
-info "Downloading $targz..."
-
-if [[ -z $NOOP ]]
-then 
-	curl -L https://api.github.com/repos/The-AI-Alliance/$upstream_repo/tarball > $targz
-else
-	$NOOP "curl -L https://api.github.com/repos/The-AI-Alliance/$upstream_repo/tarball > $targz"
-fi
-$NOOP tar xzf $targz
-$NOOP rm $targz
-
-for d in ${untardir}*
-do
-	info "Renaming downloaded directory "$d" to $repo_name:"
-	$NOOP mv "$d" $repo_name
-done
-
-info "Removing this script file, $script and README.md from your copy of the repo, and moving README-template.md to README.md!"
-$NOOP rm "$repo_name/$(basename $script)" "$repo_name/README.md"
-$NOOP mv "$repo_name/README-template.md" "$repo_name/README.md"
 
 info "Replacing macro placeholders with values:"
 [[ -z "$ymdtimestamp" ]] && ymdtimestamp=$(date +"$ymdformat")
@@ -206,8 +196,7 @@ date -j -f "$ymdformat" +"$ymdformat" "$ymdtimestamp" > /dev/null 2>&1
 date -j -f "$tsformat" +"$tsformat" "$timestamp" > /dev/null 2>&1
 [[ $? -ne 0 ]] && error "Invalid timestamp format for timestamp: $timestamp" "Required format: $tsformat"
 
-
-$NOOP cd $repo_name
+[[ -n "$repo_dir" ]] && $NOOP cd "$repo_dir"
 
 files=(
 	Makefile
@@ -246,18 +235,26 @@ do
 	fi
 done
 
-info "Delete the backup '*.back' files that were just made:"
+info "Delete the backup '*.back' files that were just made."
 $NOOP find . -name '*.back' -exec rm {} \;
 
+info "Committing changes to the main branch."
+$NOOP git commit -m "$0: Committing changes after variable substitution." .
 
-info "Initialize $repo_name as a git repo and add all the files to it:"
-$NOOP git init
-$NOOP git add * .gitignore docs docs/.prettier* docs/.stylelintrc.json
-$NOOP git commit -m "Initial commit for repo $repo_name"
+exists=$(git br -a | grep latest | wc -l)
+if [[ $exists -eq 0 ]]
+then
+	info "Create a 'latest' branch, from which the pages will be published."
+	$NOOP git checkout -b latest
+	$NOOP git commit -m 'publication branch: latest' .
+else
+	info "Merge the changes to the 'latest' branch, from which the pages will be published."
+	$NOOP git checkout latest
+	$NOOP git merge main
+fi
 
-info "Create a 'latest' branch from which the pages will be published:"
-$NOOP git checkout -b latest
-$NOOP git commit -m 'publication branch: latest' .
+info "Switching back to the main branch."
+$NOOP git checkout main
 
 info	"Done! The current working directory is $PWD."
 next_steps
