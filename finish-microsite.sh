@@ -239,22 +239,24 @@ info "Delete the backup '*.back' files that were just made."
 $NOOP find . -name '*.back' -exec rm {} \;
 
 info "Committing changes to the main branch."
-$NOOP git commit -m "$0: Committing changes after variable substitution." .
+# Use --no-verify to suppress complaints and nonzero exit when
+# there is nothing to commit.
+$NOOP git commit --no-verify -m "$0: Committing changes after variable substitution." .
 
 exists=$(git br -a | grep latest | wc -l)
 if [[ $exists -eq 0 ]]
 then
 	info "Create a 'latest' branch, from which the pages will be published."
 	$NOOP git checkout -b latest
-	$NOOP git commit -m 'publication branch: latest' .
 else
 	info "Merge the changes to the 'latest' branch, from which the pages will be published."
 	$NOOP git checkout latest
 	$NOOP git merge main
+	$NOOP git commit --no-verify -m 'update publication branch, latest, from main branch' .
 fi
 
 info "Switching back to the main branch."
 $NOOP git checkout main
 
-info	"Done! The current working directory is $PWD."
+info "Done! The current working directory is $PWD."
 next_steps
