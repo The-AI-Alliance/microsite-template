@@ -2,6 +2,8 @@
 #------------------------------------------------------------------------
 # Convert this microsite template into your desired microsite.
 # Run finish-microsite.sh -h to see the required arguments and options.
+# Note: This file defaults to use zsh. If you don't have zsh, but you 
+# DO have bash v5+, then use /path/to/bash finish-microsite.sh.
 #------------------------------------------------------------------------
 set -e
 
