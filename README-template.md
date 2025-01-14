@@ -1,4 +1,4 @@
-# README for How to Use `microsite-template`
+# How to Use `microsite-template`
 
 This repo is used as a template to create AI Alliance &ldquo;microsites&rdquo;. It is setup as a GitHub _template repo_, which you can use to create a new repo. Even if you aren't creating a microsite, you can use this procedure to create a new AI Alliance repo for other purposes. 
 
