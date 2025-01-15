@@ -15,6 +15,8 @@ cfg="$dir/docs/_config.yml"
 index="$dir/docs/index.markdown" 
 work_branch=main
 publish_branch=latest
+fa_max_number=6  # FAs numbered from 1 to max_...
+focus_areas_url="https://thealliance.ai/focus-areas"
 
 declare -A fa_names
 fa_names["FA1"]="FA1: Skills and Education"
@@ -50,6 +52,12 @@ Where the options and required arguments are the following:
 --repo-dir | -d name   The absolute path to the repo root directory or the relative
                        path from the current directory. Only needed when you aren't 
                        running this script in the repo root directory.
+--work-group-url | -u work_group_url
+                       The URL of the work group sponsoring this site.
+                       If one of the "FA#" arguments is used for --work-group (see below),
+                       then a known URL will be used. If the URL isn't known for the 
+                       specified workgroup and one isn't specified, the default URL for 
+                       focus areas will be used: $focus_areas_url
 
 These arguments are required, but they can appear in any order. See the example below:
 
@@ -66,12 +74,15 @@ $script --repo-name ai-for-evil-project --microsite-title "AI for Evil Project" 
 Note that just specifying "fa1" or "FA1", etc. for any of the focus areas will result in the 
 following names being used:
 
-FA1: ${fa_names["FA1"]}
-FA2: ${fa_names["FA2"]}
-FA3: ${fa_names["FA3"]}
-FA4: ${fa_names["FA4"]}
-FA5: ${fa_names["FA5"]}
-FA6: ${fa_names["FA6"]}
+EOF
+
+for i in {1..$fa_max_number}
+do
+	# By "coincidence" it works to use the $focus_areas_url as a prefix!
+	printf "%-35s (URL: %s)\n" "${fa_names["FA$i"]}" "${focus_areas_url}/${fa_url_names["FA$i"]}"
+done
+
+	cat <<EOF
 
 NOTE: The title and work group strings need to be quoted if they contain spaces!
 EOF
@@ -109,6 +120,7 @@ info() {
 }
 
 repo_dir=
+work_group_url=
 while [[ $# -gt 0 ]]
 do
 	case $1 in
@@ -138,40 +150,29 @@ do
 		--work-group|-w)
 			shift
 			case $1 in				
-				fa1|FA1)
-					work_group=${fa_names["FA1"]}
-					work_group_url=${fa_url_names["FA1"]}
-					;;
-				fa2|FA2)
-					work_group=${fa_names["FA2"]}
-					work_group_url=${fa_url_names["FA2"]}
-					;;
-				fa3|FA3)
-					work_group=${fa_names["FA3"]}
-					work_group_url=${fa_url_names["FA3"]}
-					;;
-				fa4|FA4)
-					work_group=${fa_names["FA4"]}
-					work_group_url=${fa_url_names["FA4"]}
-					;;
-				fa5|FA5)
-					work_group=${fa_names["FA5"]}
-					work_group_url=${fa_url_names["FA5"]}
-					;;
-				fa6|FA6)
-					work_group=${fa_names["FA6"]}
-					work_group_url=${fa_url_names["FA6"]}
+				fa*|FA*|fA*|Fa*)  # allow all mixes of the case...
+					let n=$(echo $1 | sed -e 's/fa//i')
+					if [[ $n -ge 1 ]] && [[ $n -le $fa_max_number ]]
+					then 
+						work_group=${fa_names["FA$n"]}
+						[[ -n $work_group_url ]] || work_group_url="${focus_areas_url}/${fa_url_names["FA$n"]}"
+					else
+						error "Unknown focus area specified: $1. Must be FA1 to FA$fa_max_number"
+					fi
 					;;
 				*)
 					work_group="$1"
-					work_group_url=""
+					[[ -n $work_group_url ]] || work_group_url=$focus_areas_url
 					;;
 			esac
+			;;
+		--work-group-url|-u)
+			shift
+			work_group_url=$1
 			;;
 		*)
 			error "Unrecognized argument: $1"
 			;;
-
 	esac
 	shift
 done
@@ -184,11 +185,13 @@ missing=()
 [[ ${#missing[@]} > 0 ]] && error "${missing[@]}"
 
 info "Updating data in the repo:"
-info "  Repo name:   $repo_name"
+info "  Repo name:       $repo_name"
 [[ -n "$repo_dir" ]] && \
-  info "  Repo dir:    $repo_dir"
-info "  Title:       $microsite_title"
-info "  Work group:  $work_group"
+  info "  Repo dir:        $repo_dir"
+info "  Title:           $microsite_title"
+info "  Work group:      $work_group"
+[[ -n "$work_group_url" ]] && \
+  info "  Work group URL:  $work_group_url"
 
 info "Replacing macro placeholders with values:"
 [[ -z "$ymdtimestamp" ]] && ymdtimestamp=$(date +"$ymdformat")
@@ -211,12 +214,12 @@ markdown_files=($(find docs -name '*.markdown'))
 html_files=($(find docs/_layouts -name '*.html'))
 
 info "Replacing macros with correct values:"
-info "  REPO_NAME:            $repo_name"
-info "  MICROSITE_TITLE:      $microsite_title"
-info "  WORK_GROUP_NAME:      $work_group"
-info "  WORK_GROUP_URL_NAME:  $work_group_url"
-info "  YMD_TSTAMP:           $ymdtimestamp"
-info "  TIMESTAMP:            $timestamp"
+info "  REPO_NAME:       $repo_name"
+info "  MICROSITE_TITLE: $microsite_title"
+info "  WORK_GROUP_NAME: $work_group"
+info "  WORK_GROUP_URL:  $work_group_url"
+info "  YMD_TSTAMP:      $ymdtimestamp"
+info "  TIMESTAMP:       $timestamp"
 info
 info "Processing Files:"
 
@@ -228,7 +231,7 @@ do
 		sed -e "s/REPO_NAME/$repo_name/g" \
 		    -e "s/MICROSITE_TITLE/$microsite_title/g" \
 		    -e "s/WORK_GROUP_NAME/$work_group/g" \
-		    -e "s/WORK_GROUP_URL_NAME/$work_group_url/g" \
+		    -e "s/WORK_GROUP_URL/$work_group_url/g" \
 		    -e "s/YMD_TSTAMP/$ymdtimestamp/g" \
 		    -e "s/TIMESTAMP/$timestamp/g" \
 		    -i ".back" "$file"
