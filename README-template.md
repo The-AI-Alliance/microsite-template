@@ -11,8 +11,9 @@ These are the main steps:
 1. Add your initial content for the repo.
 1. Merge changes to the `latest` branch.
 1. Push all updates upstream, `git push --all`.
-1. Add the website to the Alliance GitHub Pages and the Alliance website.
-1. When finished, delete this file.
+1. On the repo's home page in GitHub, click the "gear" next to "About" (upper right-hand side). In the _Edit repository details_ that pops up, check the box to _Use your GitHub Pages website_ and enter appropriate _Topics_.
+1. Add the website to the Alliance GitHub organization [landing page](https://github.com/The-AI-Alliance/) and the Alliance GitHub Pages [website](https://the-ai-alliance.github.io/#the-ai-alliance-projects).
+1. When finished, delete this file!
 
 > [!NOTE] 
 > We are planning to automate as many of the manual steps as we can.
