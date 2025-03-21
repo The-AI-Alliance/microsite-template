@@ -19,12 +19,17 @@ Welcome to the **The AI Alliance**: **MICROSITE_TITLE**.
 
 > **TODO:** This is a work-in-progress website for the MICROSITE_TITLE.
 
-TODO: add more "welcome" content here...
+> **NOTE:** The "boilerplate" text on this page mixes content you might want to use, as well as tips on writing Markdown.
+
+TODO: add more "welcome" content for your site here...
 
 This site is organized into the following sections [^1] (with an example footnote):
 
 * [TODO - second top-level page]({{site.baseurl}}/second_page)
+    * [alternative link](second_page)
 * [TODO - nested]({{site.baseurl}}/nested/nested)
+
+Note how relative links are written. For siblings (like the next set of bullets...) or subpages, you don't have to use the `{{site.baseurl}}` prefix (like the `alternative link`), but use `{{site.baseurl}}` instead of relative navigation hacks like `../../foo/bar`.
 
 Additional links: [^2]
 
@@ -33,8 +38,9 @@ Additional links: [^2]
 * [The AI Alliance](https://thealliance.ai){:target="ai-alliance"}: The AI Alliance website.
 * [Project GitHub Repo](https://github.com/The-AI-Alliance/REPO_NAME){:target="repo"}
 
+Note our convention that external URLs include a target, specified with `{:target="some_name"}`. In fact, Jekyll is configured in `_config.yml` to use the `jekyll-target-blank` plugin, which automatically opens external links in a new tab, named `blank`. This is good enough, but it also means that every link you click will open in the same tab. So, explicitly specifying a `:target` provides a nicer experience. You will also notice that external links get a little box and arrow adornment. This is done automatically through a clever CSS hack in `docs/_includes/css/custom.scss.liquid`.
 
-A table example (standard Markdown - the extra whitespace is not necessary):
+A table example using standard Markdown and showing how to set the desired alignment. (The extra whitespace in the source is only for easier readability.):
 
 | Column 1 (Left Aligned) | Column 2 (Centered) | Column 3 (Numbers - Right Aligned) |
 | :------- | :------------------: | -----: |
