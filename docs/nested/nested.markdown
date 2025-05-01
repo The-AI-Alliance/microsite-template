@@ -17,4 +17,12 @@ Note the [`nested_child`]({{site.baseurl}}/nested/nested_child/) page.
 Use the following construct to automatically show a table of
 contents for the child pages.
 -->
+
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
 {:toc}
+</details>

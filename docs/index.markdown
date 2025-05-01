@@ -31,6 +31,8 @@ This site is organized into the following sections [^1] (with an example footnot
 
 Note how relative links are written. For siblings (like the next set of bullets...) or subpages, you don't have to use the `{{site.baseurl}}` prefix (like the `alternative link`), but use `{{site.baseurl}}` instead of relative navigation hacks like `../../foo/bar`.
 
+## Section Two
+
 Additional links: [^2]
 
 * [Contributing]({{site.baseurl}}/contributing): We welcome your contributions! Here's how you can contribute.
@@ -58,9 +60,18 @@ A table example using standard Markdown and showing how to set the desired align
 [^2]: A second example footnote. Note that you don't need to put a blank line between them; they work like lists.
 
 <!-- 
-Use the following construct to automatically show a table of
-contents (ToC) for the child pages.
-For this page, you already have a "manual" ToC in the bullet 
-lists above.
+Use the following construct anywhere in the page to automatically
+show a table of contents for the sections on the page. This is 
+_different_ than a list of child pages (i.e., separate markdown files).
+That list is always shown at the bottom automatically, as defined in
+the default.html template file.
 -->
+
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
 {:toc}
+</details>
