@@ -16,7 +16,7 @@ We welcome your contributions to this project. Visit the project's [GitHub repo]
 
 # Joining the Work Group
 
-If you are interested in participating in this project, check out the work group's [WORK_GROUP_NAME](WORK_GROUP_URL){:target="ai-alliance-wg"} home page. Then complete the form on the Alliance's [Become a Collaborator](https://thealliance.ai/become-a-collaborator){:target="aia-website"} page. Check the boxes that look most appropriate and describe your interest in this project in the _Message_ box.
+If you are interested in participating in this project, check out the [WORK_GROUP_NAME](WORK_GROUP_URL){:target="ai-alliance-wg"} home page. Then complete the form on the Alliance's [Become a Collaborator](https://thealliance.ai/become-a-collaborator){:target="aia-website"} page. Check the boxes that look most appropriate and describe your interest in this project in the _Message_ box.
 
 # Making Smaller Contributions
 
