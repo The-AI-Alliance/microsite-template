@@ -4,7 +4,7 @@ This repo is used as a template to create AI Alliance &ldquo;microsites&rdquo;. 
 
 ## Creating Your Repo
 
-These are the main steps:
+These are the main steps, with details below:
 
 1. Create your repo from the [this template repo](https://github.com/The-AI-Alliance/microsite-template).
 1. Convert placeholder _variables_ to the correct values, using the [`finish-microsite.sh`](https://github.com/The-AI-Alliance/microsite-template/blob/main/finish-microsite.sh) script.
@@ -31,7 +31,7 @@ After step 1., your repo will have placeholder values for the project name, etc.
 > [!WARN]
 > The `finish-microsite.sh` script uses `zsh`. If you don't have `zsh` available, then use `bash` version 5 or later, e.g., `bash finish-microsite.sh ...`.
 
-At the time of this writing, here are the required arguments shown with example values for a repo named `ai-for-evil-project` under the auspices of the _FA2 Trust and Safety_ focus area work group:
+At the time of this writing, here are the required arguments shown with example values for a repo named `ai-for-evil-project` under the auspices of the _Trust and Safety_ focus area work group:
 
 ```shell
 ./finish-microsite.sh \
@@ -39,16 +39,17 @@ At the time of this writing, here are the required arguments shown with example 
   --work-group fa2
 ```
 
-Referring to a focus area, like `fa2` or `FA2` is expanded as follows:
+Referring to a focus area by number or `FA#`, (e.g., `2`, `fa2`, `FA2`, `Fa2`, or `fA2`) is expanded as follows:
 
-| Abbreviation | Full name |
-| :----------- | :-------- |
-| `FA1`        | FA1: Skills and Education |
-| `FA2`        | FA2: Trust and Safety |
-| `FA3`        | FA3: Applications and Tools |
-| `FA4`        | FA4: Hardware Enablement |
-| `FA5`        | FA5: Foundation Models and Datasets |
-| `FA6`        | FA6: Advocacy |
+| Number | Abbreviation   | Full name |
+| :----- | :------------- | :-------- |
+|        | (case ignored) | |
+| `1`    | `FA1`          | Skills and Education |
+| `2`    | `FA2`          | Trust and Safety |
+| `3`    | `FA3`          | Applications and Tools |
+| `4`    | `FA4`          | Hardware Enablement |
+| `5`    | `FA5`          | Foundation Models and Datasets |
+| `6`    | `FA6`          | Advocacy |
 
 > [!NOTE]
 > 1. Run the script with `zsh`, **_not_** `bash`.

@@ -16,7 +16,7 @@ We welcome your contributions to this project. Visit the project's [GitHub repo]
 
 # Joining the Work Group
 
-If you are interested in participating in this project, go to the work group's [WORK_GROUP_NAME](WORK_GROUP_URL){:target="ai-alliance-wg"} home page. It will have a form that you can submit to express your interest. Some pages may not have this form, but instead they may have a _subscribe to our community newsletter_ form. While we encourage you to subscribe, to tell us about your interest in this workgroup, instead use the form on the Alliance's [Become a Collaborator](https://thealliance.ai/become-a-collaborator){:target="aia-website"} page. Check the boxes that look most appropriate and describe your interest in this project in the _Message_ box.
+If you are interested in participating in this project, check out the work group's [WORK_GROUP_NAME](WORK_GROUP_URL){:target="ai-alliance-wg"} home page. Then complete the form on the Alliance's [Become a Collaborator](https://thealliance.ai/become-a-collaborator){:target="aia-website"} page. Check the boxes that look most appropriate and describe your interest in this project in the _Message_ box.
 
 # Making Smaller Contributions
 
@@ -24,7 +24,7 @@ You may not have the time or the expertise to be extensively involved, but you c
 
 For this documentation itself, the sources are in the GitHub repo's [`docs`](https://github.com/The-AI-Alliance/REPO_NAME/tree/main/docs){:target="repo-docs"} directory. 
 
-However, notice that every page on this website has _Edit this page on GitHub_ links, making it easy to view a page, then go straight to the source to make edits and submit a PR! This is the best way to help us fix typos and make other small improvements.
+Also notice that every page on this website has _Edit this page on GitHub_ links, making it easy to view a page, then go straight to the source to make edits and submit a PR! This is the best way to help us fix typos and make other small improvements.
 
 The repo [README](https://github.com/The-AI-Alliance/REPO_NAME){:target="repo"} explains more details about contributing to this project.
 

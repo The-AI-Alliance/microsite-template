@@ -19,20 +19,20 @@ fa_max_number=6  # FAs numbered from 1 to max_...
 focus_areas_url="https://thealliance.ai/focus-areas"
 
 declare -A fa_names
-fa_names["FA1"]="FA1: Skills and Education"
-fa_names["FA2"]="FA2: Trust and Safety"
-fa_names["FA3"]="FA3: Applications and Tools"
-fa_names["FA4"]="FA4: Hardware Enablement"
-fa_names["FA5"]="FA5: Foundation Models and Datasets"
-fa_names["FA6"]="FA6: Advocacy"
+fa_names[FA1]="Skills and Education"
+fa_names[FA2]="Trust and Safety"
+fa_names[FA3]="Applications and Tools"
+fa_names[FA4]="Hardware Enablement"
+fa_names[FA5]="Foundation Models and Datasets"
+fa_names[FA6]="Advocacy"
 
 declare -A fa_url_names
-fa_url_names["FA1"]=skills-education
-fa_url_names["FA2"]=trust-and-safety
-fa_url_names["FA3"]=applications-and-tools
-fa_url_names["FA4"]=hardware-enablement
-fa_url_names["FA5"]=foundation-models
-fa_url_names["FA6"]=advocacy
+fa_url_names[FA1]=skills-education
+fa_url_names[FA2]=trust-and-safety
+fa_url_names[FA3]=applications-and-tools
+fa_url_names[FA4]=hardware-enablement
+fa_url_names[FA5]=foundation-models
+fa_url_names[FA6]=advocacy
 
 help() {
 	cat << EOF
@@ -54,7 +54,7 @@ Where the options and required arguments are the following:
                        running this script in the repo root directory.
 --work-group-url | -u work_group_url
                        The URL of the work group sponsoring this site.
-                       If one of the "FA#" arguments is used for --work-group (see below),
+                       If one of the "FA#" or "#" arguments is used for --work-group (see below),
                        then a known URL will be used. If the URL isn't known for the 
                        specified workgroup and one isn't specified, the default URL for 
                        focus areas will be used: $focus_areas_url
@@ -67,11 +67,12 @@ These arguments are required, but they can appear in any order. See the example 
                        The name of work group sponsoring this site.
 
 For example, suppose you want to create a microsite with the title "AI for Evil Project",
-under the FA2: Trust and Safety work group, then use the following the command:
+under the Trust and Safety work group, then use one of the following commands:
 
 $script --repo-name ai-for-evil-project --microsite-title "AI for Evil Project" --work-group fa2
+$script --repo-name ai-for-evil-project --microsite-title "AI for Evil Project" --work-group 2
 
-Note that just specifying "fa1" or "FA1", etc. for any of the focus areas will result in the 
+Note that just specifying "2", "fa2" or "FA2", etc. for any of the focus areas will result in the 
 following names being used:
 
 EOF
@@ -79,7 +80,7 @@ EOF
 for i in {1..$fa_max_number}
 do
 	# By "coincidence" it works to use the $focus_areas_url as a prefix!
-	printf "%-35s (URL: %s)\n" "${fa_names["FA$i"]}" "${focus_areas_url}/${fa_url_names["FA$i"]}"
+	printf "%d or FA%d -> %-30s (URL: %s)\n" $i $i "${fa_names[FA$i]}" "${focus_areas_url}/${fa_url_names[FA$i]}"
 done
 
 	cat <<EOF
@@ -149,22 +150,20 @@ do
 			;;
 		--work-group|-w)
 			shift
-			case $1 in				
-				fa*|FA*|fA*|Fa*)  # allow all mixes of the case...
-					let n=$(echo $1 | sed -e 's/fa//i')
-					if [[ $n -ge 1 ]] && [[ $n -le $fa_max_number ]]
-					then 
-						work_group=${fa_names["FA$n"]}
-						[[ -n $work_group_url ]] || work_group_url="${focus_areas_url}/${fa_url_names["FA$n"]}"
-					else
-						error "Unknown focus area specified: $1. Must be FA1 to FA$fa_max_number"
-					fi
-					;;
-				*)
-					work_group="$1"
-					[[ -n $work_group_url ]] || work_group_url=$focus_areas_url
-					;;
-			esac
+			n=$(echo $1 | sed -e 's/fa//i')
+			if [[ $n -ge 1 ]] && [[ $n -le $fa_max_number ]]
+			then 
+				# User input valid faN, FAN, fAN, FaN, or N within range.
+				work_group=${fa_names[FA$n]}
+				[[ -n $work_group_url ]] || work_group_url="${focus_areas_url}/${fa_url_names[FA$n]}"
+			elif [[ $n -lt 1 ]] || [[ $n -gt $fa_max_number ]]
+			then
+				# User input an invalid faN, FAN, fAN, FaN, or N, because the N is outside the range.
+				error "Unknown focus area specified: $1. Must be 1 to $fa_max_number or FA1 to FA$fa_max_number"
+			else
+				work_group="$1"
+				[[ -n $work_group_url ]] || work_group_url=$focus_areas_url
+			fi
 			;;
 		--work-group-url|-u)
 			shift

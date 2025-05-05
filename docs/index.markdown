@@ -11,15 +11,17 @@ has_children: false
 [The AI Alliance](https://thealliance.ai){:target="ai-alliance" .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 .no-glyph} 
 
 | **Authors**     | [WORK_GROUP_NAME](WORK_GROUP_URL){:target="ai-alliance-wg"} (See the [Contributors]({{site.baseurl}}/contributing/#contributors)) |
-| **Last Update** | V0.0.1, YMD_TSTAMP |
-
-Welcome to the **The AI Alliance**: **MICROSITE_TITLE**.
+| **Last Update** | V0.1.0, YMD_TSTAMP |
 
 > **Tip:** Use the search box at the top of this page to find specific content.
 
+Welcome to the **The AI Alliance**: **MICROSITE_TITLE**. 
+
+Please join us! See our [contributing]({{site.baseurl}}/contributing) page for details.
+
 > **TODO:** This is a work-in-progress website for the MICROSITE_TITLE.
 
-> **NOTE:** The "boilerplate" text on this page mixes content you might want to use, as well as tips on writing Markdown.
+> **NOTE:** The "boilerplate" text on this page mixes content you might want to use, as well as tips on writing Markdown. See also the comments in the source files.
 
 TODO: add more "welcome" content for your site here...
 
@@ -54,7 +56,7 @@ A table example using standard Markdown and showing how to set the desired align
 
 | Version  | Date       |
 | :------- | :--------- |
-| V0.0.1   | YMD_TSTAMP |
+| V0.1.0   | YMD_TSTAMP |
 
 [^1]: Use `[^N]` (for increasing `N` values) to mark "footnote #N" in text, as shown above. This is an example footnote with a link to it from above, and a link at the end of the footnote to go back to the point in the text (the "curled" arrow). **WARNING**, you must include the colon in the footnote definition as shown here, `[^1]:`.
 [^2]: A second example footnote. Note that you don't need to put a blank line between them; they work like lists.
