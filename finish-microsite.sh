@@ -34,37 +34,66 @@ fa_url_names[FA4]=hardware-enablement
 fa_url_names[FA5]=foundation-models
 fa_url_names[FA6]=advocacy
 
+dashboard_base="The-AI-Alliance"
+declare -A fa_dashboard_numbers
+fa_dashboard_numbers[FA1]=
+fa_dashboard_numbers[FA2]=23
+fa_dashboard_numbers[FA3]=34
+fa_dashboard_numbers[FA4]=
+fa_dashboard_numbers[FA5]=28
+fa_dashboard_numbers[FA6]=
+
+declare -A fa_assignees
+fa_assignees[FA1]=
+fa_assignees[FA2]="deanwampler,bnayahu"
+fa_assignees[FA3]="adampingel,rawkintrevo,jolson-ibm"
+fa_assignees[FA4]="deanwampler"
+fa_assignees[FA5]="deanwampler,hughesthe1st,jolson-ibm"
+fa_assignees[FA6]="pasanth"
+
 help() {
 	cat << EOF
-$script [-h|--help] [-n|--noop] [--ns|--next-steps] \ 
-  [--repo-name|-r name] \
-  --microsite-title|--site-title|-t title \
-  --work-group|-w work_group
+$script [-h|--help] [-n|--noop] [--ns|--next-steps] \  
+  -t |--site-title | --microsite-title title \ 
+  -w | --work-group work_group \ 
+  [-r | --repo-name name] \ 
+  [-u | --work-group-url | -u work_group_url] \ 
+  [--repo-dir dir] \ 
+  [-d | --dashboard N]
+  [-a | --assignees list]
 
-Where the options and required arguments are the following:
+
+These arguments are required, but they can appear in any order. See the example below:
+
+-t | --site-title | --microsite-title title
+                       The title of the microsite. 
+-w | --work-group work_group
+                       The name of work group sponsoring this site.
+
+These arguments are optional:
 -h | --help            Print this message and exit.
 -n | --noop            Just print the commands but don't run them.
 -s | --next-steps      At the end of running this script to create a new repo,
                        some information about "next steps" is printed. If you want to see
                        this information again, run this script again just using this flag.
---repo-name | -r name  The name of GitHub repo. If you are running this script in the 
+-r | --repo-name name  The name of GitHub repo. If you are running this script in the 
                        repo's root directory, its name will be used, by default.
---repo-dir | -d name   The absolute path to the repo root directory or the relative
-                       path from the current directory. Only needed when you aren't 
-                       running this script in the repo root directory.
 --work-group-url | -u work_group_url
                        The URL of the work group sponsoring this site.
                        If one of the "FA#" or "#" arguments is used for --work-group (see below),
                        then a known URL will be used. If the URL isn't known for the 
                        specified workgroup and one isn't specified, the default URL for 
                        focus areas will be used: $focus_areas_url
-
-These arguments are required, but they can appear in any order. See the example below:
-
---microsite-title | --site-title | -t title
-                       The title of the microsite. 
---work-group | -w work_group
-                       The name of work group sponsoring this site.
+--repo-dir dir         The absolute path to the repo root directory or the relative
+                       path from the current directory. Only needed when you aren't 
+                       running this script in the repo root directory.
+-d | --dashboard N     The "N" for the ${dashboard_base}/N link 
+                       to use for the project's dashboard. Projects in FA2, FA3, and FA5 have
+                       default values. If not provided and there is no default, so no dashboard
+                       will be associated with the project automatically.
+                       (At this time, this is only used in the ".github/*TEMPLATE" files.)
+-a | --assignees list  Comma-separated list of GitHub user names to whom issues are assigned.
+                       E.g., "--assignees bob,ted". Default: Each FA has a default list.
 
 For example, suppose you want to create a microsite with the title "AI for Evil Project",
 under the Trust and Safety work group, then use one of the following commands:
@@ -122,6 +151,8 @@ info() {
 
 repo_dir=
 work_group_url=
+dashboard=
+assignees=
 while [[ $# -gt 0 ]]
 do
 	case $1 in
@@ -136,24 +167,27 @@ do
 			next_steps
 			exit 0
 			;;
-		--repo-name|-r)
+		-r|--repo-name)
 			shift
 			repo_name="$1"
 			;;
-		--repo-dir|-d)
+		--repo-dir)
 			shift
 			repo_dir="$1"
 			;;
-		--microsite-title|--site-title|-t)
+		-t|--site-title|--microsite-title)
 			shift
 			microsite_title="$1"
 			;;
-		--work-group|-w)
+		-w|--work-group)
 			shift
 			n=$(echo $1 | sed -e 's/fa//i')
 			if [[ $n -ge 1 ]] && [[ $n -le $fa_max_number ]]
 			then 
 				# User input valid faN, FAN, fAN, FaN, or N within range.
+				dashboard_number=${fa_dashboard_numbers[FA$n]}
+				[[ -n $dashboard_number ]] && dashboard=${dashboard_base}/${fa_dashboard_numbers[FA$n]}
+				assignees=${fa_assignees[FA$n]}
 				work_group=${fa_names[FA$n]}
 				[[ -n $work_group_url ]] || work_group_url="${focus_areas_url}/${fa_url_names[FA$n]}"
 			elif [[ $n -lt 1 ]] || [[ $n -gt $fa_max_number ]]
@@ -165,9 +199,25 @@ do
 				[[ -n $work_group_url ]] || work_group_url=$focus_areas_url
 			fi
 			;;
-		--work-group-url|-u)
+		-u|--work-group-url)
 			shift
 			work_group_url=$1
+			;;
+		-d|--dashboard)
+			shift
+			n=$1
+			if [[ $n -ge 1 ]]
+			then 
+				# User input valid number
+				dashboard=${dashboard_base}/$n
+			else
+				# User input a full URL (hopefully!)
+				dashboard="$n"
+			fi
+			;;
+		-a|--assignees)
+			shift
+			assignees="$1"
 			;;
 		*)
 			error "Unrecognized argument: $1"
@@ -184,13 +234,17 @@ missing=()
 [[ ${#missing[@]} > 0 ]] && error "${missing[@]}"
 
 info "Updating data in the repo:"
-info "  Repo name:       $repo_name"
+info "  Repo name:              $repo_name"
 [[ -n "$repo_dir" ]] && \
-  info "  Repo dir:        $repo_dir"
-info "  Title:           $microsite_title"
-info "  Work group:      $work_group"
+  info "  Repo dir:               $repo_dir"
+info "  Title:                  $microsite_title"
+info "  Work group:             $work_group"
 [[ -n "$work_group_url" ]] && \
-  info "  Work group URL:  $work_group_url"
+  info "  Work group URL:         $work_group_url"
+[[ -n "$dashboard" ]] && \
+  info "  GitHub Dashboard:       $dashboard"
+[[ -n "$assignees" ]] && \
+  info "  GitHub Issue assignees: $assignees"
 
 info "Replacing macro placeholders with values:"
 [[ -z "$ymdtimestamp" ]] && ymdtimestamp=$(date +"$ymdformat")
@@ -211,18 +265,21 @@ files=(
 )
 markdown_files=($(find docs -name '*.markdown'))
 html_files=($(find docs/_layouts -name '*.html'))
+github_files=($(find .github \( -name '*.yaml' -o -name '*.md' \)))
 
 info "Replacing macros with correct values:"
 info "  REPO_NAME:       $repo_name"
 info "  MICROSITE_TITLE: $microsite_title"
 info "  WORK_GROUP_NAME: $work_group"
 info "  WORK_GROUP_URL:  $work_group_url"
+info "  DASHBOARD:       $dashboard"
+info "  ASSIGNEES:       $assignees"
 info "  YMD_TSTAMP:      $ymdtimestamp"
 info "  TIMESTAMP:       $timestamp"
 info
 info "Processing Files:"
 
-for file in "${files[@]}" "${markdown_files[@]}" "${html_files[@]}"
+for file in "${files[@]}" "${markdown_files[@]}" "${html_files[@]}" "${github_files[@]}"
 do
 	info "  $file"
 	if [[ -z $NOOP ]]
@@ -231,6 +288,8 @@ do
 		    -e "s?MICROSITE_TITLE?$microsite_title?g" \
 		    -e "s?WORK_GROUP_NAME?$work_group?g" \
 		    -e "s?WORK_GROUP_URL?$work_group_url?g" \
+		    -e "s?DASHBOARD?$dashboard?g" \
+		    -e "s?ASSIGNEES?$assignees?g" \
 		    -e "s?YMD_TSTAMP?$ymdtimestamp?g" \
 		    -e "s?TIMESTAMP?$timestamp?g" \
 		    -i ".back" "$file"
