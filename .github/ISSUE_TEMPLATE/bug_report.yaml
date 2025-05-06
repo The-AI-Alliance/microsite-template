@@ -3,8 +3,7 @@ description: File a bug/issue
 title: "[BUG] <title>"
 labels: ["Bug", "Needs Triage"]
 assignees: [ASSIGNEES]
-projects: 
-  - DASHBOARD
+projects: [DASHBOARD]
 body:
 - type: checkboxes
   attributes:
