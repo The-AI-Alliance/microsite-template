@@ -12,7 +12,7 @@ The following people have contributed to the creation and maintenance of this pr
 
 # How to Contribute to this Project
 
-We welcome your contributions to this project. Visit the project's [GitHub repo](https://github.com/The-AI-Alliance/REPO_NAME/){:target="repo"}, the [discussions](https://github.com/The-AI-Alliance/REPO_NAME/discussions), and the [open issues](https://github.com/The-AI-Alliance/REPO_NAME/issues){:target="repo"}, in particular, for areas where you might contribute.
+We welcome your contributions to this project. Visit the project's [GitHub repo](https://github.com/The-AI-Alliance/REPO_NAME/){:target="repo"}, the [discussions](https://github.com/The-AI-Alliance/REPO_NAME/discussions){:target="repo-disc"}, and the [open issues](https://github.com/The-AI-Alliance/REPO_NAME/issues){:target="repo-issues"}, in particular, for areas where you might contribute.
 
 # Joining the Work Group
 
