@@ -256,14 +256,13 @@ date -j -f "$tsformat" +"$tsformat" "$timestamp" > /dev/null 2>&1
 
 [[ -n "$repo_dir" ]] && $NOOP cd "$repo_dir"
 
-files=(
+other_files=(
 	Makefile
-	README.md
 	publish-website.sh
 	update-main.sh
 	docs/_config.yml
 )
-markdown_files=($(find docs -name '*.markdown'))
+markdown_files=($(find docs -name '*.markdown') $(find . -name '*.md'))
 html_files=($(find docs/_layouts -name '*.html'))
 github_files=($(find .github \( -name '*.yaml' -o -name '*.md' \)))
 
@@ -279,7 +278,7 @@ info "  TIMESTAMP:       $timestamp"
 info
 info "Processing Files:"
 
-for file in "${files[@]}" "${markdown_files[@]}" "${html_files[@]}" "${github_files[@]}"
+for file in "${other_files[@]}" "${markdown_files[@]}" "${html_files[@]}" "${github_files[@]}"
 do
 	info "  $file"
 	if [[ -z $NOOP ]]
