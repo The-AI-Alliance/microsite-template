@@ -15,7 +15,7 @@ List any related issues or PRs:
 ## Testing Performed
 Describe how you tested your changes:
 - [ ] Verified site builds successfully (i.e., `make view-local` runs successfully)
-- [ ] Checked links and formatting (run `./check-external-links.sh`, which ensures that all external links have `target` definitions - but it doesn't verify the links are valid...)
+- [ ] Checked links and formatting (run `./check-external-links.sh`, which ensures that all external links have `target="..."` definitions - but it doesn't verify the links are valid...)
 - [ ] Tested in local development environment
 - [ ] Screenshots of changes (if applicable)
 

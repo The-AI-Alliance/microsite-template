@@ -55,4 +55,6 @@ gem "liquid", ">= 4.0.4"
 gem "csv"
 
 # Target blank automatically opens all links in a new window.
-gem 'jekyll-target-blank'
+# UNFORTUNATELY, it doesn't appear that Google Pages support
+# this extension! See ../GITHUB_PAGES.md for more details.
+# gem 'jekyll-target-blank'

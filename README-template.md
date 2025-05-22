@@ -67,6 +67,7 @@ There are other placeholder texts in the `docs/**/*.markdown`, README, and other
 
 1. Find and replace all occurrences of `TODO` with appropriate content.
 1. Rename or delete the `second_page.markdown`. Copy it to add more top-level pages, but change the `nav_order` field to control the order of the pages shown in the left-hand side navigation view. 
+
 > [!TIP]
 > Start with `10`, `20`, etc. for the `nav_order` of top-level pages, giving yourself room to insert new pages in between existing pages. For nested pages, e.g., under `20`, use `210`, `220`, etc.
 3. See the `nested` directory content as an example of how to do nesting, or delete it if you don't need it. Note the metadata fields at the top, such as the `parent` and `has_children` fields.
@@ -112,7 +113,7 @@ When you are ready for broader exposure for your site, there are a few places wh
 * https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md
 * https://github.com/The-AI-Alliance/the-ai-alliance.github.io/blob/main/docs/index.markdown
 
-You can just edit the page directly in GitHub and submit a PR. Note that for the second link, the `index.markdown` page for the `the-ai-alliance.github.io` site, we add `{:target="..."}` annotations to each link. Just use a unique name for your links.
+You can just edit the page directly in GitHub and submit a PR. Note that for the second link, the `index.markdown` page for the `the-ai-alliance.github.io` site.
 
 Finally, talk to your focus area leaders about updating the [AI Alliance website](https://thealliance.ai) with information about your project site.
 

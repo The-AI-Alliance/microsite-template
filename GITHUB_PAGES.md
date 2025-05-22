@@ -95,7 +95,8 @@ Both strings are printed at the bottom of each page, e.g.:
 Version: 1.0.1. Site last modified: Jun 5 2024 08:13 -0500.
 ```
 
-> **TIP:** Verify this worked! You should see the new version information in three places:
+> [!TIP]
+> Verify this worked! You should see the new version information in three places:
 > 
 > * `docs/config.yml`: `last_modified_timestamp` and `last_version`.
 > * `docs/index.markdown`: **Last Update** table row near the top, **Version History** near the bottom.
@@ -105,21 +106,33 @@ Version: 1.0.1. Site last modified: Jun 5 2024 08:13 -0500.
 
 ### Links
 
-For internal cross-references, use the conventional `[title]({{site.baseurl}}/relative_URL)` Markdown syntax. 
+For _internal_ cross-references, use the conventional `[title]({{site.baseurl}}/relative_URL)` Markdown syntax. 
 
 > [!WARNING]
-> the `{{site.baseurl}}/` prefix is _essential_, because this _prefix_ will be different for local execution vs. published serving.
+> the `{{site.baseurl}}/` prefix is _essential_, because this _prefix_ will be different for local execution, e.g., when using `make view-local`, vs. the URLs for published sites.
 
+For _external_ links (those that start with `http` or `https`), add `{:target="_blank"}` to every external link in Markdown and `target="_blank"` for every HTML anchor tag, e.g.,
 
-For external links (those that start with `http` or `https`), we use the [`jekyll-target-blank` plugin](https://github.com/keithmifsud/jekyll-target-blank) to automatically open them in a new browser tab or window. _Relative_ links within the site are opened in the same tab. 
+```markdown
+[AI Alliance website](https://thealliance.ai){:target="_blank"}
+```
 
-This plugin effectively adds `target="_blank"` to every anchor tag, i.e., `<a href="" target="_blank">...</a>`. However, this means that if users click on a lot of external links to see all of them, they will be "stacked" in the history of one browser tab. Therefore, you may consider adding explicit targets yourself. You can do this using the following syntax:
+```html
+<a href="https://thealliance.ai" target="_blank">AI Alliance website</a>
+```
+
+While tedious this provides a better experience for users of the website. 
+
+Furthermore, as a visual clue to the user, [our stylesheet](https://github.com/The-AI-Alliance/REPO_NAME/blob/main/docs/_includes/css/custom.scss.liquid) is configured to put little up-and-to-the-right arrows after every external link. This provides a visual clue that a new tab will be opened.
+
+> [!NOTE]
+> There is one flaw with using `_blank` everywhere. While Chrome and Safari open a new tab for every URL clicked, Firefox creates one new tab and opens all the URLs in that tab. If you care about this flaw, you'll have to use unique values for all the `targets`.
+
+Unfortunately, we could avoid explicitly adding `target="_blank"` everywhere _if_ we could use the [`jekyll-target-blank` plugin](https://github.com/keithmifsud/jekyll-target-blank), which effectively adds `target="_blank"` to every anchor tag automatically. Unfortunately, GitHub Pages currently don't support this plugin. 😖 😢
 
 ```markdown
 [`jekyll-target-blank` plugin](https://github.com/keithmifsud/jekyll-target-blank){:target="arbitrary_name"}
 ```
-
-Furthermore, as a visual clue to the user, [our stylesheet](https://github.com/The-AI-Alliance/REPO_NAME/blob/main/docs/_includes/css/custom.scss.liquid) is configured to put little up-and-to-the-right arrows after every external link. This provides a visual clue that a new tab will be opened.
 
 ### Emojis
 
