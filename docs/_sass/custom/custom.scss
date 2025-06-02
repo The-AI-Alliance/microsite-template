@@ -15,6 +15,7 @@ td {
 .site-header-logo {
   display: flex;
   min-height: 100px;
+  max-width: 250px;
   align-items: center;
 
   @include mq(md) {
