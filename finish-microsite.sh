@@ -263,7 +263,7 @@ other_files=(
 	docs/_config.yml
 )
 markdown_files=($(find docs -name '*.markdown') $(find . -name '*.md'))
-html_files=($(find docs/_layouts -name '*.html'))
+html_files=($(find docs/_layouts docs/_includes -name '*.html'))
 github_files=($(find .github \( -name '*.yaml' -o -name '*.md' \)))
 
 info "Replacing macros with correct values:"

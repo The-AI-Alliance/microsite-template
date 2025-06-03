@@ -94,11 +94,16 @@ last_edit_time_format: "%Y-%m-%d %H:%M %z" # uses ruby's time format: https://ru
 last_modified_timestamp: TIMESTAMP
 last_version: 0.1.0
 
+# Custom: Add the range of years for the copyright here. This is done here,
+# rather than default.html, so that the latter file can remain completely 
+# generic across repos, but the range of years can be configurable per repo.
+copyright_years: 2025
+
 # "Edit this page on GitHub" link text
 gh_edit_link: true # show or hide edit this page link
 gh_edit_link_text: "Edit this page on GitHub"
 gh_edit_repository: "https://github.com/The-AI-Alliance/REPO_NAME/tree/latest/docs" # the github URL for your repo
-gh_edit_branch: "target-blank" # the branch that your docs is served from
+gh_edit_branch: "latest" # the branch that your docs are served from
 gh_edit_source: "docs" # the source that your files originate from
 gh_edit_view_mode: "tree" # "tree" or "edit" if you want the user to jump into the editor immediately
 
