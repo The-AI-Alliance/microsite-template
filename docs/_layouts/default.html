@@ -40,194 +40,199 @@ layout: table_wrappers
     </symbol>
   </svg>
 
-  <div class="side-bar resizable-content">
-    <div class="site-header">
-      <a href="{{ '/' | absolute_url }}" class="site-title lh-tight">{% include title.html %}</a>
-      <a href="#" id="menu-button" class="site-button">
-        <svg viewBox="0 0 24 24" class="icon"><use xlink:href="#svg-menu"></use></svg>
-      </a>
-    </div>
-    <div class="site-header-logo">
-      <a href="https://thealliance.ai" target="_aia" class="no-glyph"><img alt="AI Alliance Banner" class="side-bar-banner" src="{{site.baseurl}}/assets/images/Logotype_monochrome_on_gradient.jpg"/></a>
-    </div>
-    <nav role="navigation" aria-label="Main" id="site-nav" class="site-nav">
-      {% if site.just_the_docs.collections %}
-        {% assign collections_size = site.just_the_docs.collections | size %}
-        {% for collection_entry in site.just_the_docs.collections %}
-          {% assign collection_key = collection_entry[0] %}
-          {% assign collection_value = collection_entry[1] %}
-          {% assign collection = site[collection_key] %}
-          {% if collection_value.nav_exclude != true %}
-            {% if collections_size > 1 %}
-              <div class="nav-category">{{ collection_value.name }}</div>
-            {% endif %}
-            {% include nav.html pages=collection %}
-          {% endif %}
-        {% endfor %}
-      {% else %}
-        {% include nav.html pages=site.html_pages %}
-      {% endif %}
-    </nav>
-    <footer class="site-footer">
-      <p>
-        Copyright &copy; 2025, <a href="https://thealliance.ai" target="_aia">The AI Alliance</a>.
-      </p>
-      <p xmlns:cc="http://creativecommons.org/ns#" >This work is licensed under <a href="https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""></a>
-      </p> 
-      <p>
-        This site uses <a href="https://github.com/jekyll" target="_jekyll_org">Jekyll</a> and <a href="https://github.com/just-the-docs/just-the-docs" target="_just_the_docs">Just the Docs</a>, a documentation theme.
-      </p>
-    </footer>
-  </div>
-  <div class="main resizable-content" id="top">
-    <div id="main-header" class="main-header">
-      {% if site.search_enabled != false %}
-        <div class="search">
-          <div class="search-input-wrap">
-            <input type="text" id="search-input" class="search-input" tabindex="0" placeholder="Search {{ site.title }}" aria-label="Search {{ site.title }}" autocomplete="off">
-            <label for="search-input" class="search-label"><svg viewBox="0 0 24 24" class="search-icon"><use xlink:href="#svg-search"></use></svg></label>
-          </div>
-          <div id="search-results" class="search-results"></div>
-        </div>
-      {% endif %}
-      {% include header_custom.html %}
-      {% if site.aux_links %}
-        <nav aria-label="Auxiliary" class="aux-nav">
-          <ul class="aux-nav-list">
-            {% for link in site.aux_links %}
-              <li class="aux-nav-list-item">
-                <a href="{{ link.last }}" class="site-button"
-                  {% if site.aux_links_new_tab %}
-                  target="_blank" rel="noopener noreferrer"
-                  {% endif %}
-                >
-                  {{ link.first }}<sup>⬀</sup>
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        </nav>
-      {% endif %}
-    </div>
-    <div id="main-content-wrap" class="main-content-wrap">
-      {% unless page.url == "/" %}
-        {% if page.parent %}
-          {%- for node in pages_list -%}
-            {%- if node.parent == nil -%}
-              {%- if page.parent == node.title or page.grand_parent == node.title -%}
-                {%- assign first_level_url = node.url | absolute_url -%}
-              {%- endif -%}
-              {%- if node.has_children -%}
-                {%- assign children_list = pages_list | where: "parent", node.title -%}
-                {%- for child in children_list -%}
-                  {%- if page.url == child.url or page.parent == child.title -%}
-                    {%- assign second_level_url = child.url | absolute_url -%}
-                  {%- endif -%}
-                  {%- if child.has_children -%}
-                    {%- assign grand_children_list = pages_list | where: "parent", child.title -%}
-                    {%- for grand_child in grand_children_list -%}
-                      {%- if page.url == grand_child.url or page.parent == grand_child.title -%}
-                        {%- assign third_level_url = grand_child.url | absolute_url -%}
-                      {%- endif -%}
-                    {%- endfor -%}
-                  {%- endif -%}
-                {%- endfor -%}
-              {%- endif -%}
-            {%- endif -%}
-          {%- endfor -%}
-
-          <nav aria-label="Breadcrumb" class="breadcrumb-nav">
-            <ol class="breadcrumb-nav-list">
-              {% if page.grand_parent %}
-                <li class="breadcrumb-nav-list-item"><a href="{{ first_level_url }}">{{ page.grand_parent }}</a></li>
-                <li class="breadcrumb-nav-list-item"><a href="{{ second_level_url }}">{{ page.parent }}</a></li>
-              {% else %}
-                <li class="breadcrumb-nav-list-item"><a href="{{ first_level_url }}">{{ page.parent }}</a></li>
+  <div class="splitter" id="splitter">
+    <div class="side-bar resizable-content splitter-before" id="splitter-before">
+      <div class="site-header">
+        <a href="{{ '/' | absolute_url }}" class="site-title lh-tight">{% include title.html %}</a>
+        <a href="#" id="menu-button" class="site-button">
+          <svg viewBox="0 0 24 24" class="icon"><use xlink:href="#svg-menu"></use></svg>
+        </a>
+      </div>
+      <div class="site-header-logo">
+        <a href="https://thealliance.ai" target="_aia" class="no-glyph"><img alt="AI Alliance Banner" class="side-bar-banner" src="{{site.baseurl}}/assets/images/Logotype_monochrome_on_gradient.jpg"/></a>
+      </div>
+      <nav role="navigation" aria-label="Main" id="site-nav" class="site-nav">
+        {% if site.just_the_docs.collections %}
+          {% assign collections_size = site.just_the_docs.collections | size %}
+          {% for collection_entry in site.just_the_docs.collections %}
+            {% assign collection_key = collection_entry[0] %}
+            {% assign collection_value = collection_entry[1] %}
+            {% assign collection = site[collection_key] %}
+            {% if collection_value.nav_exclude != true %}
+              {% if collections_size > 1 %}
+                <div class="nav-category">{{ collection_value.name }}</div>
               {% endif %}
-              <li class="breadcrumb-nav-list-item"><span>{{ page.title }}</span></li>
-            </ol>
-          </nav>
-        {% endif %}
-      {% endunless %}
-      <div id="main-content" class="main-content" role="main">
-        {% if site.heading_anchors != false %}
-          {% include vendor/anchor_headings.html html=content beforeHeading="true" anchorBody="<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\"><use xlink:href=\"#svg-link\"></use></svg>" anchorClass="anchor-heading" anchorAttrs="aria-labelledby=\"%html_id%\"" %}
+              {% include nav.html pages=collection %}
+            {% endif %}
+          {% endfor %}
         {% else %}
-          {{ content }}
+          {% include nav.html pages=site.html_pages %}
         {% endif %}
-          
-        {% if page.has_children == true and page.has_toc != false %}
-          <hr>
-          <div class="child-pages-toc">
-            <h2 class="text-delta">Child Pages</h2>
-            <ul>
-              {%- assign children_list = pages_list | where: "parent", page.title | where: "grand_parent", page.parent -%}
-              {% for child in children_list %}
-                {% if child.nav_exclude != true %}
-                <li>
-                  <a href="{{site.baseurl}}{{child.url}}">{{child.title}}</a>{% if child.summary %} - {{child.summary}}{% endif %} 
+      </nav>
+      <footer class="site-footer">
+        <p>
+          Copyright &copy; 2025, <a href="https://thealliance.ai" target="_aia">The AI Alliance</a>.
+        </p>
+        <p xmlns:cc="http://creativecommons.org/ns#" >This work is licensed under <a href="https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""></a>
+        </p> 
+        <p>
+          This site uses <a href="https://github.com/jekyll" target="_jekyll_org">Jekyll</a> and <a href="https://github.com/just-the-docs/just-the-docs" target="_just_the_docs">Just the Docs</a>, a documentation theme.
+        </p>
+      </footer>
+    </div>
+    <div class="splitter-separator" id="splitter-separator">
+    </div>
+    <div class="main resizable-content splitter-after" id="splitter-after">
+      <a id="top"></a>
+      <div id="main-header" class="main-header">
+        {% if site.search_enabled != false %}
+          <div class="search">
+            <div class="search-input-wrap">
+              <input type="text" id="search-input" class="search-input" tabindex="0" placeholder="Search {{ site.title }}" aria-label="Search {{ site.title }}" autocomplete="off">
+              <label for="search-input" class="search-label"><svg viewBox="0 0 24 24" class="search-icon"><use xlink:href="#svg-search"></use></svg></label>
+            </div>
+            <div id="search-results" class="search-results"></div>
+          </div>
+        {% endif %}
+        {% include header_custom.html %}
+        {% if site.aux_links %}
+          <nav aria-label="Auxiliary" class="aux-nav">
+            <ul class="aux-nav-list">
+              {% for link in site.aux_links %}
+                <li class="aux-nav-list-item">
+                  <a href="{{ link.last }}" class="site-button"
+                    {% if site.aux_links_new_tab %}
+                    target="_blank" rel="noopener noreferrer"
+                    {% endif %}
+                  >
+                    {{ link.first }}<sup>⬀</sup>
+                  </a>
                 </li>
-                {% endif %}
               {% endfor %}
             </ul>
-          </div>
+          </nav>
         {% endif %}
-
-        {% capture footer_custom %}
-          {%- include footer_custom.html -%}
-        {% endcapture %}
-        {% if footer_custom != "" or site.last_edit_timestamp or site.gh_edit_link %}
-          <hr>
-          <footer>
-            {% if site.back_to_top %}
-              <p><a href="#top" id="back-to-top">{{ site.back_to_top_text }}</a></p>
-            {% endif %}
-
-            {{ footer_custom }}
-            {% if site.last_edit_timestamp or site.gh_edit_link %}
-              {% if
-                site.gh_edit_link and
-                site.gh_edit_link_text and
-                site.gh_edit_repository and
-                site.gh_edit_branch and
-                site.gh_edit_view_mode
-              %}
-                <div class="d-flex mt-2">
-                  <p class="text-small text-grey-dk-000 mb-0">
-                    <a href="{{ site.gh_edit_repository }}/{{ page.path }}" id="edit-this-page" target="_blank">{{ site.gh_edit_link_text }}</a>
-                  </p>
-                </div>
-              {% endif %}
-              {% if site.last_edit_timestamp and site.last_edit_time_format %}
-                <div class="d-flex mt-2">
-                  <p class="text-small text-grey-dk-000 mb-0 mr-2">
-                    {% if site.last_version %}
-                      Version: <span class="d-inline-block">{{ site.last_version }}</span>
-                    {% endif %}
-                    {% if page.last_modified_date %}
-                      Page last modified: <span class="d-inline-block">{{ page.last_modified_date | date: site.last_edit_time_format }}</span>.
-                    {% elsif site.last_modified_date %}
-                      Site last modified: <span class="d-inline-block">{{ site.last_modified_date | date: site.last_edit_time_format }}</span>.
-                    {% endif %}
-                  </p>
-                </div>
-              {% endif %}
-            {% endif %}
-          </footer>
-        {% endif %}
-
       </div>
-    </div>
+      <div id="main-content-wrap" class="main-content-wrap">
+        {% unless page.url == "/" %}
+          {% if page.parent %}
+            {%- for node in pages_list -%}
+              {%- if node.parent == nil -%}
+                {%- if page.parent == node.title or page.grand_parent == node.title -%}
+                  {%- assign first_level_url = node.url | absolute_url -%}
+                {%- endif -%}
+                {%- if node.has_children -%}
+                  {%- assign children_list = pages_list | where: "parent", node.title -%}
+                  {%- for child in children_list -%}
+                    {%- if page.url == child.url or page.parent == child.title -%}
+                      {%- assign second_level_url = child.url | absolute_url -%}
+                    {%- endif -%}
+                    {%- if child.has_children -%}
+                      {%- assign grand_children_list = pages_list | where: "parent", child.title -%}
+                      {%- for grand_child in grand_children_list -%}
+                        {%- if page.url == grand_child.url or page.parent == grand_child.title -%}
+                          {%- assign third_level_url = grand_child.url | absolute_url -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
 
-    {% if site.search_enabled != false %}
-      {% if site.search.button %}
-        <a href="#" id="search-button" class="search-button">
-          <svg viewBox="0 0 24 24" class="icon"><use xlink:href="#svg-search"></use></svg>
-        </a>
+            <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+              <ol class="breadcrumb-nav-list">
+                {% if page.grand_parent %}
+                  <li class="breadcrumb-nav-list-item"><a href="{{ first_level_url }}">{{ page.grand_parent }}</a></li>
+                  <li class="breadcrumb-nav-list-item"><a href="{{ second_level_url }}">{{ page.parent }}</a></li>
+                {% else %}
+                  <li class="breadcrumb-nav-list-item"><a href="{{ first_level_url }}">{{ page.parent }}</a></li>
+                {% endif %}
+                <li class="breadcrumb-nav-list-item"><span>{{ page.title }}</span></li>
+              </ol>
+            </nav>
+          {% endif %}
+        {% endunless %}
+        <div id="main-content" class="main-content" role="main">
+          {% if site.heading_anchors != false %}
+            {% include vendor/anchor_headings.html html=content beforeHeading="true" anchorBody="<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\"><use xlink:href=\"#svg-link\"></use></svg>" anchorClass="anchor-heading" anchorAttrs="aria-labelledby=\"%html_id%\"" %}
+          {% else %}
+            {{ content }}
+          {% endif %}
+            
+          {% if page.has_children == true and page.has_toc != false %}
+            <hr>
+            <div class="child-pages-toc">
+              <h2 class="text-delta">Child Pages</h2>
+              <ul>
+                {%- assign children_list = pages_list | where: "parent", page.title | where: "grand_parent", page.parent -%}
+                {% for child in children_list %}
+                  {% if child.nav_exclude != true %}
+                  <li>
+                    <a href="{{site.baseurl}}{{child.url}}">{{child.title}}</a>{% if child.summary %} - {{child.summary}}{% endif %} 
+                  </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+
+          {% capture footer_custom %}
+            {%- include footer_custom.html -%}
+          {% endcapture %}
+          {% if footer_custom != "" or site.last_edit_timestamp or site.gh_edit_link %}
+            <hr>
+            <footer>
+              {% if site.back_to_top %}
+                <p><a href="#top" id="back-to-top">{{ site.back_to_top_text }}</a></p>
+              {% endif %}
+
+              {{ footer_custom }}
+              {% if site.last_edit_timestamp or site.gh_edit_link %}
+                {% if
+                  site.gh_edit_link and
+                  site.gh_edit_link_text and
+                  site.gh_edit_repository and
+                  site.gh_edit_branch and
+                  site.gh_edit_view_mode
+                %}
+                  <div class="d-flex mt-2">
+                    <p class="text-small text-grey-dk-000 mb-0">
+                      <a href="{{ site.gh_edit_repository }}/{{ page.path }}" id="edit-this-page" target="_blank">{{ site.gh_edit_link_text }}</a>
+                    </p>
+                  </div>
+                {% endif %}
+                {% if site.last_edit_timestamp and site.last_edit_time_format %}
+                  <div class="d-flex mt-2">
+                    <p class="text-small text-grey-dk-000 mb-0 mr-2">
+                      {% if site.last_version %}
+                        Version: <span class="d-inline-block">{{ site.last_version }}</span>
+                      {% endif %}
+                      {% if page.last_modified_date %}
+                        Page last modified: <span class="d-inline-block">{{ page.last_modified_date | date: site.last_edit_time_format }}</span>.
+                      {% elsif site.last_modified_date %}
+                        Site last modified: <span class="d-inline-block">{{ site.last_modified_date | date: site.last_edit_time_format }}</span>.
+                      {% endif %}
+                    </p>
+                  </div>
+                {% endif %}
+              {% endif %}
+            </footer>
+          {% endif %}
+
+        </div>
+      </div>
+
+      {% if site.search_enabled != false %}
+        {% if site.search.button %}
+          <a href="#" id="search-button" class="search-button">
+            <svg viewBox="0 0 24 24" class="icon"><use xlink:href="#svg-search"></use></svg>
+          </a>
+        {% endif %}
+
+        <div class="search-overlay"></div>
       {% endif %}
-
-      <div class="search-overlay"></div>
-    {% endif %}
+    </div>
   </div>
 </body>
 </html>
