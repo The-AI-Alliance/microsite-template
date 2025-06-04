@@ -1,9 +1,10 @@
-# The .gitignore file. It combines 
+# The .gitignore file. It combines
 # entries we added plus Python and Ruby .gitignore files
 # generated at https://www.toptal.com/developers/gitignore/
 
 # A "temporary" place to put stuff...
 tmp/
+temp/
 
 # Releases
 releases/*.temp
@@ -11,8 +12,8 @@ releases/*.temp
 # Terraform:
 .terraform*
 terraform.tfstate*
-# tg pull state > <name>.tfstate 
-*.tfstate 
+# tg pull state > <name>.tfstate
+*.tfstate
 *_override.tf
 backend.hcl
 
@@ -32,7 +33,7 @@ cluster.tfvars
 *.dir-locals.el
 
 # Cucumber output
-# NOTE the next line: Unlike single directories, e.g., "tmp/" above, with a 
+# NOTE the next line: Unlike single directories, e.g., "tmp/" above, with a
 # path like the following, you have to prefix it with "*/":
 */tests/data/output/
 cucumber.log
