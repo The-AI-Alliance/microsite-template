@@ -2,7 +2,7 @@
 #------------------------------------------------------------------------
 # Convert this microsite template into your desired microsite.
 # Run finish-microsite.sh -h to see the required arguments and options.
-# Note: This file defaults to use zsh. If you don't have zsh, but you 
+# Note: This file defaults to use zsh. If you don't have zsh, but you
 # DO have bash v5+, then use /path/to/bash finish-microsite.sh.
 #------------------------------------------------------------------------
 set -e
@@ -12,7 +12,7 @@ tsformat="$ymdformat %H:%M %z"
 script=$0
 dir=$(dirname $script)
 cfg="$dir/docs/_config.yml"
-index="$dir/docs/index.markdown" 
+index="$dir/docs/index.markdown"
 work_branch=main
 publish_branch=latest
 fa_max_number=6  # FAs numbered from 1 to max_...
@@ -53,20 +53,15 @@ fa_assignees[FA6]="pasanth"
 
 help() {
 	cat << EOF
-$script [-h|--help] [-n|--noop] [--ns|--next-steps] \  
-  -t |--site-title | --microsite-title title \ 
-  -w | --work-group work_group \ 
-  [-r | --repo-name name] \ 
-  [-u | --work-group-url | -u work_group_url] \ 
-  [--repo-dir dir] \ 
-  [-d | --dashboard N]
-  [-a | --assignees list]
+$script [options] \
+  -t|--site-title|--microsite-title title \
+  -w|--work-group work_group
 
-
-These arguments are required, but they can appear in any order. See the example below:
+These arguments are required, but they can appear in any order, intermixed
+with optional arguments (discussed below). See the example below:
 
 -t | --site-title | --microsite-title title
-                       The title of the microsite. 
+                       The title of the microsite.
 -w | --work-group work_group
                        The name of work group sponsoring this site.
 
@@ -76,18 +71,18 @@ These arguments are optional:
 -s | --next-steps      At the end of running this script to create a new repo,
                        some information about "next steps" is printed. If you want to see
                        this information again, run this script again just using this flag.
--r | --repo-name name  The name of GitHub repo. If you are running this script in the 
+-r | --repo-name name  The name of GitHub repo. If you are running this script in the
                        repo's root directory, its name will be used, by default.
 --work-group-url | -u work_group_url
                        The URL of the work group sponsoring this site.
                        If one of the "FA#" or "#" arguments is used for --work-group (see below),
-                       then a known URL will be used. If the URL isn't known for the 
-                       specified workgroup and one isn't specified, the default URL for 
+                       then a known URL will be used. If the URL isn't known for the
+                       specified workgroup and one isn't specified, the default URL for
                        focus areas will be used: $focus_areas_url
 --repo-dir dir         The absolute path to the repo root directory or the relative
-                       path from the current directory. Only needed when you aren't 
+                       path from the current directory. Only needed when you aren't
                        running this script in the repo root directory.
--d | --dashboard N     The "N" for the ${dashboard_base}/N link 
+-d | --dashboard N     The "N" for the ${dashboard_base}/N link
                        to use for the project's dashboard. Projects in FA2, FA3, and FA5 have
                        default values. If not provided and there is no default, so no dashboard
                        will be associated with the project automatically.
@@ -101,7 +96,7 @@ under the Trust and Safety work group, then use one of the following commands:
 $script --repo-name ai-for-evil-project --microsite-title "AI for Evil Project" --work-group fa2
 $script --repo-name ai-for-evil-project --microsite-title "AI for Evil Project" --work-group 2
 
-Note that just specifying "2", "fa2" or "FA2", etc. for any of the focus areas will result in the 
+Note that just specifying "2", "fa2" or "FA2", etc. for any of the focus areas will result in the
 following names being used:
 
 EOF
@@ -183,7 +178,7 @@ do
 			shift
 			n=$(echo $1 | sed -e 's/fa//i')
 			if [[ $n -ge 1 ]] && [[ $n -le $fa_max_number ]]
-			then 
+			then
 				# User input valid faN, FAN, fAN, FaN, or N within range.
 				dashboard_number=${fa_dashboard_numbers[FA$n]}
 				[[ -n $dashboard_number ]] && dashboard=${dashboard_base}/${fa_dashboard_numbers[FA$n]}
@@ -207,7 +202,7 @@ do
 			shift
 			n=$1
 			if [[ $n -ge 1 ]]
-			then 
+			then
 				# User input valid number
 				dashboard=${dashboard_base}/$n
 			else
@@ -282,7 +277,7 @@ for file in "${other_files[@]}" "${markdown_files[@]}" "${html_files[@]}" "${git
 do
 	info "  $file"
 	if [[ -z $NOOP ]]
-	then 
+	then
 		sed -e "s?REPO_NAME?$repo_name?g" \
 		    -e "s?MICROSITE_TITLE?$microsite_title?g" \
 		    -e "s?WORK_GROUP_NAME?$work_group?g" \
