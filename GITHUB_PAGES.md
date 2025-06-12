@@ -14,9 +14,9 @@ We use [GitHub Pages](https://pages.github.com/) so edits can be made in Markdow
 
 In fact, each page has _Edit this page on GitHub_ links, making it easy to view a page, then go straight to the source to edit it and submit a PR! This is the best way to help us fix typos and make similar small edits.
 
-However, this easy approach only supports correcting content on a single page. for more significant changes, like adding new pages, you may want the ability to preview the changes locally. 
+However, this easy approach only supports correcting content on a single page. for more significant changes, like adding new pages, you may want the ability to preview the changes locally.
 
-Local previewing allows you to see how any changes, even on a single page, will _really_ look when rendered with stylesheets, etc. While GitHub renders Markdown well, there are extensions we use that are supported by Jekyll that won't be rendered correctly in GitHub's default Markdown file viewer. 
+Local previewing allows you to see how any changes, even on a single page, will _really_ look when rendered with stylesheets, etc. While GitHub renders Markdown well, there are extensions we use that are supported by Jekyll that won't be rendered correctly in GitHub's default Markdown file viewer.
 
 > [!NOTE]
 > If you don't want to setup `jekyll` for previewing or if you have trouble setting it up, don't let that stop you from contributing content! Submit a PR with your changes and we'll review them in a running environment ourselves. We'll provide feedback as needed.
@@ -42,10 +42,10 @@ Server address: http://127.0.0.1:4000/
 Server running... press ctrl-c to stop.
 ```
 
-Open the URL in a browser. 
+Open the URL in a browser.
 
 > [!TIP]
-> 
+>
 > 1. On MacOS, use &#8984;-click on the URL to open it in a browser.
 > 2. Run `make help` for a list of the main commands defined.
 > 3. Run `JEKYLL_PORT=4444 make view-local` to use port `4444` instead of `4000`.
@@ -97,7 +97,7 @@ Version: 1.0.1. Site last modified: Jun 5 2024 08:13 -0500.
 
 > [!TIP]
 > Verify this worked! You should see the new version information in three places:
-> 
+>
 > * `docs/config.yml`: `last_modified_timestamp` and `last_version`.
 > * `docs/index.markdown`: **Last Update** table row near the top, **Version History** near the bottom.
 `
@@ -106,7 +106,7 @@ Version: 1.0.1. Site last modified: Jun 5 2024 08:13 -0500.
 
 ### Links
 
-For _internal_ cross-references, use the conventional `[title]({{site.baseurl}}/relative_URL)` Markdown syntax. 
+For _internal_ cross-references, use the conventional `[title]({{site.baseurl}}/relative_URL)` Markdown syntax.
 
 > [!WARNING]
 > the `{{site.baseurl}}/` prefix is _essential_, because this _prefix_ will be different for local execution, e.g., when using `make view-local`, vs. the URLs for published sites.
@@ -121,7 +121,7 @@ For _external_ links (those that start with `http` or `https`), add `{:target="_
 <a href="https://thealliance.ai" target="_blank">AI Alliance website</a>
 ```
 
-While tedious this provides a better experience for users of the website. 
+While tedious this provides a better experience for users of the website.
 
 Furthermore, as a visual clue to the user, [our stylesheet](https://github.com/The-AI-Alliance/REPO_NAME/blob/main/docs/_includes/css/custom.scss.liquid) is configured to put little up-and-to-the-right arrows after every external link. This provides a visual clue that a new tab will be opened.
 
@@ -137,6 +137,19 @@ Unfortunately, we could avoid explicitly adding `target="_blank"` everywhere _if
 ### Emojis
 
 In the pages, you can use emojis, e.g., `:+1:` yields :+1:, `:smirk:` yields :smirk:, `:nerd_face:` yields :nerd_face:, etc. The `jemoji` Ruby gem adds this capability. [Here is a list of available emojis](https://www.webfx.com/tools/emoji-cheat-sheet/).
+
+### Redirects
+
+The `docs/_layouts/redirect.html` page makes it easy to define a redirect. Suppose you have a page `docs/foo/bar.markdown` and you decide to rename it `docs/foo/not-so-bar.markdown`, but you don't want to break the old link. Instead, you want the old URL to redirect to the new one. Change the content in `docs/foo/bar.markdown` to the following:
+
+```yaml
+---
+layout: redirect
+redirect_rel_url: foo/not-so-bar
+---
+```
+
+Note that `redirect_rel_url` is _relative_ to the site root path.
 
 ## Previewing Your Work Locally
 
@@ -182,7 +195,7 @@ JEKYLL_PORT=4444 make run-jekyll
 If an error is thrown, see the [Tips and Known Issues](#tips-and-known-issues) below.
 
 > [!TIP]
-> 
+>
 > 1. On MacOS, use &#8984;-click on the URL to open it in a browser.
 > 2. Run `make help` for a list of the main commands defined.
 
@@ -193,8 +206,8 @@ cd docs && bundle exec jekyll serve --port ${JEKYLL_PORT} --baseurl '' --increme
 ```
 
 * `JEKYLL_PORT` for the `--port` flag defaults to `4000`
-* The `--baseurl` flag effectively supports the simple URL, `localhost:$JEKYLL_PORT`. (Without it, the URL would be `localhost:$JEKYLL_PORT/The-AI-Alliance/REPO_NAME/`.) 
-* The `--incremental` flag lets you edit the pages and refresh the browser tab to see the updates immediately. 
+* The `--baseurl` flag effectively supports the simple URL, `localhost:$JEKYLL_PORT`. (Without it, the URL would be `localhost:$JEKYLL_PORT/The-AI-Alliance/REPO_NAME/`.)
+* The `--incremental` flag lets you edit the pages and refresh the browser tab to see the updates immediately.
 
 > [!NOTE]
 > Well, more or less immediately. It can take several seconds for new pages to be generated and sometimes you'll get weird behaviors if you change URL paths, etc. So, occasionally it is useful to _control-c_ in the terminal and rerun the `make` command.
@@ -257,7 +270,7 @@ Finally, if you are still stuck, please [post an issue](https://github.com/The-A
 
 > **Help Needed:**
 >
-> If you find missing steps that `make setup-jekyll` should run but doesn't, or you find and fix problems that only occur on non-MacOS platforms, **please** submit a PR with fixes! Thank you. 
+> If you find missing steps that `make setup-jekyll` should run but doesn't, or you find and fix problems that only occur on non-MacOS platforms, **please** submit a PR with fixes! Thank you.
 
 ### The "make view-local" Command Fails
 
