@@ -10,12 +10,14 @@ These are the main steps, with details below:
 1. Convert placeholder _variables_ to the correct values, using the [`finish-microsite.sh`](https://github.com/The-AI-Alliance/microsite-template/blob/main/finish-microsite.sh) script.
 1. Modify the "header buttons" in `docs/includes/header_buttons_custom.html`to be what you want to appear at the top of each page. See the [OTDI](https://the-ai-alliance.github.io/open-trusted-data-initiative/) site for an example customization. Or if you don't want any buttons, delete the contents of that file (but don't delete the file...).
 1. Add your initial custom content for the pages in the `docs` directory.
-1. Add custom content to the `README.md` in the repo.
-1. Merge changes to the `latest` branch.
-1. Push all updates upstream on the `main` and `latest` branches: `git push --all`.
-1. On the repo's home page in GitHub, click the "gear" next to "About" (upper right-hand side). In the _Edit repository details_ that pops up, check the box to _Use your GitHub Pages website_ and enter appropriate _Topics_.
-1. Add the website to the Alliance GitHub organization [landing page](https://github.com/The-AI-Alliance/) and the Alliance GitHub Pages [website](https://the-ai-alliance.github.io/#the-ai-alliance-projects).
-1. When finished, delete this file, `README-template.md`, and `finish-microsite.sh` from both branches!
+1. Add your initial custom content to the `README.md` in the repo.
+1. Merge changes to the `latest` branch and push both branches upstream.
+1. Edit the repo's _Settings_. 
+  1. On the repo's home page in GitHub, click the _Settings_ "gear" on the upper right-hand side. 
+  1. Scroll down to _Features_ and click _Discussions_ to enable them (unless you don't want them; in this case, remove the URL on the `docs/contributing.markdown` page!).
+  1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `latest` branch, then select the `/docs` directory.
+1. Add the website to the Alliance GitHub organization [landing page](https://github.com/The-AI-Alliance/) and the Alliance GitHub [website](https://the-ai-alliance.github.io/#the-ai-alliance-projects).
+1. Delete this file, `README-template.md`, and `finish-microsite.sh` from both branches!
 
 > [!NOTE] 
 > We are planning to automate as many of the manual steps as we can.
@@ -60,10 +62,14 @@ Referring to a focus area by number or `FA#`, (e.g., `2`, `fa2`, `FA2`, `Fa2`, o
 > [!WARN]
 > After running the script, your changes are only in your local repo, not pushed upstream. We'll fix that in step 5 below.
 
-### 3. Add your initial content for the repo.
+### 3. Edit the website buttons.
+
+There are purple "header buttons" that appear on all pages in the website. You can see in existing websites, e.g., [OTDI](https://the-ai-alliance.github.io/open-trusted-data-initiative/). They are defined in the file `docs/includes/header_buttons_custom.html`. Edit this file to define buttons that work for you. ([OTDI](https://the-ai-alliance.github.io/open-trusted-data-initiative/ is an example of customization.) Or if you don't want any buttons, delete the contents of that file, but don't delete the file.
+
+### 4. Add your initial custom content for the pages in the `docs` directory.
 
 > [!NOTE]
-> If you are creating a repo for code, not a microsite, delete the `docs` directory, but do the following steps that make sense. 
+> If you are creating a repo for code, not a microsite, delete the `docs` directory and skip to the next step.
 
 There are other placeholder texts in the `docs/**/*.markdown`, README, and other files that you should replace with your real content as soon as possible, e.g.,
 
@@ -77,7 +83,11 @@ There are other placeholder texts in the `docs/**/*.markdown`, README, and other
 
 For more tips and guidance on development tasks, see also the links for more information in the `README.md` in your new repo. Add a project-specific description at the beginning of that file.
 
-### 4. Merge changes to the `latest` branch.
+### 5. Add your initial custom content to the `README.md` in the repo.
+
+The `README.md` contains useful _boilerplate_ for contributors, but the preamble at the beginning should be customized with useful "welcome" information about the project.
+
+### 6. Merge changes to the `latest` branch and push both branches upstream.
 
 > [!NOTE]
 > If you are creating a repo for code, not a microsite, delete the `latest` branch:
@@ -86,7 +96,7 @@ For more tips and guidance on development tasks, see also the links for more inf
 > git br -D latest
 > ``` 
 >
-> Also delete the upstream branch in the GitHub page for your repo. Then ignore the following steps.
+> Also delete the upstream branch in the GitHub page for your repo. Then skip to the next step.
 
 As discussed in [`GITHUB_PAGES.md`](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/blob/main/GITHUB_PAGES.md), by default we publish the "microsite" from the `latest` branch, using `main` as the pre-publishing integration branch. Assuming you made all the edits above on the `main` branch, merge them to `latest`.
 
@@ -95,9 +105,7 @@ git checkout latest
 git merge main
 ```
 
-### 5. Push all updates upstream.
-
-Run the following command:
+Now push all updates upstream:
 
 ```shell
 git push --all
@@ -105,29 +113,53 @@ git push --all
 
 Adding `--all` pushes the `main` and `latest` branches upstream.
 
-### 6. Add Your website to the Alliance GitHub Pages and the Alliance Website.
+### 7. Edit the repo's _Settings_. 
+
+On the repo's home page in GitHub, click the _Settings_ "gear" on the upper right-hand side. 
+
+#### 7a. Enable discussions.
+
+Scroll down to _Features_ and click _Discussions_ to enable them. However, if you don't want discussions, remove the URL on the `docs/contributing.markdown` page. (Don't forget to merge that edit to both branches.)
+
+Click the _Set up discussions_ button and edit the first discussion topic to taste, then post it.
+
+#### 7b. Publish your website.
 
 > [!NOTE]
 > If you are creating a repo for code, not a microsite, ignore this section.
 
-When you are ready for broader exposure for your site, there are a few places where we have an index to all the &ldquo;microsites&rdquo;. Add your site in the table shown in each of the following locations. Note how the rows are grouped by focus area. Put your new row with the others in your focus area.
+On the left-hand side of the _Settings_, click the link for _Pages_. Under _Branch_, select the `latest` branch, then select the `/docs` directory. Finally, click _Save_.
+
+Your website should be published after a few minutes to https://the-ai-alliance.github.io/REPO_NAME/.
+
+### 8. Add your website to the Alliance GitHub organization page and the Alliance website.
+
+> [!NOTE]
+> This step applies for code repos, not just documentation repos.
+
+Add the website to the Alliance GitHub organization [landing page](https://github.com/The-AI-Alliance/) and the Alliance GitHub Pages [website](https://the-ai-alliance.github.io/#the-ai-alliance-projects).
+
+When you are ready for broader exposure for your site, there are a few places where we have an index to all the &ldquo;microsites&rdquo;. Add your site in the table shown in each of the following locations. Note how the rows are grouped by focus area. Your new entry will go in the table with the other projects/initiatives for your focus area.
 
 * https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md
 * https://github.com/The-AI-Alliance/the-ai-alliance.github.io/blob/main/docs/index.markdown
 
-You can just edit the page directly in GitHub and submit a PR. Note that for the second link, the `index.markdown` page for the `the-ai-alliance.github.io` site.
+> [!NOTE]
+> You only need to edit the first file, the `README.md`. Afterwards, notify Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)) of your change. Dean will run a tool that copies the change to the other location.
 
-Finally, talk to your focus area leaders about updating the [AI Alliance website](https://thealliance.ai) with information about your project site.
+You can just edit the page directly in GitHub and submit a PR.
 
-### 7. When finished, delete this file
+Finally, talk to your focus area leaders about updating the main [AI Alliance website](https://thealliance.ai) with information about your project site.
 
-This file is no longer needed, so you can remove it from your repo:
+### 9. Delete this file, `README-template.md`, and `finish-microsite.sh` from both branches!
+
+These two files are no longer needed, so you can remove them from your repo:
 
 ```shell
-git rm README-template.md
+git rm README-template.md finish-microsite.sh
 ```
 
-If you are building a microsite and have the `latest` branch:
+If you are building a microsite, so you have the `latest` branch, merge this change to it, too:
 
 ```shell
 git checkout latest
