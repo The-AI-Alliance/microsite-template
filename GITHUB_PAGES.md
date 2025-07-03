@@ -59,48 +59,17 @@ Here are some things you should know.
 
 ### Using the Correct Branch
 
-As for most Git projects, issue PRs to the `main` branch. However, the repo is actually configured to publish the docs from the `latest` branch, so we can accept PRs quickly, then decide when to publish a new version. (We will also tag `latest` for each release with a version number, for historical tracking.)
+Issue PRs for the `main` branch. Note that many of our microsite repos are configured to publish the website from another branch, usually `latest`, not `main`. For those repos, it will be necessary to merge from `main` to `latest` after merging the PR.
 
 > [!NOTE]
-> If you are curious, the details of how this publication branch is configured are discussed [below](#configuring-github-pages-in-the-repo-settings).
+> If you are curious, the details of how the publication process is configured are discussed [below](#configuring-github-pages-in-the-repo-settings).
 
-## Publishing a New Version
+### Updating the Website Version
 
-Because PRs go to the `main` branch, but the pages are published from the `latest` branch, PRs are not immediately published. When it is time to publish a new version of the website, change to the `main` git branch and run the script `./publish-website.sh`. It takes several options:
+By default, the template file for `docs/index.markdown` has the latest _version_ in a table near the top of the page and a table with the history of the versions near the bottom. Some websites have deleted this content or moved it elsewhere. We don't require you to include this information nor do we require that you update it according to any specific requirements, if you keep it. However, if you keep this information, you'll want to edit the current version in the following places:
 
-```shell
-> publish-website.sh -h
-publish-website.sh [-h|--help] [-n|--noop] [-v|--version V] [-t|--timestamp T]
-
-Where the options are the following:
--h | --help            Print this message and exit
--n | --noop            Just print the commands but don't make changes.
--v | --version V       Use version string "V", which should be of the format
-                       "X.Y.Z". Without this option the current value of
-                       "last_version" in _config.yml is extracted (e.g., 1.0.1)
-                       and the last digit is incremented.
--t | --timestamp "T"   Use this timestamp "T", which you'll need to quote on
-                       the command line, because it MUST be of the form
-                       "%Y-%m-%d %H:%M %z". Without this option, the current
-                       system time is used.
-```
-
-With no arguments, the current version string's last digit will be incremented. For example, if the current version is `1.2.3`, the new version with be `1.2.4`. _Please use this `X.Y.Z` format if you specify a new version explicitly._ The script doesn't check the format.
-
-The script _does_ check that a specified timestamp uses the correct format, but it should be rare that you would want to use any timestamp other than the current time, which is the default.
-
-Both strings are printed at the bottom of each page, e.g.:
-
-```
-Version: 1.0.1. Site last modified: Jun 5 2024 08:13 -0500.
-```
-
-> [!TIP]
-> Verify this worked! You should see the new version information in three places:
->
-> * `docs/config.yml`: `last_modified_timestamp` and `last_version`.
-> * `docs/index.markdown`: **Last Update** table row near the top, **Version History** near the bottom.
-`
+* `docs/config.yml`: Edit `last_modified_timestamp` and `last_version`.
+* `docs/index.markdown` and possible other files, like `docs/about.markdown`: Find and update **Last Update**, which by default is in a table near the top of `docs/index.markdown`, and add the new version to the **Version History** table, which by default is near the bottom of `docs/index.markdown`.
 
 ## Editing Conventions and Tips
 
@@ -123,10 +92,12 @@ For _external_ links (those that start with `http` or `https`), add `{:target="_
 
 While tedious this provides a better experience for users of the website.
 
-Furthermore, as a visual clue to the user, [our stylesheet](https://github.com/The-AI-Alliance/REPO_NAME/blob/main/docs/_includes/css/custom.scss.liquid) is configured to put little up-and-to-the-right arrows after every external link. This provides a visual clue that a new tab will be opened.
+> **TIP:** Use the script `check-external-links.sh` to find missing targets.
+
+Furthermore, as a visual clue to the user, [our stylesheet](https://github.com/The-AI-Alliance/REPO_NAME/blob/main/docs/_includes/css/custom.scss.liquid) is configured to put little up-and-to-the-right arrows after every external link. This provides a visual cue that a new tab will be opened.
 
 > [!NOTE]
-> There is one flaw with using `_blank` everywhere. While Chrome and Safari open a new tab for every URL clicked, Firefox creates one new tab and opens all the URLs in that tab. If you care about this flaw, you'll have to use unique values for all the `targets`.
+> There is one flaw with using `_blank` everywhere. While Chrome and Safari open a new tab for every URL clicked, Firefox creates one new tab and opens all the URLs in that _one_ tab. If you care about this flaw, you'll have to use unique values for all the `targets`.
 
 Unfortunately, we could avoid explicitly adding `target="_blank"` everywhere _if_ we could use the [`jekyll-target-blank` plugin](https://github.com/keithmifsud/jekyll-target-blank), which effectively adds `target="_blank"` to every anchor tag automatically. Unfortunately, GitHub Pages currently don't support this plugin. 😖 😢
 
@@ -290,6 +261,6 @@ gem list | grep jekyll
 
 ### Configuring GitHub Pages in the Repo Settings
 
-This section documents the one-time settings changes we did to [configure publication of our GitHub Pages](https://docs.github.com/en/enterprise-server@3.1/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site). We changed the desired branch to use, `latest`, rather than the default `main` branch, and we specified the directory for the website pages, `docs`. This only needs to be done if and when the branch or directory location is changed.
+This section documents the one-time settings necessary to [configure publication of a repo's GitHub Pages](https://docs.github.com/en/enterprise-server@3.1/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site). 
 
-In the repo's [_Settings > Pages_ section](https://github.com/The-AI-Alliance/REPO_NAME/settings/pages), set the branch to be `latest` and the folder to be `/docs`. The reason for using `latest` rather than `main`, is to allow small change PRs to be made without affecting what is published until we decide to publish an update.
+In the repo's [_Settings > Pages_ section](https://github.com/The-AI-Alliance/REPO_NAME/settings/pages), use the menu to select the branch from which you want to publish the website. By default, we assume `main` is the desired branch, so pick that. However, if you want to use a different branch, i.e., `latest` or another one you specified when running `finish-microsite.sh`, then select it. Finally, select the `docs` folder in the dropdown menu to the right, which is the root folder for the pages.

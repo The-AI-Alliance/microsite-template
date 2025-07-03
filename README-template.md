@@ -11,11 +11,11 @@ These are the main steps, with details below:
 1. Modify the "header buttons" in `docs/includes/header_buttons_custom.html`to be what you want to appear at the top of each page. See the [OTDI](https://the-ai-alliance.github.io/open-trusted-data-initiative/) site for an example customization. Or if you don't want any buttons, delete the contents of that file (but don't delete the file...).
 1. Add your initial custom content for the pages in the `docs` directory.
 1. Add your initial custom content to the `README.md` in the repo.
-1. Merge changes to the `latest` branch and push both branches upstream.
+1. **If** you plan to publish the website from the `latest` branch, merge changes to that branch from `main`, commit the changes, and push both branches upstream.
 1. Edit the repo's _Settings_. 
   1. On the repo's home page in GitHub, click the _Settings_ "gear" on the upper right-hand side. 
   1. Scroll down to _Features_ and click _Discussions_ to enable them (unless you don't want them; in this case, remove the URL on the `docs/contributing.markdown` page!).
-  1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `latest` branch, then select the `/docs` directory.
+  1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `main` or `latest` branch depending on which one you want to use, then select the `/docs` directory.
 1. Add the website to the Alliance GitHub organization [landing page](https://github.com/The-AI-Alliance/) and the Alliance GitHub [website](https://the-ai-alliance.github.io/#the-ai-alliance-projects).
 1. Delete this file, `README-template.md`, and `finish-microsite.sh` from both branches!
 
@@ -58,6 +58,7 @@ Referring to a focus area by number or `FA#`, (e.g., `2`, `fa2`, `FA2`, `Fa2`, o
 > [!NOTE]
 > 1. Run the script with `zsh`, **_not_** `bash`.
 > 2. To see the current list of required arguments and optional argument, run the script with the `--help` flag.
+> 3. By default, the website will be published from the `main` branch. If you prefer to use a different branch, we have used `latest` as a convention for most of the microsites. In this case, add the flag `--use-latest`. If you prefer to use a different branch, use `--publish-branch BRANCH`.
 
 > [!WARN]
 > After running the script, your changes are only in your local repo, not pushed upstream. We'll fix that in step 5 below.
@@ -87,10 +88,12 @@ For more tips and guidance on development tasks, see also the links for more inf
 
 The `README.md` contains useful _boilerplate_ for contributors, but the preamble at the beginning should be customized with useful "welcome" information about the project.
 
-### 6. Merge changes to the `latest` branch and push both branches upstream.
+### 6. Merge changes to the `latest` (or another) branch and push both branches upstream.
+
+By default, the website is published from the `main` branch, for convenience. However, if you choose to use the `latest` branch or another branch (see above), follow these instructions.
 
 > [!NOTE]
-> If you are creating a repo for code, not a microsite, delete the `latest` branch:
+> If you are creating a repo for code, not a microsite, you can delete the `latest` branch:
 >
 > ```shell
 > git br -D latest
@@ -98,7 +101,7 @@ The `README.md` contains useful _boilerplate_ for contributors, but the preamble
 >
 > Also delete the upstream branch in the GitHub page for your repo. Then skip to the next step.
 
-As discussed in [`GITHUB_PAGES.md`](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/blob/main/GITHUB_PAGES.md), by default we publish the "microsite" from the `latest` branch, using `main` as the pre-publishing integration branch. Assuming you made all the edits above on the `main` branch, merge them to `latest`.
+As discussed in [`GITHUB_PAGES.md`](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/blob/main/GITHUB_PAGES.md), by default we publish the "microsite" from the `main` branch, but previously our convention was to use the `latest` branch for publishing and restrict the `main` to be the pre-publishing "work" branch. Assuming you made custom edits above on the `main` branch, merge them to `latest`. If you are using a different publishing branch, change `latest` accordingly:
 
 ```shell
 git checkout latest
@@ -111,7 +114,7 @@ Now push all updates upstream:
 git push --all
 ```
 
-Adding `--all` pushes the `main` and `latest` branches upstream.
+Adding `--all` pushes the commmits on all the local branches upstream.
 
 ### 7. Edit the repo's _Settings_. 
 
@@ -128,7 +131,7 @@ Click the _Set up discussions_ button and edit the first discussion topic to tas
 > [!NOTE]
 > If you are creating a repo for code, not a microsite, ignore this section.
 
-On the left-hand side of the _Settings_, click the link for _Pages_. Under _Branch_, select the `latest` branch, then select the `/docs` directory. Finally, click _Save_.
+On the left-hand side of the _Settings_, click the link for _Pages_. Under _Branch_, select your publication branch, either `main`, `latest`, or a custom branch you specified above. Then select the `/docs` directory and finally, click _Save_.
 
 Your website should be published after a few minutes to https://the-ai-alliance.github.io/REPO_NAME/.
 
@@ -159,10 +162,10 @@ These two files are no longer needed, so you can remove them from your repo:
 git rm README-template.md finish-microsite.sh
 ```
 
-If you are building a microsite, so you have the `latest` branch, merge this change to it, too:
+If you are building a microsite and if you are using a separate publishing branch, like `latest`, then merge this change to it, too:
 
 ```shell
-git checkout latest
+git checkout latest  # or another branch...
 git merge main
 ```
 

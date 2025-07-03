@@ -14,7 +14,7 @@ dir=$(dirname $script)
 cfg="$dir/docs/_config.yml"
 index="$dir/docs/index.markdown"
 work_branch=main
-publish_branch=latest
+publish_branch=main
 fa_max_number=6  # FAs numbered from 1 to max_...
 focus_areas_url="https://thealliance.ai/focus-areas"
 
@@ -46,7 +46,7 @@ fa_dashboard_numbers[FA6]=
 declare -A fa_assignees
 fa_assignees[FA1]=
 fa_assignees[FA2]="deanwampler,bnayahu"
-fa_assignees[FA3]="adampingel,rawkintrevo,jolson-ibm"
+fa_assignees[FA3]="adampingel,rawkintrevo"
 fa_assignees[FA4]="deanwampler"
 fa_assignees[FA5]="deanwampler,hughesthe1st,jolson-ibm"
 fa_assignees[FA6]="pasanth"
@@ -89,6 +89,16 @@ These arguments are optional:
                        (At this time, this is only used in the ".github/*TEMPLATE" files.)
 -a | --assignees list  Comma-separated list of GitHub user names to whom issues are assigned.
                        E.g., "--assignees bob,ted". Default: Each FA has a default list.
+--use-latest           By default, this script previously assumed that you would publish
+                       the website from the "latest" branch, while using "main" for integration.
+                       This is difficult for less-technical users. Now the default is to use 
+                       "main", but if you prefer to use "latest" as the publish branch, use
+                       this option. See also "--publish-branch BR".
+--publish-branch BR    Instead of publishing from "main" (or "latest"; see "--use-latest"),
+                       set up "BR" as the branch used for publishing the website.
+--no-push              Normally, all edits are pushed upstream to the GitHub repo. Use this option
+                       skip that step, for example if your plan to make additional edits first or
+                       when debugging this script!! ;)
 
 For example, suppose you want to create a microsite with the title "AI for Evil Project",
 under the Trust and Safety work group, then use one of the following commands:
@@ -113,6 +123,8 @@ NOTE: The title and work group strings need to be quoted if they contain spaces!
 EOF
 }
 
+repo_name=
+
 next_steps() {
 	cat << EOF
 
@@ -120,7 +132,11 @@ Next Steps:
 
 Return to the README-template for any additional instructions to follow:
 
-  https://github.com/The-AI-Alliance/microsite-template/blob/main/README-template.md
+  local:  README-template.md
+  GitHub: https://github.com/The-AI-Alliance/$repo_name/blob/main/README-template.md
+
+Don't forgot to commit and push any subsequent changes upstream, e.g., "git push --all".
+You also need to do this if you used the "--no-push" option.
 
 To see these instructions again, run the following command:
 
@@ -148,6 +164,8 @@ repo_dir=
 work_group_url=
 dashboard=
 assignees=
+do_push=true
+show_next_steps=false
 while [[ $# -gt 0 ]]
 do
 	case $1 in
@@ -159,8 +177,7 @@ do
 			NOOP=echo
 			;;
 		-s|--next-steps)
-			next_steps
-			exit 0
+			show_next_steps=true
 			;;
 		-r|--repo-name)
 			shift
@@ -214,6 +231,20 @@ do
 			shift
 			assignees="$1"
 			;;
+		--use-latest)
+			publish_branch="latest"
+			;;
+		--publish-branch)
+			shift
+			publish_branch="$1"
+			;;
+		-a|--assignees)
+			shift
+			assignees="$1"
+			;;
+		--no-push)
+			do_push=false
+			;;
 		*)
 			error "Unrecognized argument: $1"
 			;;
@@ -222,6 +253,8 @@ do
 done
 
 [[ -z "$repo_name" ]] && repo_name=$(basename $PWD)
+
+$show_next_steps && next_steps && exit 0
 
 missing=()
 [[ -z "$microsite_title" ]] && missing+=("The microsite title is required. ")
@@ -236,10 +269,14 @@ info "  Title:                  $microsite_title"
 info "  Work group:             $work_group"
 [[ -n "$work_group_url" ]] && \
   info "  Work group URL:         $work_group_url"
+info "  GitHub:"
 [[ -n "$dashboard" ]] && \
-  info "  GitHub Dashboard:       $dashboard"
+  info "    Dashboard:            $dashboard"
 [[ -n "$assignees" ]] && \
-  info "  GitHub Issue assignees: $assignees"
+  info "    Issue assignees:      $assignees"
+info "    Work branch:          $work_branch"
+info "    Publishing branch:    $publish_branch"
+info "    Pushing changes to GitHub? $do_push"
 
 info "Replacing macro placeholders with values:"
 [[ -z "$ymdtimestamp" ]] && ymdtimestamp=$(date +"$ymdformat")
@@ -295,25 +332,44 @@ done
 info "Delete the backup '*.back' files that were just made."
 $NOOP find . -name '*.back' -exec rm {} \;
 
-info "Committing changes to the main branch."
+if [[ $work_branch = $publish_branch ]]
+then
+	info "You are publishing the website from the work branch: $work_branch."
+	info "Deleting the update-main.sh script, which you don't need."
+	git rm update-main.sh
+fi
+
+info "Committing changes to the work branch: $work_branch."
 # Use --no-verify to suppress complaints and nonzero exit when
 # there is nothing to commit.
 $NOOP git commit --no-verify -m "$0: Committing changes after variable substitution." .
 
-exists=$(git br -a | grep latest | wc -l)
-if [[ $exists -eq 0 ]]
+if [[ $work_branch != $publish_branch ]]
 then
-	info "Create a 'latest' branch, from which the pages will be published."
-	$NOOP git checkout -b latest
-else
-	info "Merge the changes to the 'latest' branch, from which the pages will be published."
-	$NOOP git checkout latest
-	$NOOP git merge main
-	$NOOP git commit --no-verify -m 'update publication branch, latest, from main branch' .
+	exists=$(git br -a | grep $publish_branch | wc -l)
+	if [[ $exists -eq 0 ]]
+	then
+		info "Create a $publish_branch branch, from which the website will be published."
+		$NOOP git checkout -b $publish_branch
+	else
+		info "Merge the changes to the '$publish_branch' branch, from which the website will be published."
+		$NOOP git checkout $publish_branch
+		$NOOP git merge main
+		$NOOP git commit --no-verify -m "$0: Updating the publication branch, $publish_branch, from the work branch, $work_branch" .
+	fi
+
+	info "Switching back to the $work_branch branch."
+	$NOOP git checkout $work_branch
 fi
 
-info "Switching back to the main branch."
-$NOOP git checkout main
+if $do_push
+then 
+	info "Pushing all changes upstream to the GitHub repo."
+	$NOOP git push --all
+else
+	info "You used the --no-push option; changes are not NOT pushed upstream to the GitHub repo!"
+	info "You will need to run 'git push --all' yourself!"
+fi
 
 info "Done! The current working directory is $PWD."
 next_steps
