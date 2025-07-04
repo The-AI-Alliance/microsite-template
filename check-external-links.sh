@@ -81,7 +81,7 @@ do
 	$eg -nHoR '\(https?[^)]+\)(\S*)' \
 		--include '*.markdown' --include '*.md' \
 		--exclude-dir '_site' --exclude-dir '_sass' \
-		$path | $eg -v target
+		$path | $eg -v 'target='
 done
 
 [[ -n "$VERBOSE" ]] && echo "Checking HTML files:"
@@ -92,8 +92,8 @@ do
 		dir=$([[ -d "$path" ]] && echo "(directory)")
 		echo "$path $dir"
 	fi
-	$eg -nHoR '<a\s*href="https?[^>]+' \
+	$eg -nHoR '<a\s*href="https?[^>]+>' \
 		--include '*.html' \
 		--exclude-dir '_site' --exclude-dir '_sass' \
-		$path | $eg -v target
+		$path | $eg -v 'target='
 done
