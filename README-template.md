@@ -8,7 +8,7 @@ These are the main steps, with details below:
 
 1. Create your repo from the [this template repo](https://github.com/The-AI-Alliance/microsite-template).
 1. Convert placeholder _variables_ to the correct values, using the [`finish-microsite.sh`](https://github.com/The-AI-Alliance/microsite-template/blob/main/finish-microsite.sh) script.
-1. Modify the "header buttons" in `docs/includes/header_buttons_custom.html`to be what you want to appear at the top of each page. See the [OTDI](https://the-ai-alliance.github.io/open-trusted-data-initiative/) site for an example customization. Or if you don't want any buttons, delete the contents of that file (but don't delete the file...).
+1. Modify the "header buttons" in `docs/_includes/header_buttons_custom.html`to be what you want to appear at the top of each page. See the [OTDI](https://the-ai-alliance.github.io/open-trusted-data-initiative/) site for an example customization. Or if you don't want any buttons, delete the contents of that file (but don't delete the file...).
 1. Add your initial custom content for the pages in the `docs` directory.
 1. Add your initial custom content to the `README.md` in the repo.
 1. **If** you plan to publish the website from the `latest` branch, merge changes to that branch from `main`, commit the changes, and push both branches upstream.
