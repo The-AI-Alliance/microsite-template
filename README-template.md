@@ -61,7 +61,7 @@ Referring to a focus area by number or `FA#`, (e.g., `2`, `fa2`, `FA2`, `Fa2`, o
 > 3. By default, the website will be published from the `main` branch. If you prefer to use a different branch, we have used `latest` as a convention for most of the microsites. In this case, add the flag `--use-latest`. If you prefer to use a different branch, use `--publish-branch BRANCH`.
 
 > [!WARNING]
-> After running the script, your changes are only in your local repo, not pushed upstream. We'll fix that in step 5 below.
+> The script pushes the changes from the local repo to the upstream repo in GitHub. If you don't want to do that, add the option `--no-push`.
 
 ### 3. Edit the website buttons.
 
