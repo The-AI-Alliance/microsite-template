@@ -89,7 +89,7 @@ Most of the time, it is sufficient to use a focus area as the work group, in whi
 
 There are purple "header buttons" that appear on all pages in the website. You can see examples in existing websites, e.g., [OTDI](https://the-ai-alliance.github.io/open-trusted-data-initiative/). The buttons are defined as HTML _anchor_ tags (`<a href="...">...</a>`) in the file `docs/_includes/header_buttons_custom.html`. 
 
-Edit this file to define buttons that work for you. ([OTDI](https://the-ai-alliance.github.io/open-trusted-data-initiative/ is an example of customization.) Or if you don't want any buttons, delete the contents of that file, but _don't delete the file_.
+Edit this file to define buttons that work for you. If you don't want any buttons, delete the contents of the file, but _don't delete the file_.
 
 ### 4. Add your initial custom content for the pages in the `docs` directory.
 
@@ -113,7 +113,7 @@ The `README.md` contains useful _boilerplate_ for contributors, but the preamble
 
 ### 6. Merge changes to the `latest` (or another) branch.
 
-By default, the website is published from the `main` branch, for convenience. However, if you choose to use the `latest` branch or another branch (see above), you'll need to merge the changes in `main` to that branch. We won't provide instructions here, as this is a standard developer practice. However, ask one of the developers on the team for help if needed.
+By default, the website is published from the `main` branch, for convenience. However, if you chose to use the `latest` branch or another branch (see step 2. above), you'll need to merge the changes in `main` to that branch. We won't provide instructions here, as this is a standard developer practice. However, ask one of the developers on the team for help if needed.
 
 ### 7. Edit the repo's _Settings_. 
 
@@ -143,18 +143,18 @@ On the left-hand side, click the link for _Secrets and variables_ > _Actions_. I
 > [!NOTE]
 > This step applies for code repos, not just documentation repos.
 
-Add the website to the Alliance GitHub organization [landing page](https://github.com/The-AI-Alliance/) and the Alliance GitHub Pages [website](https://the-ai-alliance.github.io/#the-ai-alliance-projects).
+Add the website to the Alliance GitHub organization [README](https://github.com/The-AI-Alliance/) and the Alliance GitHub Pages [website](https://the-ai-alliance.github.io/#the-ai-alliance-projects).
 
 When you are ready for broader exposure for your site, there are a few places where we have an index to all the &ldquo;microsites&rdquo;. Add your site in the table shown in each of the following locations. Note how the rows are grouped by focus area. Your new entry will go in the table with the other projects/initiatives for your focus area.
 
-* https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md
-* https://github.com/The-AI-Alliance/the-ai-alliance.github.io/blob/main/docs/index.markdown
+* [https://github.com/The-AI-Alliance/](https://github.com/The-AI-Alliance/) (`README.md` [direct link](https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md))
+* [https://the-ai-alliance.github.io/](https://the-ai-alliance.github.io/) (`index.markdown` [direct link](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/blob/main/docs/index.markdown))
 
-You only need to edit the first file, the [`README.md`](https://github.com/The-AI-Alliance/). It is shown on [github.com/The-AI-Alliance/](https://github.com/The-AI-Alliance/), so you can just click the pencil icon to edit the file. After editing this file, notify Dean Wampler, who will run a tool that copies the change to the other location.
+You only need to edit the first file, the [`README.md`](https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md). After editing this file, notify Dean Wampler, who will run a tool that copies the change to the other location.
 
 Finally, talk to your focus area leaders about updating the main [AI Alliance website](https://thealliance.ai) with information about your project site.
 
-### 9. Delete this file, `README-template.md`, and `finish-microsite.sh` from both branches!
+### 9. Delete this file, `README-template.md`, and `finish-microsite.sh`
 
 These two files are no longer needed, so you can remove them from your repo. Select each one in the GitHub UI and click the `...` menu on the upper right-hand side, then select _Delete file_.
 
