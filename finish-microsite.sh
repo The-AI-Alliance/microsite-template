@@ -5,7 +5,6 @@
 # Note: This file defaults to use zsh. If you don't have zsh, but you
 # DO have bash v5+, then use /path/to/bash finish-microsite.sh.
 #------------------------------------------------------------------------
-set -e
 
 ymdformat="%Y-%m-%d"
 tsformat="$ymdformat %H:%M %z"
@@ -153,10 +152,17 @@ error() {
 	exit 1
 }
 
+warn() {
+	for arg in "$@"
+	do
+		echo "WARN  ($script): $arg"
+	done
+}
+
 info() {
 	for arg in "$@"
 	do
-		echo "INFO ($script): $arg"
+		echo "INFO  ($script): $arg"
 	done
 }
 
@@ -290,8 +296,7 @@ date -j -f "$tsformat" +"$tsformat" "$timestamp" > /dev/null 2>&1
 
 other_files=(
 	Makefile
-	publish-website.sh
-	update-main.sh
+	*.sh
 	docs/_config.yml
 )
 markdown_files=($(find docs -name '*.markdown') $(find . -name '*.md'))
@@ -366,10 +371,12 @@ if $do_push
 then 
 	info "Pushing all changes upstream to the GitHub repo."
 	$NOOP git push --all
+	[[ $status -eq 0 ]] || warn "I could not push the changes back to GitHub." "Try 'git push -all' yourself." "If that doesn't work, talk one of the Alliance engineers for help."
 else
 	info "You used the --no-push option; changes are not NOT pushed upstream to the GitHub repo!"
 	info "You will need to run 'git push --all' yourself!"
 fi
 
+echo
 info "Done! The current working directory is $PWD."
 next_steps
