@@ -32,7 +32,7 @@ Pick a name for your new repo and follow [these GitHub instructions](https://doc
 
 After step 1., your repo will have placeholder values for the project name, etc. Next, change to the repo root directory and run the script [`finish-microsite.sh`](https://github.com/The-AI-Alliance/microsite-template/blob/main/finish-microsite.sh) to replace the placeholder _variables_ with appropriate strings for your project.
 
-> [!WARN]
+> [!WARNING]
 > The `finish-microsite.sh` script uses `zsh`. If you don't have `zsh` available, then use `bash` version 5 or later, e.g., `bash finish-microsite.sh ...`.
 
 At the time of this writing, here are the required arguments shown with example values for a repo named `ai-for-evil-project` under the auspices of the _Trust and Safety_ focus area work group:
