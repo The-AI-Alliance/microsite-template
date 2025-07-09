@@ -20,7 +20,8 @@ These are the main steps, with details below:
   1. Scroll down to _Features_ and click _Discussions_ to enable them (unless you don't want them; in this case, remove the URL on the `docs/contributing.markdown` page!).
   1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `main` or `latest` branch depending on which one you want to use, then select the `/docs` directory.
   1. On the left-hand side, click the link for _Secrets and variables_ > _Actions_. In the center of the page, make sure the _Secrets_ tab is selected, then click the _New repository secret_ green button and enter five secrets needed for metrics collection. Ask Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), Joe Olson ([email](mailto:Joe.Olson@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06LFUAM5HN)), or Trevor Grant ([email](mailto:trevor.grant@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06KCJ31771)) for the list of secrets and the values to use. 
-1. Add the website in the appropriate location on the Alliance GitHub organization [README](https://github.com/The-AI-Alliance/) and the Alliance GitHub [website](https://the-ai-alliance.github.io/#the-ai-alliance-projects).
+1. Create a _Project_ to track your work. Click the _Project_ tab in the repo GitHub page and then either click the _+ New project+_ button or if you want your project to join an existing dashboard, click the _Link a project_ button and find the correct project.
+1. Add the website in the appropriate location on the Alliance GitHub organization [README](https://github.com/The-AI-Alliance/) and the Alliance GitHub [website](https://the-ai-alliance.github.io/#the-ai-alliance-projects). 
 1. Delete the files `README-template.md`, `finish-microsite.sh`, and any of the `LICENSE.*` files that don't apply to your project.
 1. Final steps.
 
@@ -138,7 +139,11 @@ Your website should be published after a few minutes to https://the-ai-alliance.
 
 On the left-hand side, click the link for _Secrets and variables_ > _Actions_. In the center of the page, make sure the _Secrets_ tab is selected, then click the _New repository secret_ green button and enter five secrets needed for metrics collection. (You'll will click the button once per secret...) Ask Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), Joe Olson ([email](mailto:Joe.Olson@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06LFUAM5HN)), or Trevor Grant ([email](mailto:trevor.grant@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06KCJ31771)) for the list of secrets and the values to use. 
 
-### 8. Add your website to the Alliance GitHub organization page and the Alliance website.
+### 8. Create a _Project_ to track your work. 
+
+Click the _Project_ tab in the repo GitHub page and then either click the _+ New project+_ button or if you want your project to join an existing dashboard, click the _Link a project_ button and find the correct project. If you use an existing project, consider creating a custom label for the issues associated with your project. In either case, note the URL; you'll need it for the next step.
+
+### 9. Add your website to the Alliance GitHub organization page and the Alliance website.
 
 > [!NOTE]
 > This step applies for code repos, not just documentation repos.
@@ -154,7 +159,7 @@ You only need to edit the first file, the [`README.md`](https://github.com/The-A
 
 Finally, talk to your focus area leaders about updating the main [AI Alliance website](https://thealliance.ai) with information about your project site.
 
-### 9. Delete the files `README-template.md`, `finish-microsite.sh`, and any of the `LICENSE.*` files that don't apply to your project.
+### 10. Delete the files `README-template.md`, `finish-microsite.sh`, and any of the `LICENSE.*` files that don't apply to your project.
 
 The first two files,`README-template.md` and `finish-microsite.sh`,  are no longer needed, so you can remove them from your repo. Select each one in the GitHub UI and click the `...` menu on the upper right-hand side, then select _Delete file_.
 
@@ -164,7 +169,7 @@ Similarly, you may not need all three `LICENSE.*` files:
 * `LICENSE.CC-BY-4.0`: Recommended for documentation.
 * `LICENSE.CDLA-2.0`: Recommended for datasets.
 
-### 10. Final steps.
+### 11. Final steps.
 
 If you are using a separate publication branch, e.g., `latest`, don't forget to merge all changes from `main` to the branch and push both branches upstream, e.g., `git push --all`.
 
