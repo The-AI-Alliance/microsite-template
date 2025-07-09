@@ -47,11 +47,30 @@ See [these GitHub instructions](https://docs.github.com/en/repositories/creating
 > [!NOTE]
 > This step is the only one where you need to work locally on your laptop, vs. working through the GitHub UI. It won't be feasible on Windows machines. If you have any problems doing this step, ask Dean Wampler for help.
 
-If you are using this repo for a website, all the website content is under the `docs` directory. However, the script also edits the top-level `README.md` and possibly other files.
+Now you have to use the `git` command-line tool, which is built into MacOS, to _clone_ your repo locally and run a script that replaces placeholder _variables_ with the values that are correct for your repo.
+
+Open the `terminal` application. It will show a command prompt at your home directory, e.g., `/Users/deanwampler` for Dean Wampler.
+
+Type in the following command for your repo. Again, I'll use `ai-for-evil-project` as the repo name:
+
+```shell
+git clone https://github.com/The-AI-Alliance/ai-for-evil-project.git
+cd ai-for-evil-project
+```
+
+Here `cd` is the _change directory_ command that changes your current working directory to be the root directory of the repo you just cloned.
+
+Now, if you are using this repo for a website, all the website content is under the `docs` directory. However, the script also edits the top-level `README.md`, `Makefile`, and possibly other files.
 
 Your new repo will have placeholder values for the project name, associated focus area, etc. We'll fix those values using the "shell" script [`finish-microsite.sh`](https://github.com/The-AI-Alliance/microsite-template/blob/main/finish-microsite.sh), which replaces the placeholder _variables_ with appropriate strings for your project.
 
-At the time of this writing, here are the required arguments shown with example values for a repo named `ai-for-evil-project` under the auspices of the _Trust and Safety_ focus area work group:
+If you run the script without any arguments, it will prompt you for all the values. There are a lot of them, but only the first few values require your input; default values are shown for all the others, which are usually sufficient:
+
+```shell
+./finish-microsite.sh 
+```
+
+You can also specify the required arguments directly, which is faster if you know what to use. Let's use example values for the same repo named `ai-for-evil-project`, and assume it is part of the _Trust and Safety_ focus area work group:
 
 ```shell
 ./finish-microsite.sh \
@@ -62,7 +81,7 @@ At the time of this writing, here are the required arguments shown with example 
 > [!NOTE]
 > The title has to be in quotes, since it has nested white space.
 
-A custom work group name can be specified, along with a corresponding argument for its URL, `--work-group-url`.
+A custom work group name can be specified, along with a corresponding argument for its URL, `--work-group-url URL`.
 
 Most of the time, it is sufficient to use a focus area as the work group, in which case you can simply specify a number or `FA#` string, e.g., `2` or `FA2` (case ignored) for _trust and safety_. The value specified is expanded as follows:
 
@@ -78,15 +97,15 @@ Most of the time, it is sufficient to use a focus area as the work group, in whi
 > [!NOTE]
 > 1. The script will try to use `zsh`. If you don't have `zsh`, but you have `bash` V5 or later, then use `bash ./finish-microsite.sh ...`
 > 2. To see the current list of required and optional arguments, run the script with the `--help` flag.
-> 3. By default, the website will be published from the `main` branch. If you prefer to use a different branch, we have used `latest` as a convention for most of the microsites. In this case, add the flag `--use-latest`. If you prefer to use a different branch, use `--publish-branch BRANCH`.
+> 3. By default, the website will be published from the `main` branch. If you prefer to use a different branch, we have used `latest` as a convention for most of the microsites. In this case, add the flag `--use-latest`. If you prefer to use a different branch name `BRANCH`, use `--publish-branch BRANCH`.
 
 > [!WARNING]
-> The script pushes the changes from the local repo to the upstream repo in GitHub. If you don't want to do that, preferring to push changes upstream later, then add the option `--no-push`. Pushing upstream may fail depending on how your personal GitHub account is configured, etc. Talk to Dean Wampler if you have problems here.
+> After the script makes changes, it pushes them from the local repo to the upstream repo in GitHub. If you don't want to do that, preferring to push changes upstream later, then add the option `--no-push`. Pushing upstream may fail depending on how your personal GitHub account is configured, etc. Talk to Dean Wampler if you have problems here.
 
 ### 3. Edit the website buttons.
 
 > [!NOTE]
-> At this point, all the subsequent steps can be done on the GitHub UI for your repo.
+> From this point forward, all the subsequent steps can be done on the GitHub UI for your repo.
 
 There are purple "header buttons" that appear on all pages in the website. You can see examples in existing websites, e.g., [OTDI](https://the-ai-alliance.github.io/open-trusted-data-initiative/). The buttons are defined as HTML _anchor_ tags (`<a href="...">...</a>`) in the file `docs/_includes/header_buttons_custom.html`. 
 
