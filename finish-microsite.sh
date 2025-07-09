@@ -50,6 +50,15 @@ fa_assignees[FA4]="deanwampler"
 fa_assignees[FA5]="deanwampler,hughesthe1st,jolson-ibm"
 fa_assignees[FA6]="pasanth"
 
+print_fa_table () {
+	for i in {1..$fa_max_number}
+	do
+		# By "coincidence" it works to use the $focus_areas_url as a prefix!
+		printf "%d or FA%d -> %-30s (URL: %s)\n" $i $i "${fa_names[FA$i]}" "${focus_areas_url}/${fa_url_names[FA$i]}"
+	done
+	print "Or enter a custom name."
+}
+
 help() {
 	cat << EOF
 $script [options] \
@@ -72,15 +81,15 @@ These arguments are optional:
                        this information again, run this script again just using this flag.
 -r | --repo-name name  The name of GitHub repo. If you are running this script in the
                        repo's root directory, its name will be used, by default.
+--repo-dir dir         The absolute path to the repo root directory or the relative
+                       path from the current directory. Only needed when you aren't
+                       running this script in the repo root directory.
 --work-group-url | -u work_group_url
                        The URL of the work group sponsoring this site.
                        If one of the "FA#" or "#" arguments is used for --work-group (see below),
                        then a known URL will be used. If the URL isn't known for the
                        specified workgroup and one isn't specified, the default URL for
                        focus areas will be used: $focus_areas_url
---repo-dir dir         The absolute path to the repo root directory or the relative
-                       path from the current directory. Only needed when you aren't
-                       running this script in the repo root directory.
 -d | --dashboard N     The "N" for the ${dashboard_base}/N link
                        to use for the project's dashboard. Projects in FA2, FA3, and FA5 have
                        default values. If not provided and there is no default, so no dashboard
@@ -110,11 +119,7 @@ following names being used:
 
 EOF
 
-for i in {1..$fa_max_number}
-do
-	# By "coincidence" it works to use the $focus_areas_url as a prefix!
-	printf "%d or FA%d -> %-30s (URL: %s)\n" $i $i "${fa_names[FA$i]}" "${focus_areas_url}/${fa_url_names[FA$i]}"
-done
+	print_fa_table
 
 	cat <<EOF
 
@@ -166,6 +171,28 @@ info() {
 	done
 }
 
+determine_wg_details() {
+	n=$(echo $1 | sed -e 's/fa//i')
+	if [[ $n -ge 1 ]] && [[ $n -le $fa_max_number ]]
+	then
+		# User input valid faN, FAN, fAN, FaN, or N within range.
+		dashboard_number=${fa_dashboard_numbers[FA$n]}
+		[[ -n $dashboard_number ]] && dashboard=${dashboard_base}/${fa_dashboard_numbers[FA$n]}
+		assignees=${fa_assignees[FA$n]}
+		work_group=${fa_names[FA$n]}
+		[[ -n $work_group_url ]] || work_group_url="${focus_areas_url}/${fa_url_names[FA$n]}"
+	elif [[ $n -lt 1 ]] || [[ $n -gt $fa_max_number ]]
+	then
+		# User input an invalid faN, FAN, fAN, FaN, or N, because the N is outside the range.
+		error "Unknown focus area specified: $1. Must be 1 to $fa_max_number or FA1 to FA$fa_max_number"
+	else
+		work_group="$1"
+		[[ -n $work_group_url ]] || work_group_url=$focus_areas_url
+	fi
+	# Hack: echo "$work_group" last, because it will have whitespace!
+	echo "$work_group_url" "$assignees" "$dashboard" "$work_group" 
+}
+
 repo_dir=
 work_group_url=
 dashboard=
@@ -199,23 +226,7 @@ do
 			;;
 		-w|--work-group)
 			shift
-			n=$(echo $1 | sed -e 's/fa//i')
-			if [[ $n -ge 1 ]] && [[ $n -le $fa_max_number ]]
-			then
-				# User input valid faN, FAN, fAN, FaN, or N within range.
-				dashboard_number=${fa_dashboard_numbers[FA$n]}
-				[[ -n $dashboard_number ]] && dashboard=${dashboard_base}/${fa_dashboard_numbers[FA$n]}
-				assignees=${fa_assignees[FA$n]}
-				work_group=${fa_names[FA$n]}
-				[[ -n $work_group_url ]] || work_group_url="${focus_areas_url}/${fa_url_names[FA$n]}"
-			elif [[ $n -lt 1 ]] || [[ $n -gt $fa_max_number ]]
-			then
-				# User input an invalid faN, FAN, fAN, FaN, or N, because the N is outside the range.
-				error "Unknown focus area specified: $1. Must be 1 to $fa_max_number or FA1 to FA$fa_max_number"
-			else
-				work_group="$1"
-				[[ -n $work_group_url ]] || work_group_url=$focus_areas_url
-			fi
+			determine_wg_details "$1" | read work_group_url assignees dashboard work_group
 			;;
 		-u|--work-group-url)
 			shift
@@ -262,6 +273,49 @@ done
 
 $show_next_steps && next_steps && exit 0
 
+
+get_value() {
+	current_value=$1
+	name=$2
+	non_empty_required=$3
+	additional_help_fn=$4
+	current=
+	[[ -n $current_value ]] && current="[$current_value] "
+	if [[ -n $additional_help_fn ]]
+	then
+		printf "Enter the $name:\n"
+		eval $additional_help_fn 
+	fi 1>&2
+
+	while true
+	do
+		printf "Enter the $name: $current" 1>&2
+		read value
+		if [[ -z $value ]] && [[ -n $current_value ]]
+		then
+			value=$current_value
+		fi
+		if [[ -n $value ]] || [[ -z $non_empty_required ]]
+		then
+			echo $value
+			return 0
+		fi
+	done
+}
+
+if [[ -z "$microsite_title" ]] || [[ -z "$work_group" ]] || [[ -z "$repo_name" ]]
+then
+	# Prompt the user for values:
+	echo "Prompting for the information I need."
+	echo "If a current value is shown in [...], just hit return to use it."
+	microsite_title=$(get_value "$microsite_title" "microsite title" true)
+	work_group_value=$(get_value "$work_group" "work group" true print_fa_table)
+	determine_wg_details "$work_group_value" | read work_group_url assignees dashboard work_group
+	repo_name=$(get_value "$repo_name" "repository name" true)
+	echo $repo_name
+	exit 0
+fi
+
 missing=()
 [[ -z "$microsite_title" ]] && missing+=("The microsite title is required. ")
 [[ -z "$work_group" ]] && missing+=("The work group name is required. ")
@@ -296,7 +350,6 @@ date -j -f "$tsformat" +"$tsformat" "$timestamp" > /dev/null 2>&1
 
 other_files=(
 	Makefile
-	*.sh
 	docs/_config.yml
 )
 markdown_files=($(find docs -name '*.markdown') $(find . -name '*.md'))
@@ -314,6 +367,8 @@ info "  YMD_TSTAMP:      $ymdtimestamp"
 info "  TIMESTAMP:       $timestamp"
 info
 info "Processing Files:"
+
+exit 0
 
 for file in "${other_files[@]}" "${markdown_files[@]}" "${html_files[@]}" "${github_files[@]}"
 do
