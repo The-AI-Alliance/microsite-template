@@ -17,6 +17,8 @@ publish_branch=main
 fa_max_number=6  # FAs numbered from 1 to max_...
 focus_areas_url="https://thealliance.ai/focus-areas"
 
+# WARNING: Make sure there is an entry for every key in the associative
+# arrays below. Otherwise, you'll trip over bugs...
 declare -A fa_names
 fa_names[FA1]="Skills and Education"
 fa_names[FA2]="Trust and Safety"
@@ -35,15 +37,15 @@ fa_url_names[FA6]=advocacy
 
 dashboard_base="The-AI-Alliance"
 declare -A fa_dashboard_numbers
-fa_dashboard_numbers[FA1]=
+fa_dashboard_numbers[FA1]=34
 fa_dashboard_numbers[FA2]=23
 fa_dashboard_numbers[FA3]=34
-fa_dashboard_numbers[FA4]=
+fa_dashboard_numbers[FA4]=34
 fa_dashboard_numbers[FA5]=28
-fa_dashboard_numbers[FA6]=
+fa_dashboard_numbers[FA6]=34
 
 declare -A fa_assignees
-fa_assignees[FA1]=
+fa_assignees[FA1]="deanwampler"
 fa_assignees[FA2]="deanwampler,bnayahu"
 fa_assignees[FA3]="adampingel,rawkintrevo"
 fa_assignees[FA4]="deanwampler"
@@ -81,9 +83,6 @@ These arguments are optional:
                        this information again, run this script again just using this flag.
 -r | --repo-name name  The name of GitHub repo. If you are running this script in the
                        repo's root directory, its name will be used, by default.
---repo-dir dir         The absolute path to the repo root directory or the relative
-                       path from the current directory. Only needed when you aren't
-                       running this script in the repo root directory.
 --work-group-url | -u work_group_url
                        The URL of the work group sponsoring this site.
                        If one of the "FA#" or "#" arguments is used for --work-group (see below),
@@ -111,8 +110,8 @@ These arguments are optional:
 For example, suppose you want to create a microsite with the title "AI for Evil Project",
 under the Trust and Safety work group, then use one of the following commands:
 
-$script --repo-name ai-for-evil-project --microsite-title "AI for Evil Project" --work-group fa2
-$script --repo-name ai-for-evil-project --microsite-title "AI for Evil Project" --work-group 2
+$script --microsite-title "AI for Evil Project" --work-group fa2
+$script --microsite-title "AI for Evil Project" --work-group 2
 
 Note that just specifying "2", "fa2" or "FA2", etc. for any of the focus areas will result in the
 following names being used:
@@ -171,13 +170,26 @@ info() {
 	done
 }
 
+determine_dashboard_details() {
+	n=$1
+	if [[ $n -ge 1 ]]
+	then
+		# User input valid number
+		dashboard=${dashboard_base}/$n
+	else
+		# User input a full URL (hopefully!)
+		dashboard="$n"
+	fi
+	echo $dashboard
+}
+
 determine_wg_details() {
 	n=$(echo $1 | sed -e 's/fa//i')
 	if [[ $n -ge 1 ]] && [[ $n -le $fa_max_number ]]
 	then
 		# User input valid faN, FAN, fAN, FaN, or N within range.
 		dashboard_number=${fa_dashboard_numbers[FA$n]}
-		[[ -n $dashboard_number ]] && dashboard=${dashboard_base}/${fa_dashboard_numbers[FA$n]}
+		dashboard=$(determine_dashboard_details $dashboard_number)
 		assignees=${fa_assignees[FA$n]}
 		work_group=${fa_names[FA$n]}
 		[[ -n $work_group_url ]] || work_group_url="${focus_areas_url}/${fa_url_names[FA$n]}"
@@ -193,7 +205,6 @@ determine_wg_details() {
 	echo "$work_group_url" "$assignees" "$dashboard" "$work_group" 
 }
 
-repo_dir=
 work_group_url=
 dashboard=
 assignees=
@@ -216,10 +227,6 @@ do
 			shift
 			repo_name="$1"
 			;;
-		--repo-dir)
-			shift
-			repo_dir="$1"
-			;;
 		-t|--site-title|--microsite-title)
 			shift
 			microsite_title="$1"
@@ -234,15 +241,7 @@ do
 			;;
 		-d|--dashboard)
 			shift
-			n=$1
-			if [[ $n -ge 1 ]]
-			then
-				# User input valid number
-				dashboard=${dashboard_base}/$n
-			else
-				# User input a full URL (hopefully!)
-				dashboard="$n"
-			fi
+			dashboard=$(determine_dashboard_details $1)
 			;;
 		-a|--assignees)
 			shift
@@ -276,20 +275,22 @@ $show_next_steps && next_steps && exit 0
 
 get_value() {
 	current_value=$1
-	name=$2
+	prompt=$2
 	non_empty_required=$3
 	additional_help_fn=$4
 	current=
 	[[ -n $current_value ]] && current="[$current_value] "
+	reqd=
+	[[ -n $non_empty_required ]] && reqd=" (required)"
 	if [[ -n $additional_help_fn ]]
 	then
-		printf "Enter the $name:\n"
+		printf "Enter the $prompt:\n"
 		eval $additional_help_fn 
 	fi 1>&2
 
 	while true
 	do
-		printf "Enter the $name: $current" 1>&2
+		printf "Enter the $prompt$reqd: $current" 1>&2
 		read value
 		if [[ -z $value ]] && [[ -n $current_value ]]
 		then
@@ -308,12 +309,17 @@ then
 	# Prompt the user for values:
 	echo "Prompting for the information I need."
 	echo "If a current value is shown in [...], just hit return to use it."
+	
 	microsite_title=$(get_value "$microsite_title" "microsite title" true)
-	work_group_value=$(get_value "$work_group" "work group" true print_fa_table)
+	work_group_value=$(get_value "$work_group" "work group name" true print_fa_table)
 	determine_wg_details "$work_group_value" | read work_group_url assignees dashboard work_group
+	work_group_url=$(get_value "$work_group_url" "work group URL")
 	repo_name=$(get_value "$repo_name" "repository name" true)
-	echo $repo_name
-	exit 0
+	work_branch=$(get_value "$work_branch" "work (integration) branch name" true)
+	publish_branch=$(get_value "$publish_branch" "website publication branch name" true)
+	dashboard=$(get_value "$dashboard" "project dashboard")
+	assignees=$(get_value "$assignees" "issue and PR assignees")
+	do_push=$(get_value "$do_push" "push changes to GitHub? Enter true or false")
 fi
 
 missing=()
@@ -321,32 +327,28 @@ missing=()
 [[ -z "$work_group" ]] && missing+=("The work group name is required. ")
 [[ ${#missing[@]} > 0 ]] && error "${missing[@]}"
 
-info "Updating data in the repo:"
-info "  Repo name:              $repo_name"
-[[ -n "$repo_dir" ]] && \
-  info "  Repo dir:               $repo_dir"
-info "  Title:                  $microsite_title"
-info "  Work group:             $work_group"
+info "New values for the repo:"
+info "  Repo name:                $repo_name"
+info "  Title:                    $microsite_title"
+info "  Work group:               $work_group"
 [[ -n "$work_group_url" ]] && \
-  info "  Work group URL:         $work_group_url"
+  info "  Work group URL:           $work_group_url"
 info "  GitHub:"
 [[ -n "$dashboard" ]] && \
-  info "    Dashboard:            $dashboard"
+  info "    Dashboard:              $dashboard"
 [[ -n "$assignees" ]] && \
-  info "    Issue assignees:      $assignees"
-info "    Work branch:          $work_branch"
-info "    Publishing branch:    $publish_branch"
-info "    Pushing changes to GitHub? $do_push"
+  info "    Issue assignees:        $assignees"
+info "    Work branch:            $work_branch"
+info "    Publishing branch:      $publish_branch"
+info "    Push changes to GitHub? $do_push"
 
-info "Replacing macro placeholders with values:"
+info "Replacing macro placeholders with the new values:"
 [[ -z "$ymdtimestamp" ]] && ymdtimestamp=$(date +"$ymdformat")
 date -j -f "$ymdformat" +"$ymdformat" "$ymdtimestamp" > /dev/null 2>&1
 [[ $? -ne 0 ]] && error "Invalid YMD timestamp format for timestamp: $ymdtimestamp" "Required format: $ymdformat"
 [[ -z "$timestamp" ]] && timestamp=$(date +"$tsformat")
 date -j -f "$tsformat" +"$tsformat" "$timestamp" > /dev/null 2>&1
 [[ $? -ne 0 ]] && error "Invalid timestamp format for timestamp: $timestamp" "Required format: $tsformat"
-
-[[ -n "$repo_dir" ]] && $NOOP cd "$repo_dir"
 
 other_files=(
 	Makefile
@@ -367,8 +369,6 @@ info "  YMD_TSTAMP:      $ymdtimestamp"
 info "  TIMESTAMP:       $timestamp"
 info
 info "Processing Files:"
-
-exit 0
 
 for file in "${other_files[@]}" "${markdown_files[@]}" "${html_files[@]}" "${github_files[@]}"
 do
@@ -396,7 +396,7 @@ if [[ $work_branch = $publish_branch ]]
 then
 	info "You are publishing the website from the work branch: $work_branch."
 	info "Deleting the update-main.sh script, which you don't need."
-	git rm update-main.sh
+	$NOOP git rm update-main.sh
 fi
 
 info "Committing changes to the work branch: $work_branch."
