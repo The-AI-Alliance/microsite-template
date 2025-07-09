@@ -296,7 +296,6 @@ date -j -f "$tsformat" +"$tsformat" "$timestamp" > /dev/null 2>&1
 
 other_files=(
 	Makefile
-	*.sh
 	docs/_config.yml
 )
 markdown_files=($(find docs -name '*.markdown') $(find . -name '*.md'))
