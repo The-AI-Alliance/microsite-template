@@ -10,10 +10,6 @@ TODO - Describe this project
 
 The rest of this README provides information for contributors, developers, and users of this project repo.
 
-## Quick Tip - View the Website Locally
-
-See [GITHUB_PAGES.md](GITHUB_PAGES.md) for information on viewing the site locally with `jekyll`.
-
 ## Getting Involved
 
 We welcome contributions as PRs. Please see our [Alliance community repo](https://github.com/The-AI-Alliance/community/) for general information about contributing to any of our projects. This section provides some specific details you need to know.
@@ -25,6 +21,10 @@ All _code_ contributions are licensed under the [Apache 2.0 LICENSE](https://git
 All _documentation_ contributions are licensed under the [Creative Commons Attribution 4.0 International](https://github.com/The-AI-Alliance/community/blob/main/LICENSE.CC-BY-4.0) (which is also in this repo, [LICENSE.CC-BY-4.0](LICENSE.CC-BY-4.0)).
 
 All _data_ contributions are licensed under the [Community Data License Agreement - Permissive - Version 2.0](https://github.com/The-AI-Alliance/community/blob/main/LICENSE.CDLA-2.0) (which is also in this repo, [LICENSE.CDLA-2.0](LICENSE.CDLA-2.0)).
+
+## Quick Tip - View the Website Locally
+
+See [GITHUB_PAGES.md](GITHUB_PAGES.md) for information on viewing the site locally with `jekyll`.
 
 ### We use the "Developer Certificate of Origin" (DCO).
 
