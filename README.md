@@ -22,7 +22,7 @@ All _documentation_ contributions are licensed under the [Creative Commons Attri
 
 All _data_ contributions are licensed under the [Community Data License Agreement - Permissive - Version 2.0](https://github.com/The-AI-Alliance/community/blob/main/LICENSE.CDLA-2.0) (which is also in this repo, [LICENSE.CDLA-2.0](LICENSE.CDLA-2.0)).
 
-## Quick Tip - View the Website Locally
+### Quick Tip - View the Website Locally
 
 See [GITHUB_PAGES.md](GITHUB_PAGES.md) for information on viewing the site locally with `jekyll`.
 
