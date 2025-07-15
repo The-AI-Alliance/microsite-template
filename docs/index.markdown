@@ -18,7 +18,7 @@ Please join us! See our [contributing]({{site.baseurl}}/contributing) page for d
 
 > **TODO:** This is a work-in-progress website for the MICROSITE_TITLE.
 
-> **NOTE:** The "boilerplate" text on this page mixes content you might want to use, as well as tips on writing Markdown. See also the comments in the source files.
+> **NOTE:** The "boilerplate" text on this page mixes content you might want to use, as well as tips on writing Markdown. See also the comments in the source files. Make sure you search for and change all TODOs on all the pages!
 
 TODO: add more "welcome" content for your site here...
 
