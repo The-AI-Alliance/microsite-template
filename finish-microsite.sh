@@ -284,13 +284,13 @@ get_value() {
 	[[ -n $non_empty_required ]] && reqd=" (required)"
 	if [[ -n $additional_help_fn ]]
 	then
-		printf "Enter the $prompt:\n"
+		printf "$prompt:\n"
 		eval $additional_help_fn 
 	fi 1>&2
 
 	while true
 	do
-		printf "Enter the $prompt$reqd: $current" 1>&2
+		printf "$prompt$reqd: $current" 1>&2
 		read value
 		if [[ -z $value ]] && [[ -n $current_value ]]
 		then
@@ -310,16 +310,16 @@ then
 	echo "Prompting for the information I need."
 	echo "If a current value is shown in [...], just hit return to use it."
 	
-	microsite_title=$(get_value "$microsite_title" "microsite title" true)
-	work_group_value=$(get_value "$work_group" "work group name" true print_fa_table)
+	microsite_title=$(get_value "$microsite_title" "Microsite title" true)
+	work_group_value=$(get_value "$work_group" "Work group name" true print_fa_table)
 	determine_wg_details "$work_group_value" | read work_group_url assignees dashboard work_group
-	work_group_url=$(get_value "$work_group_url" "work group URL")
-	repo_name=$(get_value "$repo_name" "repository name" true)
-	work_branch=$(get_value "$work_branch" "work (integration) branch name" true)
-	publish_branch=$(get_value "$publish_branch" "website publication branch name" true)
-	dashboard=$(get_value "$dashboard" "project dashboard")
-	assignees=$(get_value "$assignees" "issue and PR assignees")
-	do_push=$(get_value "$do_push" "push changes to GitHub? Enter true or false")
+	work_group_url=$(get_value "$work_group_url" "Work group URL")
+	repo_name=$(get_value "$repo_name" "Repository name" true)
+	work_branch=$(get_value "$work_branch" "Work (integration) branch name" true)
+	publish_branch=$(get_value "$publish_branch" "Website publication branch name" true)
+	dashboard=$(get_value "$dashboard" "Project dashboard")
+	assignees=$(get_value "$assignees" "Issue and PR assignees")
+	do_push=$(get_value "$do_push" "Push changes to GitHub? Enter true or false")
 fi
 
 missing=()
@@ -352,6 +352,7 @@ date -j -f "$tsformat" +"$tsformat" "$timestamp" > /dev/null 2>&1
 
 other_files=(
 	Makefile
+	update-main.sh
 	docs/_config.yml
 )
 markdown_files=($(find docs -name '*.markdown') $(find . -name '*.md'))
@@ -364,6 +365,7 @@ info "  MICROSITE_TITLE: $microsite_title"
 info "  WORK_GROUP_NAME: $work_group"
 info "  WORK_GROUP_URL:  $work_group_url"
 info "  DASHBOARD:       $dashboard"
+info "  PUBLISH_BRANCH:  $publish_branch"
 info "  ASSIGNEES:       $assignees"
 info "  YMD_TSTAMP:      $ymdtimestamp"
 info "  TIMESTAMP:       $timestamp"
@@ -380,6 +382,7 @@ do
 		    -e "s?WORK_GROUP_NAME?$work_group?g" \
 		    -e "s?WORK_GROUP_URL?$work_group_url?g" \
 		    -e "s?DASHBOARD?$dashboard?g" \
+		    -e "s?PUBLISH_BRANCH?$publish_branch?g" \
 		    -e "s?ASSIGNEES?$assignees?g" \
 		    -e "s?YMD_TSTAMP?$ymdtimestamp?g" \
 		    -e "s?TIMESTAMP?$timestamp?g" \
