@@ -20,7 +20,12 @@ Finally, you can provide feedback using [email](mailto:contact@thealliance.ai). 
 
 See also the full list of projects [here](https://the-ai-alliance.github.io/){:target="aia-github"} to find other projects that might interest you.
 
-## Join the Work Group
+{% comment %}
+Keep the following anchor in case you change the section "Join..." text. 
+The link is used by the default docs/_includes/header_buttons_custom.html, for example.
+{% endcomment %}
+<a name="join-this-project"></a>
+## Join this Project Work Group
 
 Are you interested in joining this project's work group? Use the form on the Alliance's [Become a collaborator](https://thealliance.ai/become-a-collaborator){:target="join-collab"} page to let us know your interests. 
 
