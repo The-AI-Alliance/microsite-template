@@ -91,7 +91,7 @@ endef
 .PHONY: all view-pages view-local clean help 
 .PHONY: setup-jekyll run-jekyll
 
-all:: clean view-local
+all:: view-local
 
 help::
 	$(info ${help_message})
