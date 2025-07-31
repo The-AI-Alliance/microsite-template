@@ -16,11 +16,10 @@ These are the main steps, with details below:
 1. Add your initial custom content to the `README.md`.
 1. **If** you plan to publish the website from the `latest` branch, merge changes to that branch from `main`.
 1. Edit the repo's _Settings_. 
-  1. On the repo's home page in GitHub, click the _Settings_ "gear" on the upper right-hand side. 
-  1. Scroll down to _Features_ and click _Discussions_ to enable them (unless you don't want them; in this case, remove the URL on the `docs/contributing.markdown` page!).
-  1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `main` or `latest` branch depending on which one you want to use, then select the `/docs` directory.
-  1. On the left-hand side, click the link for _Secrets and variables_ > _Actions_. In the center of the page, make sure the _Secrets_ tab is selected, then click the _New repository secret_ green button and enter five secrets needed for metrics collection. Ask Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), Joe Olson ([email](mailto:Joe.Olson@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06LFUAM5HN)), or Trevor Grant ([email](mailto:trevor.grant@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06KCJ31771)) for the list of secrets and the values to use. 
-1. Create a _Project_ to track your work. Click the _Project_ tab in the repo GitHub page and then either click the _+ New project+_ button or if you want your project to join an existing dashboard, click the _Link a project_ button and find the correct project.
+    1. On the repo's home page in GitHub, click the _Settings_ "gear" on the upper right-hand side. 
+    1. Scroll down to _Features_ and click _Discussions_ to enable them (unless you don't want them; in this case, remove the URL on the `docs/contributing.markdown` page!).
+    1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `main` or `latest` branch depending on which one you want to use, then select the `/docs` directory. (**NOTE:** Make the repo is _public_ or else the pages won't get published.)
+1. (Optional) Create a _Project_ (i.e., a dashboard) to track your work. Click the _Project_ tab in the repo GitHub page and then either click the _+ New project+_ button or if you want your project to join an existing dashboard, click the _Link a project_ button and find the correct project.
 1. Add the website in the appropriate location on the Alliance GitHub organization [README](https://github.com/The-AI-Alliance/) and the Alliance GitHub [website](https://the-ai-alliance.github.io/#the-ai-alliance-projects). 
 1. Delete the files `README-template.md`, `finish-microsite.sh`, and any of the `LICENSE.*` files that don't apply to your project.
 1. Final steps.
@@ -154,13 +153,11 @@ Your website should be published after a few minutes to https://the-ai-alliance.
 > [!TIP]
 > At the top of the repo page, click _Actions_ to see the progress of building your website. This action will be executed every time you make a change to a file in your publication branch (i.e., `main` by default). If for some reason building the website fails, this page can provide useful debugging help.
 
-#### 7c. Add secrets for metrics collection, etc.
+### 8. Create a _Project_ dashboard to track your work. (Optional)
 
-On the left-hand side, click the link for _Secrets and variables_ > _Actions_. In the center of the page, make sure the _Secrets_ tab is selected, then click the _New repository secret_ green button and enter five secrets needed for metrics collection. (You'll will click the button once per secret...) Ask Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), Joe Olson ([email](mailto:Joe.Olson@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06LFUAM5HN)), or Trevor Grant ([email](mailto:trevor.grant@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06KCJ31771)) for the list of secrets and the values to use. 
+This step is optional; do it if you want a _dashboard_ for managing your issues, vs. just using the issues list in GitHub. 
 
-### 8. Create a _Project_ to track your work. 
-
-Click the _Project_ tab in the repo GitHub page and then either click the _+ New project+_ button or if you want your project to join an existing dashboard, click the _Link a project_ button and find the correct project. If you use an existing project, consider creating a custom label for the issues associated with your project. In either case, note the URL; you'll need it for the next step.
+Click the _Project_ tab in the repo GitHub page and then either click the _+ New project+_ button or click the _Link a project_ button and find the correct project. Do the latter if you want your repo issues to join an existing dashboard. If you use an existing project, consider creating a custom label for the issues associated with your project. In either case, note the project dashboard URL; you'll need it for the next step.
 
 ### 9. Add your website to the Alliance GitHub organization page and the Alliance website.
 
@@ -174,7 +171,14 @@ When you are ready for broader exposure for your site, there are a few places wh
 * [https://github.com/The-AI-Alliance/](https://github.com/The-AI-Alliance/) (`README.md` [direct link](https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md))
 * [https://the-ai-alliance.github.io/](https://the-ai-alliance.github.io/) (`index.markdown` [direct link](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/blob/main/docs/index.markdown))
 
-You only need to edit the first file, the [`README.md`](https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md). After editing this file, notify Dean Wampler, who will run a tool that copies the change to the other location.
+You only need to edit the first file, the [`README.md`](https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md). 
+
+1. Find the right section in the `README.md` where your project belongs.
+1. Find the correct table row in the section where it should be inserted.
+1. Copy the _**two**_ rows (`<tr>...</tr>`) either above or below this point and insert them.
+1. Edit all the details in the rows accordingly for your project. Note that if you didn't create a project dashboard in the previous step, you will delete that item in one of the table cells (`<td>...</td>`). You may decide to add or remove other links, too.
+
+After editing the [`README.md`](https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md), notify Dean Wampler, who will run a tool that will copy the changes to the [https://the-ai-alliance.github.io/](https://the-ai-alliance.github.io/) site. (This process is documented in the [Appendix](#appendix) below.)
 
 Finally, talk to your focus area leaders about updating the main [AI Alliance website](https://thealliance.ai) with information about your project site.
 
@@ -193,3 +197,27 @@ Similarly, you may not need all three `LICENSE.*` files:
 If you are using a separate publication branch, e.g., `latest`, don't forget to merge all changes from `main` to the branch and push both branches upstream, e.g., `git push --all`.
 
 You should now have a published website and you should know how to edit the content. Reach out to Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), Joe Olson ([email](mailto:Joe.Olson@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06LFUAM5HN)), or Trevor Grant ([email](mailto:trevor.grant@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06KCJ31771)) if you need help.
+
+## Appendix
+
+Step 9 has you add your project to the [GitHub organization README](https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md) and then notify Dean Wampler to merge the corresponding changes into the 
+[https://the-ai-alliance.github.io/](https://the-ai-alliance.github.io/) website.
+
+If you have to do this merge step yourself, you have two options:
+1. Copy the edits over yourself from the README to the website's [`docs/index.markdown`](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/blob/main/docs/index.markdown) page.
+2. Run a script to do this for you.
+
+After either approach, commit and push the edits you make to the [`docs/index.markdown`](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/blob/main/docs/index.markdown) page.
+
+Step 2 is not only faster, it also adds HTML `target` properties to all URLs, so that when a user clicks a link in the website, a new browser tab is opened.
+
+In a terminal window, change the directory to your local copy of the repo [`the-ai-alliance.github.io`](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/)
+
+Run the following script, commit and push your edits, then delete some temporary files created by script:
+
+```shell
+copy-from-github-readme/copy-to-aia.sh
+git checkin -m 'Merging changes from the GitHub org README' .
+git push
+rm -f index-*.md readme-*.md
+```
