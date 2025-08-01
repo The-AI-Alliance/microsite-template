@@ -274,28 +274,17 @@ $show_next_steps && next_steps && exit 0
 
 
 get_value() {
-	current_value=$1
+	current=$1
 	prompt=$2
 	non_empty_required=$3
-	additional_help_fn=$4
-	current=
-	[[ -n $current_value ]] && current="[$current_value] "
+
+	value=$current
 	reqd=
 	[[ -n $non_empty_required ]] && reqd=" (required)"
-	if [[ -n $additional_help_fn ]]
-	then
-		printf "$prompt:\n"
-		eval $additional_help_fn 
-	fi 1>&2
 
 	while true
 	do
-		printf "$prompt$reqd: $current" 1>&2
-		read value
-		if [[ -z $value ]] && [[ -n $current_value ]]
-		then
-			value=$current_value
-		fi
+		vared -p "$prompt$reqd> " value
 		if [[ -n $value ]] || [[ -z $non_empty_required ]]
 		then
 			echo $value
@@ -308,17 +297,28 @@ if [[ -z "$microsite_title" ]] || [[ -z "$work_group" ]] || [[ -z "$repo_name" ]
 then
 	# Prompt the user for values:
 	echo "Prompting for the information I need."
-	echo "If a current value is shown in [...], just hit return to use it."
+	echo "If a current value shown after the '>' is correct, just hit return to use it."
 	
 	microsite_title=$(get_value "$microsite_title" "Microsite title" true)
-	work_group_value=$(get_value "$work_group" "Work group name" true print_fa_table)
+	
+	echo "Work group name:"
+	print_fa_table
+	work_group_value=$(get_value "$work_group" "Work group name" true)
+	
 	determine_wg_details "$work_group_value" | read work_group_url assignees dashboard work_group
+	
 	work_group_url=$(get_value "$work_group_url" "Work group URL")
+	
 	repo_name=$(get_value "$repo_name" "Repository name" true)
+	
 	work_branch=$(get_value "$work_branch" "Work (integration) branch name" true)
+	
 	publish_branch=$(get_value "$publish_branch" "Website publication branch name" true)
+	
 	dashboard=$(get_value "$dashboard" "Project dashboard")
+	
 	assignees=$(get_value "$assignees" "Issue and PR assignees")
+	
 	do_push=$(get_value "$do_push" "Push changes to GitHub? Enter true or false")
 fi
 
