@@ -17,6 +17,7 @@ These are the main steps, with details below:
 1. **If** you plan to publish the website from the `latest` branch, merge changes to that branch from `main`.
 1. Edit the repo's _Settings_. 
     1. On the repo's home page in GitHub, click the _Settings_ "gear" on the upper right-hand side. 
+    1. Click the checkbox labeled _Require contributors to sign off on web-based commits Loading._ 
     1. Scroll down to _Features_ and click _Discussions_ to enable them (unless you don't want them; in this case, remove the URL on the `docs/contributing.markdown` page!).
     1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `main` or `latest` branch depending on which one you want to use, then select the `/docs` directory. (**NOTE:** Make the repo is _public_ or else the pages won't get published.)
 1. (Optional) Create a _Project_ (i.e., a dashboard) to track your work. Click the _Project_ tab in the repo GitHub page and then either click the _+ New project+_ button or if you want your project to join an existing dashboard, click the _Link a project_ button and find the correct project.
@@ -138,26 +139,36 @@ By default, the website is published from the `main` branch, for convenience. Ho
 
 To publish the website and setup some other repo features, click the _Settings_ "gear" on the upper right-hand side of the repo's top-level page. 
 
-#### 7a. Enable discussions.
+#### 7a. Click the checkbox labeled _Require contributors to sign off on web-based commits Loading._ 
+
+We require [DCO](https://github.com/The-AI-Alliance/community/blob/main/CONTRIBUTING.md#developer-certificate-of-origin) ("Developer Certificate of Origin") cheks for all commits. Setting this checkbox turns this on automatically for users making repo edits in the GitHub Web UI.
+
+#### 7b. Enable discussions.
 
 Scroll down to _Features_ and click _Discussions_ to enable them. Click the _Set up discussions_ button and edit the first discussion topic to taste, then post it.
 
-However, if you don't want discussions, remove the URL on the `docs/contributing.markdown` page. (Don't forget to merge that edit to any other branches.)
+However, if you don't want to enable discussions, then remove the URL on the `docs/contributing.markdown` page.
 
-#### 7b. Publish your website.
+#### 7c. Publish your website.
 
 On the left-hand side of the _Settings_, click the link for _Pages_. Under _Branch_, select your publication branch, either `main`, `latest`, or a custom branch you specified above. Then select the `/docs` directory and finally, click _Save_.
 
-Your website should be published after a few minutes to https://the-ai-alliance.github.io/REPO_NAME/.
+Your website should be published after a few minutes to https://the-ai-alliance.github.io/enterprise-MCP/.
 
 > [!TIP]
 > At the top of the repo page, click _Actions_ to see the progress of building your website. This action will be executed every time you make a change to a file in your publication branch (i.e., `main` by default). If for some reason building the website fails, this page can provide useful debugging help.
 
-### 8. Create a _Project_ dashboard to track your work. (Optional)
+### 8. Create or associate a _Project_ dashboard to track your work. (Optional)
 
-This step is optional; do it if you want a _dashboard_ for managing your issues, vs. just using the issues list in GitHub. 
+This step is optional; do it if you want to use a _dashboard_ to manage your issues backlog. The alternative is to just use the issues list in GitHub. 
 
-Click the _Project_ tab in the repo GitHub page and then either click the _+ New project+_ button or click the _Link a project_ button and find the correct project. Do the latter if you want your repo issues to join an existing dashboard. If you use an existing project, consider creating a custom label for the issues associated with your project. In either case, note the project dashboard URL; you'll need it for the next step.
+> [!NOTE]
+> By default, your repo will be associated with the default project dashboard for the focus area you specified.
+
+Click the _Project_ tab in the repo GitHub page and then either 1) click the _+ New project+_ button or 2) click the _Link a project_ button.
+
+1. Define a new project name. See there other [projects already defined](https://github.com/orgs/The-AI-Alliance/projects) for naming ideas.
+2. Find the existing project you want to associate with the repo. Using an existing project is sometimes preferable for grouping related projects into one view. Consider creating a custom label for the issues associated with the new repo. In either case, note the project dashboard URL; you'll need it for the next step.
 
 ### 9. Add your website to the Alliance GitHub organization page and the Alliance website.
 
@@ -194,7 +205,7 @@ Similarly, you may not need all three `LICENSE.*` files:
 
 ### 11. Final steps.
 
-If you are using a separate publication branch, e.g., `latest`, don't forget to merge all changes from `main` to the branch and push both branches upstream, e.g., `git push --all`.
+If you are using a separate publication branch, e.g., `latest`, don't forget to merge all changes from `main` to the publication branch and push both branches upstream, e.g., `git push --all`.
 
 You should now have a published website and you should know how to edit the content. Reach out to Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), Joe Olson ([email](mailto:Joe.Olson@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06LFUAM5HN)), or Trevor Grant ([email](mailto:trevor.grant@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06KCJ31771)) if you need help.
 
