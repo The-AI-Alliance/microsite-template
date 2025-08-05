@@ -1,10 +1,10 @@
-# README for MICROSITE_TITLE
+# README for AI Alliance GitHub Organization
 
-[Published Documentation](https://the-ai-alliance.github.io/REPO_NAME/)
+[Published Documentation](https://the-ai-alliance.github.io/the-ai-alliance.github.io/)
 
-This repo contains the code and documentation for the AI Alliance: MICROSITE_TITLE.
+This repo contains the code and documentation for the AI Alliance: AI Alliance GitHub Organization.
 
-See the [project website](https://the-ai-alliance.github.io/REPO_NAME/) for additional details about this project.
+See the [project website](https://the-ai-alliance.github.io/the-ai-alliance.github.io/) for additional details about this project.
 
 TODO - Describe this project
 
