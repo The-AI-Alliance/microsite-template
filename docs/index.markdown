@@ -8,7 +8,7 @@ has_children: false
 # MICROSITE_TITLE
 
 | **Authors**     | [WORK_GROUP_NAME](WORK_GROUP_URL){:target="ai-alliance-wg"} (See the [Contributors]({{site.baseurl}}/contributing/#contributors)) |
-| **Last Update** | V0.1.0, YMD_TSTAMP |
+| **Last Update** | {{site.last_version}}, {{site.last_modified_timestamp}} |
 
 > **Tip:** Use the search box at the top of this page to find specific content.
 
@@ -48,12 +48,6 @@ A table example using standard Markdown and showing how to set the desired align
 | text 1   | centered             | 1      |
 | text 2   | also centered        | 20     |
 | text 3   | and this is centered | 300    |
-
-### Version History
-
-| Version  | Date       |
-| :------- | :--------- |
-| V0.1.0   | YMD_TSTAMP |
 
 [^1]: Use `[^N]` (for increasing `N` values) to mark "footnote #N" in text, as shown above. This is an example footnote with a link to it from above, and a link at the end of the footnote to go back to the point in the text (the "curled" arrow). **WARNING**, you must include the colon in the footnote definition as shown here, `[^1]:`.
 [^2]: A second example footnote. Note that you don't need to put a blank line between them; they work like lists.

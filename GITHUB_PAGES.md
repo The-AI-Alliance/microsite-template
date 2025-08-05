@@ -59,17 +59,25 @@ Here are some things you should know.
 
 ### Using the Correct Branch
 
-Issue PRs for the `main` branch. Note that many of our microsite repos are configured to publish the website from another branch, usually `latest`, not `main`. For those repos, it will be necessary to merge from `main` to `latest` after merging the PR.
+Issue PRs for the `main` branch. Note that some of our microsite repos are configured to publish the website from another branch, usually `latest`, not `main`. For those repos, it will be necessary to merge from `main` to `latest` after merging the PR.
 
 > [!NOTE]
 > If you are curious, the details of how the publication process is configured are discussed [below](#configuring-github-pages-in-the-repo-settings).
 
 ### Updating the Website Version
 
-By default, the template file for `docs/index.markdown` has the latest _version_ in a table near the top of the page and a table with the history of the versions near the bottom. Some websites have deleted this content or moved it elsewhere. We don't require you to include this information nor do we require that you update it according to any specific requirements, if you keep it. However, if you keep this information, you'll want to edit the current version in the following places:
+By default, `docs/index.markdown` shows a table at the top with the authors of the site and the latest version and timestamp. We don't require you to include this information nor do we require that you update it according to any specific requirements, if you decide to keep it. However, if you keep this information, you'll want to edit update the version and timestamp periodically.
 
-* `docs/config.yml`: Edit `last_modified_timestamp` and `last_version`.
-* `docs/index.markdown` and possible other files, like `docs/about.markdown`: Find and update **Last Update**, which by default is in a table near the top of `docs/index.markdown`, and add the new version to the **Version History** table, which by default is near the bottom of `docs/index.markdown`.
+You will find these strings around lines 96-97 in `docs/config.yml`:
+
+```
+last_edit_time_format: "%Y-%m-%d %H:%M %z" # uses ruby's time format...
+last_modified_timestamp: 2025-07-18
+last_version: V0.2.2
+```
+
+(Ignore the fact that `last_edit_time_format` includes `%H:%M %z`.) Edit `last_modified_timestamp` and `last_version` as desired.
+
 
 ## Editing Conventions and Tips
 
