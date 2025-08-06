@@ -7,7 +7,7 @@ has_children: false
 
 # MICROSITE_TITLE
 
-| **Authors**     | [WORK_GROUP_NAME](WORK_GROUP_URL){:target="ai-alliance-wg"} (See the [Contributors]({{site.baseurl}}/contributing/#contributors)) |
+| **Authors**     | [WORK_GROUP_NAME](WORK_GROUP_URL){:target="wg"} (See the [Contributors]({{site.baseurl}}/contributing/#contributors)) |
 | **Last Update** | {{site.last_version}}, {{site.last_modified_timestamp}} |
 
 > **Tip:** Use the search box at the top of this page to find specific content.
@@ -26,7 +26,7 @@ This site is organized into the following sections [^1] (with an example footnot
 
 * [TODO - second top-level page]({{site.baseurl}}/second_page)
     * [alternative link](second_page)
-* [TODO - nested]({{site.baseurl}}/nested/nested)
+* [TODO - nested]({{site.baseurl}}/nested/)
 
 Note how relative links are written. For siblings (like the next set of bullets...) or subpages, you don't have to use the `{{site.baseurl}}` prefix (like the `alternative link`), but use `{{site.baseurl}}` instead of relative navigation hacks like `../../foo/bar`.
 
