@@ -39,7 +39,7 @@ Additional links: [^2]
 * [The AI Alliance](https://thealliance.ai){:target="ai-alliance"}: The AI Alliance website.
 * [Project GitHub Repo](https://github.com/The-AI-Alliance/REPO_NAME){:target="repo"}
 
-Note our convention that external URLs include a target, specified with `{:target="some_name"}`. In fact, Jekyll is configured in `_config.yml` to use the `jekyll-target-blank` plugin, which automatically opens external links in a new tab, named `blank`. This is good enough, but it also means that every link you click will open in the same tab. So, explicitly specifying a `:target` provides a nicer experience. You will also notice that external links get a little box and arrow adornment. This is done automatically through a clever CSS hack in `docs/_includes/css/custom.scss.liquid`.
+Note our convention that external URLs include a target, specified with `{:target="some_name"}`. Adding these targets means browsers will automatically open external links in a new tab. You will also notice that external links get a little box and arrow adornment. This is done automatically through a clever CSS hack in `docs/_includes/css/custom.scss.liquid`.
 
 A table example using standard Markdown and showing how to set the desired alignment. (The extra whitespace in the source is only for easier readability.):
 
