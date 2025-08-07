@@ -12,11 +12,20 @@ The following people and organizations have contributed to the creation and main
 
 # How to Contribute to this Project
 
-We welcome your contributions! Visit the Alliance [`community` repo](https://github.com/The-AI-Alliance/community/){:target="community"}, specifically the [`CONTRIBUTING` page](https://github.com/The-AI-Alliance/community/blob/main/CONTRIBUTING.md){:target="community"} for general information about contributing. 
+We welcome your contributions! 
 
-Visit the project's [GitHub repo](https://github.com/The-AI-Alliance/REPO_NAME/){:target="repo"} and the [open issues](https://github.com/The-AI-Alliance/REPO_NAME/issues){:target="issues"} to find areas where help is needed. We welcome [pull requests](https://github.com/The-AI-Alliance/REPO_NAME/pulls){:target="prs"} and suggestions as [new issues](https://github.com/The-AI-Alliance/REPO_NAME/issues){:target="issues"}.
+TODO: more specific ways to contribute.
 
-Finally, you can provide feedback using [email](mailto:contact@thealliance.ai). Be sure to mention this particular project.
+Ways to suggest ideas:
+* Post a [discussion topic](https://github.com/The-AI-Alliance/REPO_NAME/discussions){:target="discussions"} 
+* Post an [issue](https://github.com/The-AI-Alliance/REPO_NAME/issues){:target="issues"} 
+* Send us [email](mailto:contact@thealliance.ai). This is a general email address, so be sure to mention this particular project.
+
+Want to offer new content?
+* Post a [pull request](https://github.com/The-AI-Alliance/REPO_NAME/pulls){:target="prs"}! 
+	* For corrections to existing pages, note that every page has an _Edit this page on GitHub_ link, which goes straight to the page's source. Make your edits there and submit a PR! This is the best way to help us fix typos and make other small improvements.
+
+For general information about contributing to AI Alliance projects, visit [this `community` repo](https://github.com/The-AI-Alliance/community/){:target="community"}, specifically the [`CONTRIBUTING` page](https://github.com/The-AI-Alliance/community/blob/main/CONTRIBUTING.md){:target="community"} for general information about contributing. 
 
 See also the full list of projects [here](https://the-ai-alliance.github.io/){:target="aia-github"} to find other projects that might interest you.
 
@@ -27,7 +36,9 @@ The link is used by the default docs/_includes/header_buttons_custom.html, for e
 <a name="join-this-project"></a>
 ## Join this Project Work Group
 
-Are you interested in joining this project's work group? Use the form on the Alliance's [Become a collaborator](https://thealliance.ai/become-a-collaborator){:target="join-collab"} page to let us know your interests. 
+Want to help us drive the evolution of this project? Please join our work group. 
+
+Use the form on the Alliance's [Become a collaborator](https://thealliance.ai/become-a-collaborator){:target="join-collab"} page to let us know your interests. 
 
 Check these boxes on the form:
 
