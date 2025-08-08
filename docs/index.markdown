@@ -13,28 +13,23 @@ has_children: false
 Welcome to the **The AI Alliance**: **MICROSITE_TITLE**. 
 
 {: .tip }
-Use the search box at the top of this page to find specific content.
+> **TIP:** Use the search box at the top of this page to find specific content.
 
-{: .new }
-This is a work-in-progress website for the MICROSITE_TITLE.
-
-{: .important }
-The "boilerplate" text on this page mixes content you might want to use, as well as tips on writing Markdown. See also the comments in the source files. Make sure you search for and change all TODOs on all the pages!
+{: .highlight }
+> Please join us! See our [contributing]({{site.baseurl}}/contributing) page for details.
 
 {: .note }
-Please join us! See our [contributing]({{site.baseurl}}/contributing) page for details.
+> **NOTE:** This is a work-in-progress website for the MICROSITE_TITLE.
+
+{: .important }
+> **IMPORTANT:** The "boilerplate" text on this page mixes content you might want to use, as well as tips on writing Markdown. See also the comments in the source files. Make sure you search for and change all TODOs on all the pages!
 
 {: .warning }
-This is a warning!
+> **WARNING!** This is a warning! Don't forgot to clean up the TODOs!
 
 A _generic_ quote:
 
 > Shakespeare once wrote, "Heavy is the head that wears the crown."
-
-A _generic_ quote "highlighted":
-
-{: .highlight }
-> Shakespeare also once wrote, "To thy own self be true."
 
 This site is organized into the following sections [^1] (with an example footnote):
 
