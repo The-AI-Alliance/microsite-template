@@ -10,17 +10,31 @@ has_children: false
 | **Authors**     | [WORK_GROUP_NAME](WORK_GROUP_URL){:target="wg"} (See the [Contributors]({{site.baseurl}}/contributing/#contributors)) |
 | **Last Update** | {{site.last_version}}, {{site.last_modified_timestamp}} |
 
-> **Tip:** Use the search box at the top of this page to find specific content.
-
 Welcome to the **The AI Alliance**: **MICROSITE_TITLE**. 
 
+{: .tip }
+Use the search box at the top of this page to find specific content.
+
+{: .new }
+This is a work-in-progress website for the MICROSITE_TITLE.
+
+{: .important }
+The "boilerplate" text on this page mixes content you might want to use, as well as tips on writing Markdown. See also the comments in the source files. Make sure you search for and change all TODOs on all the pages!
+
+{: .note }
 Please join us! See our [contributing]({{site.baseurl}}/contributing) page for details.
 
-> **TODO:** This is a work-in-progress website for the MICROSITE_TITLE.
+{: .warning }
+This is a warning!
 
-> **NOTE:** The "boilerplate" text on this page mixes content you might want to use, as well as tips on writing Markdown. See also the comments in the source files. Make sure you search for and change all TODOs on all the pages!
+A _generic_ quote:
 
-TODO: add more "welcome" content for your site here...
+> Shakespeare once wrote, "Heavy is the head that wears the crown."
+
+A _generic_ quote "highlighted":
+
+{: .highlight }
+> Shakespeare also once wrote, "To thy own self be true."
 
 This site is organized into the following sections [^1] (with an example footnote):
 
@@ -31,6 +45,13 @@ This site is organized into the following sections [^1] (with an example footnot
 Note how relative links are written. For siblings (like the next set of bullets...) or subpages, you don't have to use the `{{site.baseurl}}` prefix (like the `alternative link`), but use `{{site.baseurl}}` instead of relative navigation hacks like `../../foo/bar`.
 
 ## Section Two
+
+A Python code block:
+
+```python
+def flibulate_the_ganzinator(how_much):
+  pass
+```
 
 Additional links: [^2]
 
@@ -59,6 +80,8 @@ _different_ than a list of child pages (i.e., separate markdown files).
 That list is always shown at the bottom automatically, as defined in
 the default.html template file.
 -->
+
+---
 
 <details open markdown="block">
   <summary>

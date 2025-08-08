@@ -83,6 +83,29 @@ aux_links_new_tab: true
 # nav_sort: case_insensitive # default, equivalent to nil
 nav_sort: case_sensitive # Capital letters sorted before lowercase
 
+# For copy button on code
+enable_copy_code_button: true
+
+callouts_level: quiet # or loud
+callouts:
+  highlight:
+    color: grey-dk
+  tip:
+    title: Tip
+    color: yellow
+  important:
+    title: Important
+    color: blue
+  new:
+    title: New
+    color: green
+  note:
+    title: Note
+    color: purple
+  warning:
+    title: Warning
+    color: red
+
 # Footer content
 # appears at the bottom of every page's main content
 
@@ -120,6 +143,8 @@ ga_tracking: G-RNHLN944B5
 plugins:
   - jekyll-seo-tag
   - jekyll-target-blank
+  - jekyll-github-metadata
+  - jekyll-include-cache
   - jemoji
 
 kramdown:
