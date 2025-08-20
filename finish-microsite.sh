@@ -129,14 +129,15 @@ EOF
 repo_name=
 
 next_steps() {
+	local repo_name="$1"
 	cat << EOF
 
 Next Steps:
 
-Return to the README-template for any additional instructions to follow:
+Return to README-template.md for any additional instructions to follow:
 
-  local:  README-template.md
-  GitHub: https://github.com/The-AI-Alliance/$repo_name/blob/main/README-template.md
+  Local copy: README-template.md
+  GitHub:     https://github.com/The-AI-Alliance/$repo_name/blob/main/README-template.md
 
 Don't forgot to commit and push any subsequent changes upstream, e.g., "git push --all".
 You also need to do this if you used the "--no-push" option.
@@ -270,7 +271,7 @@ done
 
 [[ -z "$repo_name" ]] && repo_name=$(basename $PWD)
 
-$show_next_steps && next_steps && exit 0
+$show_next_steps && next_steps $repo_name && exit 0
 
 
 get_value() {
@@ -437,4 +438,4 @@ fi
 
 echo
 info "Done! The current working directory is $PWD."
-next_steps
+next_steps $repo_name
