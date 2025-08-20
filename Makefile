@@ -82,9 +82,6 @@ endef
 .PHONY: all view-pages view-local clean help 
 .PHONY: setup-jekyll run-jekyll
 
-foobar::
-	foo=hello $(info ${foo_message})
-
 all:: view-local
 
 help::
