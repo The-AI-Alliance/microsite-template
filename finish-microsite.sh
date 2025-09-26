@@ -375,6 +375,16 @@ info "  ASSIGNEES:       $assignees"
 info "  YMD_TSTAMP:      $ymdtimestamp"
 info "  TIMESTAMP:       $timestamp"
 info
+
+
+if [[ $work_branch = $publish_branch ]]
+then
+	info "You are publishing the website from the work branch: $work_branch."
+	info "Deleting the update-main.sh script, which you don't need."
+	info
+	$NOOP git rm update-main.sh
+fi
+
 info "Processing Files:"
 
 for file in "${other_files[@]}" "${markdown_files[@]}" "${html_files[@]}" "${github_files[@]}"
@@ -399,13 +409,6 @@ done
 
 info "Delete the backup '*.back' files that were just made."
 $NOOP find . -name '*.back' -exec rm {} \;
-
-if [[ $work_branch = $publish_branch ]]
-then
-	info "You are publishing the website from the work branch: $work_branch."
-	info "Deleting the update-main.sh script, which you don't need."
-	$NOOP git rm update-main.sh
-fi
 
 info "Committing changes to the work branch: $work_branch."
 # Use --no-verify to suppress complaints and nonzero exit when
