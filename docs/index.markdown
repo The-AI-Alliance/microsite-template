@@ -15,7 +15,7 @@ Welcome to the **The AI Alliance**: **MICROSITE_TITLE**.
 {: .tip }
 > **TIP:** Use the search box at the top of this page to find specific content.
 
-{: .highlight }
+{: .attention }
 > Please join us! See our [contributing]({{site.baseurl}}/contributing) page for details.
 
 {: .note }

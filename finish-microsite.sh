@@ -134,10 +134,10 @@ next_steps() {
 
 Next Steps:
 
-Return to README-template.md for any additional instructions to follow:
+Return to README-instructions.md for any additional instructions to follow:
 
-  Local copy: README-template.md
-  GitHub:     https://github.com/The-AI-Alliance/$repo_name/blob/main/README-template.md
+  Local copy: README-instructions.md
+  GitHub:     https://github.com/The-AI-Alliance/$repo_name/blob/main/README-instructions.md
 
 Don't forgot to commit and push any subsequent changes upstream, e.g., "git push --all".
 You also need to do this if you used the "--no-push" option.
@@ -342,6 +342,10 @@ info "  GitHub:"
 info "    Work branch:            $work_branch"
 info "    Publishing branch:      $publish_branch"
 info "    Push changes to GitHub? $do_push"
+
+info "Replacing the microsite-template README.md with the new README-template.md:"
+$NOOP git rm README.md
+$NOOP git mv README-template.md README.md
 
 info "Replacing macro placeholders with the new values:"
 [[ -z "$ymdtimestamp" ]] && ymdtimestamp=$(date +"$ymdformat")
