@@ -19,7 +19,7 @@ TODO: more specific ways to contribute.
 Ways to suggest ideas:
 * Post a [discussion topic](https://github.com/The-AI-Alliance/REPO_NAME/discussions){:target="discussions"} 
 * Post an [issue](https://github.com/The-AI-Alliance/REPO_NAME/issues){:target="issues"} 
-* Send us [email](mailto:contact@thealliance.ai). This is a general email address, so be sure to mention this particular project.
+* Send us [email](mailto:contact@thealliance.ai?subject=Suggestions for MICROSITE_TITLE). This is a general email address, so be sure to mention this particular project.
 
 Want to offer new content?
 * Post a [pull request](https://github.com/The-AI-Alliance/REPO_NAME/pulls){:target="prs"}! 
