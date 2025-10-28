@@ -93,7 +93,6 @@ These arguments are optional:
                        to use for the project's dashboard. Projects in FA2, FA3, and FA5 have
                        default values. If not provided and there is no default, so no dashboard
                        will be associated with the project automatically.
-                       (At this time, this is only used in the ".github/*TEMPLATE" files.)
 -a | --assignees list  Comma-separated list of GitHub user names to whom issues are assigned.
                        E.g., "--assignees bob,ted". Default: Each FA has a default list.
 --use-latest           By default, this script previously assumed that you would publish
@@ -171,17 +170,30 @@ info() {
 	done
 }
 
-determine_dashboard_details() {
+determine_dashboard() {
 	n=$1
 	if [[ $n -ge 1 ]]
 	then
 		# User input valid number
-		dashboard=${dashboard_base}/$n
+		dashboard="${dashboard_base}/$n"
 	else
 		# User input a full URL (hopefully!)
 		dashboard="$n"
 	fi
 	echo $dashboard
+}
+
+determine_dashboard_url() {
+	n=$1
+	if [[ $n -ge 1 ]]
+	then
+		# User input valid number
+		dashboard_url="https://github.com/orgs/${dashboard_base}/projects/$n/"
+	else
+		# User input a full URL (hopefully!)
+		dashboard_url="$n"
+	fi
+	echo $dashboard_url
 }
 
 determine_wg_details() {
@@ -190,7 +202,8 @@ determine_wg_details() {
 	then
 		# User input valid faN, FAN, fAN, FaN, or N within range.
 		dashboard_number=${fa_dashboard_numbers[FA$n]}
-		dashboard=$(determine_dashboard_details $dashboard_number)
+		dashboard=$(determine_dashboard $dashboard_number)
+		dashboard_url=$(determine_dashboard_url $dashboard_number)
 		assignees=${fa_assignees[FA$n]}
 		work_group=${fa_names[FA$n]}
 		[[ -n $work_group_url ]] || work_group_url="${focus_areas_url}/${fa_url_names[FA$n]}"
@@ -203,11 +216,12 @@ determine_wg_details() {
 		[[ -n $work_group_url ]] || work_group_url=$focus_areas_url
 	fi
 	# Hack: echo "$work_group" last, because it will have whitespace!
-	echo "$work_group_url" "$assignees" "$dashboard" "$work_group" 
+	echo "$work_group_url" "$assignees" "$dashboard" "$dashboard_url" "$work_group" 
 }
 
 work_group_url=
 dashboard=
+dashboard_url=
 assignees=
 do_push=true
 show_next_steps=false
@@ -234,7 +248,7 @@ do
 			;;
 		-w|--work-group)
 			shift
-			determine_wg_details "$1" | read work_group_url assignees dashboard work_group
+			determine_wg_details "$1" | read work_group_url assignees dashboard dashboard_url work_group
 			;;
 		-u|--work-group-url)
 			shift
@@ -242,7 +256,8 @@ do
 			;;
 		-d|--dashboard)
 			shift
-			dashboard=$(determine_dashboard_details $1)
+			dashboard=$(determine_dashboard "$1")
+			dashboard_url=$(determine_dashboard_url "$1")
 			;;
 		-a|--assignees)
 			shift
@@ -306,7 +321,7 @@ then
 	print_fa_table
 	work_group_value=$(get_value "$work_group" "Work group name" true)
 	
-	determine_wg_details "$work_group_value" | read work_group_url assignees dashboard work_group
+	determine_wg_details "$work_group_value" | read work_group_url assignees dashboard dashboard_url work_group
 	
 	work_group_url=$(get_value "$work_group_url" "Work group URL")
 	
@@ -316,7 +331,9 @@ then
 	
 	publish_branch=$(get_value "$publish_branch" "Website publication branch name" true)
 	
-	dashboard=$(get_value "$dashboard" "Project dashboard")
+	db=$(get_value "$dashboard" "Project dashboard (number)")
+	dashboard=determine_dashboard "$db"
+	dashboard_url=determine_dashboard_url "$db"
 	
 	assignees=$(get_value "$assignees" "Issue and PR assignees")
 	
@@ -337,6 +354,7 @@ info "  Work group:               $work_group"
 info "  GitHub:"
 [[ -n "$dashboard" ]] && \
   info "    Dashboard:              $dashboard"
+  info "    Dashboard URL:          $dashboard_url"
 [[ -n "$assignees" ]] && \
   info "    Issue assignees:        $assignees"
 info "    Work branch:            $work_branch"
@@ -370,6 +388,7 @@ info "  MICROSITE_TITLE: $microsite_title"
 info "  WORK_GROUP_NAME: $work_group"
 info "  WORK_GROUP_URL:  $work_group_url"
 info "  DASHBOARD:       $dashboard"
+info "  DASHBOARD_URL:   $dashboard_url"
 info "  PUBLISH_BRANCH:  $publish_branch"
 info "  ASSIGNEES:       $assignees"
 info "  YMD_TSTAMP:      $ymdtimestamp"
@@ -397,6 +416,7 @@ do
 		    -e "s?WORK_GROUP_NAME?$work_group?g" \
 		    -e "s?WORK_GROUP_URL?$work_group_url?g" \
 		    -e "s?DASHBOARD?$dashboard?g" \
+		    -e "s?DASHBOARD_URL?$dashboard_url?g" \
 		    -e "s?PUBLISH_BRANCH?$publish_branch?g" \
 		    -e "s?ASSIGNEES?$assignees?g" \
 		    -e "s?YMD_TSTAMP?$ymdtimestamp?g" \

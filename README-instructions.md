@@ -17,10 +17,14 @@ These are the main steps, with details below:
 1. **If** you plan to publish the website from the `latest` branch, merge changes to that branch from `main`.
 1. Edit the repo's _Settings_. 
     1. On the repo's home page in GitHub, click the _Settings_ "gear" on the upper right-hand side. 
-    1. Click the checkbox labeled _Require contributors to sign off on web-based commits Loading._ 
+    1. Click the checkbox labeled _Require contributors to sign off on web-based commits Loading._ (Near the top under _Repository name_.) 
     1. Scroll down to _Features_ and click _Discussions_ to enable them (unless you don't want them; in this case, remove the URL on the `docs/contributing.markdown` page!).
+        1. Click the green _Setup discussions_ button, then edit and submit the "welcome" message. (The default is usually fine.)
     1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `main` or `latest` branch depending on which one you want to use, then select the `/docs` directory. (**NOTE:** Make the repo is _public_ or else the pages won't get published.)
 1. (Optional) Create a _Project_ (i.e., a dashboard) to track your work. Click the _Project_ tab in the repo GitHub page and then either click the _+ New project+_ button or if you want your project to join an existing dashboard, click the _Link a project_ button and find the correct project.
+    1. You will need to change the number `N` that was used for the project in several places:
+        1. The `projects: [The-AI-Alliance/N]` entries in `.github/ISSUE_TEMPLATE/*.yaml` files.
+        1. The line in `docs/contributing.markdown` with `See also the [project board](https://github.com/orgs/The-AI-Alliance/projects/N/)`.
 1. Add the website in the appropriate location on the Alliance GitHub organization [README](https://github.com/The-AI-Alliance/) and the Alliance GitHub [website](https://the-ai-alliance.github.io/#the-ai-alliance-projects). 
 1. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSE.*` files that don't apply to your project.
 1. Final steps.
@@ -161,7 +165,7 @@ Your website should be published after a few minutes to https://the-ai-alliance.
 
 ### 8. Create or associate a _Project_ dashboard to track your work. (Optional)
 
-This step is optional; do it if you want to use a _dashboard_ to manage your issues backlog. The alternative is to just use the issues list in GitHub. 
+This step is optional; do it if you want to use a _dashboard_ to manage your issues backlog. Any repos created under one of the existing focus areas/work groups will have a default dashboard assignment. The alternative is to just use that one. Or, you can search for references to "dashboard" in the website and delete them, relying instead on the issues list in GitHub. 
 
 > [!NOTE]
 > By default, your repo will be associated with the default project dashboard for the focus area you specified.
@@ -170,6 +174,10 @@ Click the _Project_ tab in the repo GitHub page and then either 1) click the _+ 
 
 1. Define a new project name. See there other [projects already defined](https://github.com/orgs/The-AI-Alliance/projects) for naming ideas.
 2. Find the existing project you want to associate with the repo. Using an existing project is sometimes preferable for grouping related projects into one view. Consider creating a custom label for the issues associated with the new repo. In either case, note the project dashboard URL; you'll need it for the next step.
+
+At this time, the project number `N` is used in the following places:
+    1. The `projects: [The-AI-Alliance/N]` entries in `.github/ISSUE_TEMPLATE/*.yaml` files.
+    1. The line in `docs/contributing.markdown` with `See also the [project board](https://github.com/orgs/The-AI-Alliance/projects/N/)`.
 
 ### 9. Add your website to the Alliance GitHub organization page and the Alliance website.
 

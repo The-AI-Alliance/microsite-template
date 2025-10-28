@@ -16,7 +16,7 @@ Welcome to the **The AI Alliance**: **MICROSITE_TITLE**.
 > **TIP:** Use the search box at the top of this page to find specific content.
 
 {: .attention }
-> Please join us! See our [contributing]({{site.baseurl}}/contributing) page for details.
+> We are looking for collaborators. Please join us! See our [contributing]({{site.baseurl}}/contributing) page for details.
 
 {: .note }
 > **NOTE:** This is a work-in-progress website for the MICROSITE_TITLE.
@@ -48,12 +48,14 @@ def flibulate_the_ganzinator(how_much):
   pass
 ```
 
-Additional links: [^2]
+## Additional links
+
+Some additional links.[^2]
 
 * [Contributing]({{site.baseurl}}/contributing): We welcome your contributions! Here's how you can contribute.
 * [About Us]({{site.baseurl}}/about): More about the AI Alliance and this project.
-* [The AI Alliance](https://thealliance.ai){:target="ai-alliance"}: The AI Alliance website.
 * [Project GitHub Repo](https://github.com/The-AI-Alliance/REPO_NAME){:target="repo"}
+* [The AI Alliance](https://thealliance.ai){:target="ai-alliance"}: The AI Alliance website.
 
 Note our convention that external URLs include a target, specified with `{:target="some_name"}`. Adding these targets means browsers will automatically open external links in a new tab. You will also notice that external links get a little box and arrow adornment. This is done automatically through a clever CSS hack in `docs/_includes/css/custom.scss.liquid`.
 
