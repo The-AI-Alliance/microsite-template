@@ -8,6 +8,9 @@ See also [`GITHUB_PAGES.md`](https://github.com/The-AI-Alliance/microsite-templa
 
 These are the main steps, with details below:
 
+> [!TIP]
+> If you choose not to do some of the steps now, for example publishing the GitHub pages website immediately (see step 8), create an Issue in the repo for each step to be done later, as a reminder.
+
 1. Create your repo from the [this template repo](https://github.com/The-AI-Alliance/microsite-template).
 1. Convert placeholder _variables_ to the correct values, using the [`finish-microsite.sh`](https://github.com/The-AI-Alliance/microsite-template/blob/main/finish-microsite.sh) script.
 1. Push your local changes upstream.
