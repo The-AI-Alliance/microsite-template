@@ -1,3 +1,5 @@
+![The AI Alliance banner](https://the-ai-alliance.github.io/assets/images/ai-alliance-logo-horiz-pos-blue-cmyk-trans.png)
+
 # README for MICROSITE_TITLE
 
 [Published Documentation](https://the-ai-alliance.github.io/REPO_NAME/)
