@@ -13,7 +13,10 @@ has_children: false
 Welcome to the **The AI Alliance**: **MICROSITE_TITLE**. 
 
 {: .tip }
-> **TIP:** Use the search box at the top of this page to find specific content.
+> **TIPS:** 
+> 1. Use the search box at the top of this page to find specific content.
+> 2. The links for Capitalized Terms go to [this glossary]({{site.glossaryurl}}){:target="_glossary"}.
+
 
 {: .attention }
 > We are looking for collaborators. Please join us! See our [contributing]({{site.baseurl}}/contributing) page for details.
