@@ -246,6 +246,10 @@ do
 			shift
 			microsite_title="$1"
 			;;
+		-d|--site-description|--microsite-description)
+			shift
+			microsite_description="$1"
+			;;
 		-w|--work-group)
 			shift
 			determine_wg_details "$1" | read work_group_url assignees dashboard dashboard_url work_group
@@ -254,7 +258,7 @@ do
 			shift
 			work_group_url=$1
 			;;
-		-d|--dashboard)
+		--dashboard)
 			shift
 			dashboard=$(determine_dashboard "$1")
 			dashboard_url=$(determine_dashboard_url "$1")
@@ -316,7 +320,7 @@ then
 	echo "If a current value shown after the '>' is correct, just hit return to use it."
 	
 	microsite_title=$(get_value "$microsite_title" "Microsite title" true)
-	
+	microsite_description=$(get_value "$microsite_description" "Short microsite description" true)
 	echo "Work group name:"
 	print_fa_table
 	work_group_value=$(get_value "$work_group" "Work group name" true)
@@ -348,6 +352,7 @@ missing=()
 info "New values for the repo:"
 info "  Repo name:                $repo_name"
 info "  Title:                    $microsite_title"
+info "  Description:              $microsite_description"
 info "  Work group:               $work_group"
 [[ -n "$work_group_url" ]] && \
   info "  Work group URL:           $work_group_url"
@@ -383,16 +388,17 @@ html_files=($(find docs/_layouts docs/_includes -name '*.html'))
 github_files=($(find .github \( -name '*.yaml' -o -name '*.md' \)))
 
 info "Replacing macros with correct values:"
-info "  REPO_NAME:       $repo_name"
-info "  MICROSITE_TITLE: $microsite_title"
-info "  WORK_GROUP_NAME: $work_group"
-info "  WORK_GROUP_URL:  $work_group_url"
-info "  DASHBOARD:       $dashboard"
-info "  DASHBOARD_URL:   $dashboard_url"
-info "  PUBLISH_BRANCH:  $publish_branch"
-info "  ASSIGNEES:       $assignees"
-info "  YMD_TSTAMP:      $ymdtimestamp"
-info "  TIMESTAMP:       $timestamp"
+info "  REPO_NAME:              $repo_name"
+info "  MICROSITE_TITLE:        $microsite_title"
+info "  MICROSITE_DESCRIPTION:  $microsite_description"
+info "  WORK_GROUP_NAME:        $work_group"
+info "  WORK_GROUP_URL:         $work_group_url"
+info "  DASHBOARD:              $dashboard"
+info "  DASHBOARD_URL:          $dashboard_url"
+info "  PUBLISH_BRANCH:         $publish_branch"
+info "  ASSIGNEES:              $assignees"
+info "  YMD_TSTAMP:             $ymdtimestamp"
+info "  TIMESTAMP:              $timestamp"
 info
 
 
@@ -413,6 +419,7 @@ do
 	then
 		sed -e "s?REPO_NAME?$repo_name?g" \
 		    -e "s?MICROSITE_TITLE?$microsite_title?g" \
+		    -e "s?MICROSITE_DESCRIPTION?$microsite_description?g" \
 		    -e "s?WORK_GROUP_NAME?$work_group?g" \
 		    -e "s?WORK_GROUP_URL?$work_group_url?g" \
 		    -e "s?DASHBOARD?$dashboard?g" \
