@@ -21,7 +21,7 @@ Ways to suggest ideas:
 	* For corrections to website pages, note that every page has an _Edit this page on GitHub_ link, which goes straight to the page's source. Make your edits there and submit a PR! This is the best way to help us fix typos and make other small improvements.
 * Post a [discussion topic](https://github.com/The-AI-Alliance/REPO_NAME/discussions){:target="discussions"} 
 * Post an [issue](https://github.com/The-AI-Alliance/REPO_NAME/issues){:target="issues"} 
-	* See also the [project board](DASHBOARD_URL)
+	* See also the [project board](DASHBOARD_URL){:target="dashboard"}
 * Send us [email](mailto:contact@thealliance.ai?subject=Suggestions for MICROSITE_TITLE). This is a general email address, so be sure to mention this particular project.
 
 For general information about contributing to AI Alliance projects, visit [this `community` repo](https://github.com/The-AI-Alliance/community/){:target="community"}, specifically the [`CONTRIBUTING` page](https://github.com/The-AI-Alliance/community/blob/main/CONTRIBUTING.md){:target="community"} for general information about contributing. 

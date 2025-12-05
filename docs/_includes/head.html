@@ -23,7 +23,6 @@
 
       gtag('config', '{{ site.ga_tracking }}'{% unless site.ga_tracking_anonymize_ip == nil %}, { 'anonymize_ip': true }{% endunless %});
     </script>
-
   {% endif %}
 
   {% if site.search_enabled != false %}
