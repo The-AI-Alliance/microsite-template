@@ -5,7 +5,7 @@ site_dir     := ${docs_dir}/_site
 clean_dirs   := ${site_dir} ${docs_dir}/.sass-cache
 
 # Environment variables
-MAKEFLAGS            = -w  # --warn-undefined-variables
+MAKEFLAGS            = --warn-undefined-variables
 MAKEFLAGS_RECURSIVE ?= # --print-directory (only useful for recursive makes...)
 UNAME               ?= $(shell uname)
 ARCHITECTURE        ?= $(shell uname -m)
