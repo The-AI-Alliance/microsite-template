@@ -14,87 +14,33 @@ cfg="$dir/docs/_config.yml"
 index="$dir/docs/index.markdown"
 work_branch=main
 publish_branch=main
-fa_max_number=6  # FAs numbered from 1 to max_...
-focus_areas_url="https://thealliance.ai/focus-areas"
-
-# WARNING: Make sure there is an entry for every key in the associative
-# arrays below. Otherwise, you'll trip over bugs...
-declare -A fa_names
-fa_names[FA1]="Skills and Education"
-fa_names[FA2]="Trust and Safety"
-fa_names[FA3]="Applications and Tools"
-fa_names[FA4]="Hardware Enablement"
-fa_names[FA5]="Foundation Models and Datasets"
-fa_names[FA6]="Advocacy"
-
-declare -A fa_url_names
-fa_url_names[FA1]=skills-education
-fa_url_names[FA2]=trust-and-safety
-fa_url_names[FA3]=applications-and-tools
-fa_url_names[FA4]=hardware-enablement
-fa_url_names[FA5]=foundation-models
-fa_url_names[FA6]=advocacy
-
-dashboard_base="The-AI-Alliance"
-declare -A fa_dashboard_numbers
-fa_dashboard_numbers[FA1]=34
-fa_dashboard_numbers[FA2]=23
-fa_dashboard_numbers[FA3]=34
-fa_dashboard_numbers[FA4]=34
-fa_dashboard_numbers[FA5]=28
-fa_dashboard_numbers[FA6]=34
-
-declare -A fa_assignees
-fa_assignees[FA1]="deanwampler"
-fa_assignees[FA2]="deanwampler,bnayahu"
-fa_assignees[FA3]="adampingel,rawkintrevo"
-fa_assignees[FA4]="deanwampler"
-fa_assignees[FA5]="deanwampler,hughesthe1st,jolson-ibm"
-fa_assignees[FA6]="pasanth"
-
-print_fa_table () {
-	for i in {1..$fa_max_number}
-	do
-		# By "coincidence" it works to use the $focus_areas_url as a prefix!
-		printf "%d or FA%d -> %-30s (URL: %s)\n" $i $i "${fa_names[FA$i]}" "${focus_areas_url}/${fa_url_names[FA$i]}"
-	done
-	print "Or enter a custom name."
-}
+default_assignees="deanwampler,adampingel,jolson-ibm"
 
 help() {
 	cat << EOF
 $script [options] \
-  -t|--site-title|--microsite-title title \
-  -w|--work-group work_group
+  -t|--site-title|--microsite-title title
 
 These arguments are required, but they can appear in any order, intermixed
 with optional arguments (discussed below). See the example below:
 
 -t | --site-title | --microsite-title title
                        The title of the microsite.
--w | --work-group work_group
-                       The name of work group sponsoring this site.
 
 These arguments are optional:
 -h | --help            Print this message and exit.
 -n | --noop            Just print the commands but don't run them.
+
 -s | --next-steps      At the end of running this script to create a new repo,
                        some information about "next steps" is printed. If you want to see
                        this information again, run this script again just using this flag.
 -r | --repo-name name  The name of GitHub repo. If you are running this script in the
                        repo's root directory, its name will be used, by default.
---work-group-url | -u work_group_url
-                       The URL of the work group sponsoring this site.
-                       If one of the "FA#" or "#" arguments is used for --work-group (see below),
-                       then a known URL will be used. If the URL isn't known for the
-                       specified workgroup and one isn't specified, the default URL for
-                       focus areas will be used: $focus_areas_url
--d | --dashboard N     The "N" for the ${dashboard_base}/N link
-                       to use for the project's dashboard. Projects in FA2, FA3, and FA5 have
-                       default values. If not provided and there is no default, so no dashboard
-                       will be associated with the project automatically.
+-d | --dashboard N     The "N" for the ${dashboard_base}/N link to use for the project's dashboard.
+                       There is no default value, so no dashboard will be associated with the
+                       project automatically.
 -a | --assignees list  Comma-separated list of GitHub user names to whom issues are assigned.
-                       E.g., "--assignees bob,ted". Default: Each FA has a default list.
+                       E.g., "--assignees bob,ted". Default: "$default_assignees".
 --use-latest           By default, this script previously assumed that you would publish
                        the website from the "latest" branch, while using "main" for integration.
                        This is difficult for less-technical users. Now the default is to use 
@@ -106,22 +52,11 @@ These arguments are optional:
                        skip that step, for example if your plan to make additional edits first or
                        when debugging this script!! ;)
 
-For example, suppose you want to create a microsite with the title "AI for Evil Project",
-under the Trust and Safety work group, then use one of the following commands:
+For example, suppose you want to create a microsite with the title "AI for Evil Project", 
+then use this command:
 
-$script --microsite-title "AI for Evil Project" --work-group fa2
-$script --microsite-title "AI for Evil Project" --work-group 2
+$script --microsite-title "AI for Evil Project"
 
-Note that just specifying "2", "fa2" or "FA2", etc. for any of the focus areas will result in the
-following names being used:
-
-EOF
-
-	print_fa_table
-
-	cat <<EOF
-
-NOTE: The title and work group strings need to be quoted if they contain spaces!
 EOF
 }
 
@@ -196,33 +131,9 @@ determine_dashboard_url() {
 	echo $dashboard_url
 }
 
-determine_wg_details() {
-	n=$(echo $1 | sed -e 's/fa//i')
-	if [[ $n -ge 1 ]] && [[ $n -le $fa_max_number ]]
-	then
-		# User input valid faN, FAN, fAN, FaN, or N within range.
-		dashboard_number=${fa_dashboard_numbers[FA$n]}
-		dashboard=$(determine_dashboard $dashboard_number)
-		dashboard_url=$(determine_dashboard_url $dashboard_number)
-		assignees=${fa_assignees[FA$n]}
-		work_group=${fa_names[FA$n]}
-		[[ -n $work_group_url ]] || work_group_url="${focus_areas_url}/${fa_url_names[FA$n]}"
-	elif [[ $n -lt 1 ]] || [[ $n -gt $fa_max_number ]]
-	then
-		# User input an invalid faN, FAN, fAN, FaN, or N, because the N is outside the range.
-		error "Unknown focus area specified: $1. Must be 1 to $fa_max_number or FA1 to FA$fa_max_number"
-	else
-		work_group="$1"
-		[[ -n $work_group_url ]] || work_group_url=$focus_areas_url
-	fi
-	# Hack: echo "$work_group" last, because it will have whitespace!
-	echo "$work_group_url" "$assignees" "$dashboard" "$dashboard_url" "$work_group" 
-}
-
-work_group_url=
 dashboard=
 dashboard_url=
-assignees=
+assignees="$default_assignees"
 do_push=true
 show_next_steps=false
 while [[ $# -gt 0 ]]
@@ -250,14 +161,6 @@ do
 			shift
 			microsite_description="$1"
 			;;
-		-w|--work-group)
-			shift
-			determine_wg_details "$1" | read work_group_url assignees dashboard dashboard_url work_group
-			;;
-		-u|--work-group-url)
-			shift
-			work_group_url=$1
-			;;
 		--dashboard)
 			shift
 			dashboard=$(determine_dashboard "$1")
@@ -273,10 +176,6 @@ do
 		--publish-branch)
 			shift
 			publish_branch="$1"
-			;;
-		-a|--assignees)
-			shift
-			assignees="$1"
 			;;
 		--no-push)
 			do_push=false
@@ -313,49 +212,32 @@ get_value() {
 	done
 }
 
-if [[ -z "$microsite_title" ]] || [[ -z "$work_group" ]] || [[ -z "$repo_name" ]]
+if [[ -z "$microsite_title" ]] || [[ -z "$repo_name" ]]
 then
 	# Prompt the user for values:
 	echo "Prompting for the information I need."
 	echo "If a current value shown after the '>' is correct, just hit return to use it."
 	
 	microsite_title=$(get_value "$microsite_title" "Microsite title" true)
-	microsite_description=$(get_value "$microsite_description" "Short microsite description" true)
-	echo "Work group name:"
-	print_fa_table
-	work_group_value=$(get_value "$work_group" "Work group name" true)
-	
-	determine_wg_details "$work_group_value" | read work_group_url assignees dashboard dashboard_url work_group
-	
-	work_group_url=$(get_value "$work_group_url" "Work group URL")
-	
-	repo_name=$(get_value "$repo_name" "Repository name" true)
-	
+	microsite_description=$(get_value "$microsite_description" "Short microsite description" true)	
+	repo_name=$(get_value "$repo_name" "Repository name" true)	
 	work_branch=$(get_value "$work_branch" "Work (integration) branch name" true)
-	
 	publish_branch=$(get_value "$publish_branch" "Website publication branch name" true)
-	
 	db=$(get_value "$dashboard" "Project dashboard (number)")
 	dashboard=determine_dashboard "$db"
-	dashboard_url=determine_dashboard_url "$db"
-	
-	assignees=$(get_value "$assignees" "Issue and PR assignees")
-	
+	dashboard_url=determine_dashboard_url "$db"	
+	assignees=$(get_value "$assignees" "Issue and PR assignees")	
 	do_push=$(get_value "$do_push" "Push changes to GitHub? Enter true or false")
 fi
 
 missing=()
 [[ -z "$microsite_title" ]] && missing+=("The microsite title is required. ")
-[[ -z "$work_group" ]] && missing+=("The work group name is required. ")
 [[ ${#missing[@]} > 0 ]] && error "${missing[@]}"
 
 info "New values for the repo:"
 info "  Repo name:                $repo_name"
 info "  Title:                    $microsite_title"
 info "  Description:              $microsite_description"
-info "  Work group:               $work_group"
-[[ -n "$work_group_url" ]] && \
-  info "  Work group URL:           $work_group_url"
 info "  GitHub:"
 [[ -n "$dashboard" ]] && \
   info "    Dashboard:              $dashboard"
@@ -391,10 +273,8 @@ info "Replacing macros with correct values:"
 info "  REPO_NAME:              $repo_name"
 info "  MICROSITE_TITLE:        $microsite_title"
 info "  MICROSITE_DESCRIPTION:  $microsite_description"
-info "  WORK_GROUP_NAME:        $work_group"
-info "  WORK_GROUP_URL:         $work_group_url"
-info "  DASHBOARD:              $dashboard"
 info "  DASHBOARD_URL:          $dashboard_url"
+info "  DASHBOARD:              $dashboard"
 info "  PUBLISH_BRANCH:         $publish_branch"
 info "  ASSIGNEES:              $assignees"
 info "  YMD_TSTAMP:             $ymdtimestamp"
@@ -420,10 +300,8 @@ do
 		sed -e "s?REPO_NAME?$repo_name?g" \
 		    -e "s?MICROSITE_TITLE?$microsite_title?g" \
 		    -e "s?MICROSITE_DESCRIPTION?$microsite_description?g" \
-		    -e "s?WORK_GROUP_NAME?$work_group?g" \
-		    -e "s?WORK_GROUP_URL?$work_group_url?g" \
-		    -e "s?DASHBOARD?$dashboard?g" \
 		    -e "s?DASHBOARD_URL?$dashboard_url?g" \
+		    -e "s?DASHBOARD?$dashboard?g" \
 		    -e "s?PUBLISH_BRANCH?$publish_branch?g" \
 		    -e "s?ASSIGNEES?$assignees?g" \
 		    -e "s?YMD_TSTAMP?$ymdtimestamp?g" \

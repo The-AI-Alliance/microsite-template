@@ -29,6 +29,7 @@ These are the main steps, with details below:
 1. (Optional) Create a _Project_ (i.e., a dashboard) to track your work. Click the _Project_ tab in the repo GitHub page and then either click the _+ New project+_ button or if you want your project to join an existing dashboard, click the _Link a project_ button and find the correct project.
     1. You will need to change the number `N` that was used for the project in several places:
         1. The `projects: [The-AI-Alliance/N]` entries in `.github/ISSUE_TEMPLATE/*.yaml` files.
+        1. Also change the default list of `assignees` there.
         1. The line in `docs/contributing.markdown` with `See also the [project board](https://github.com/orgs/The-AI-Alliance/projects/N/)`.
 1. Add the website in the appropriate location on the Alliance GitHub organization [README](https://github.com/The-AI-Alliance/) and the Alliance GitHub [website](https://the-ai-alliance.github.io/#the-ai-alliance-projects). 
 1. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSE.*` files that don't apply to your project.
@@ -79,30 +80,18 @@ If you run the script without any arguments, it will prompt you for all the valu
 ./finish-microsite.sh 
 ```
 
-You can also specify the required arguments directly, which is faster if you know what to use. Let's use example values for the same repo named `ai-for-evil-project`, and assume it is part of the _Trust and Safety_ focus area work group:
+You can also specify the required arguments directly, which is faster if you know what to use. Let's use example values for the same repo named `ai-for-evil-project`:
 
 ```shell
 ./finish-microsite.sh \
-  --microsite-title "AI for Evil Project" \
-  --work-group fa2
+  --microsite-title "AI for Evil Project" 
 ```
 
 > [!NOTE]
 > 1. The title has to be in quotes if it has nested white space.
 > 2. The script replaces the previously existing `README.md` with `README-template.md`, and removes the latter from the repo. 
 
-A custom work group name can be specified, along with a corresponding argument for its URL, `--work-group-url URL`.
-
-Most of the time, it is sufficient to use a focus area as the work group, in which case you can simply specify a number or `FA#` string, e.g., `2` or `FA2` (case ignored) for _trust and safety_. The value specified is expanded as follows:
-
-| Number | Abbreviation (case ignored)  | Full name |
-| :----- | :--------------------------- | :-------- |
-| `1`    | `FA1`                        | Skills and Education |
-| `2`    | `FA2`                        | Trust and Safety |
-| `3`    | `FA3`                        | Applications and Tools |
-| `4`    | `FA4`                        | Hardware Enablement |
-| `5`    | `FA5`                        | Foundation Models and Datasets |
-| `6`    | `FA6`                        | Advocacy |
+Additionally, the following information is important:
 
 > [!NOTE]
 > 1. The script will try to use `zsh`. If you don't have `zsh`, but you have `bash` V5 or later, then use `bash ./finish-microsite.sh ...`
@@ -170,14 +159,11 @@ Your website should be published after a few minutes to https://the-ai-alliance.
 
 ### 8. Create or associate a _Project_ dashboard to track your work. (Optional)
 
-This step is optional; do it if you want to use a _dashboard_ to manage your issues backlog. Any repos created under one of the existing focus areas/work groups will have a default dashboard assignment. The alternative is to just use that one. Or, you can search for references to "dashboard" in the website and delete them, relying instead on the issues list in GitHub. 
+This step is optional; do it if you want to use a _dashboard_ to manage your issues backlog. You can browse the [list of current projects](https://github.com/orgs/The-AI-Alliance/projects) and pick one or create a new one. If you don't want to use a dashboard, then search the `*.markdown` files for references to a "dashboard" and delete them, relying instead on the issues list in GitHub. 
 
-> [!NOTE]
-> By default, your repo will be associated with the default project dashboard for the focus area you specified.
+To associate a project, click the _Project_ tab in the repo GitHub page and then either 1) click the _+ New project+_ button or 2) click the _Link a project_ button.
 
-Click the _Project_ tab in the repo GitHub page and then either 1) click the _+ New project+_ button or 2) click the _Link a project_ button.
-
-1. Define a new project name. See there other [projects already defined](https://github.com/orgs/The-AI-Alliance/projects) for naming ideas.
+1. Define a new project name (if appropriate). See there other [projects already defined](https://github.com/orgs/The-AI-Alliance/projects) for naming ideas. Or,
 2. Find the existing project you want to associate with the repo. Using an existing project is sometimes preferable for grouping related projects into one view. Consider creating a custom label for the issues associated with the new repo. In either case, note the project dashboard URL; you'll need it for the next step.
 
 At this time, the project number `N` is used in the following places:
@@ -191,21 +177,20 @@ At this time, the project number `N` is used in the following places:
 
 Add the website to the Alliance GitHub organization [README](https://github.com/The-AI-Alliance/) and the Alliance GitHub Pages [website](https://the-ai-alliance.github.io/#the-ai-alliance-projects).
 
-When you are ready for broader exposure for your site, there are a few places where we have an index to all the &ldquo;microsites&rdquo;. Add your site in the table shown in each of the following locations. Note how the rows are grouped by focus area. Your new entry will go in the table with the other projects/initiatives for your focus area.
+When you are ready for broader exposure for your site, there are a few places where we have an index to all the &ldquo;microsites&rdquo; and some code-centric projects without microsites. 
 
-* [https://github.com/The-AI-Alliance/](https://github.com/The-AI-Alliance/) (`README.md` [direct link](https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md))
-* [https://the-ai-alliance.github.io/](https://the-ai-alliance.github.io/) (`index.markdown` [direct link](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/blob/main/docs/index.markdown))
+1. First find the best place in the [https://github.com/The-AI-Alliance/](https://github.com/The-AI-Alliance/) (`README.md` [direct link](https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md)) or one of the other related [Markdown files](https://github.com/The-AI-Alliance/.github/blob/main/profile/).
+2. Make the same change in the corresponding `*.markdown` page in the GitHub organization microsite: [https://the-ai-alliance.github.io/](https://the-ai-alliance.github.io/) (`index.markdown` [direct link](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/blob/main/docs/index.markdown) or sibling pages.)
 
-_**You only need to edit the first file**_, the [`README.md`](https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md), because we can automatically propagate the changes to the second file. 
+> [!NOTE]
+> _**You only need to edit the appropriate .github file**_ (step #1), because we can automatically propagate the changes to the second file. 
 
-1. Find the right section in the `README.md` where your project belongs.
+1. Find the right section in the `README.md` or related page where your project belongs.
 1. Find the correct table row in the section where it should be inserted.
 1. Copy the _**two**_ rows (`<tr>...</tr>`) either above or below this point and insert them.
 1. Edit all the details in the rows accordingly for your project. Note that if you didn't create a project dashboard in the previous step, you will delete that item in one of the table cells (`<td>...</td>`). You may decide to add or remove other links, too.
 
-After editing the [`README.md`](https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md), notify Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), who will run a tool that will copy the changes to the [https://the-ai-alliance.github.io/](https://the-ai-alliance.github.io/) site. (This process is documented in the [Appendix](#appendix) below.)
-
-Finally, talk to your focus area leaders about updating the main [AI Alliance website](https://thealliance.ai) with information about your project site.
+After editing the [.github page](https://github.com/The-AI-Alliance/.github/blob/main/profile/), notify Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), who will run a tool that will copy the changes to the [https://the-ai-alliance.github.io/](https://the-ai-alliance.github.io/) site. (This process is described in the [the-ai-alliance.github.io](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/) repo.)
 
 ### 10. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSE.*` files that don't apply to your project.
 
@@ -221,28 +206,4 @@ Similarly, you may not need all three `LICENSE.*` files:
 
 If you are using a separate publication branch, e.g., `latest`, don't forget to merge all changes from `main` to the publication branch and push both branches upstream, e.g., `git push --all` (when using the CLI in a terminal).
 
-You should now have a published website and you should know how to edit the content. Reach out to Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), Joe Olson ([email](mailto:Joe.Olson@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06LFUAM5HN)), or Trevor Grant ([email](mailto:trevor.grant@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06KCJ31771)) if you need help.
-
-## Appendix
-
-Step 9 has you add your project to the [GitHub organization README](https://github.com/The-AI-Alliance/.github/blob/main/profile/README.md) and then notify Dean Wampler to merge the corresponding changes into the 
-[https://the-ai-alliance.github.io/](https://the-ai-alliance.github.io/) website.
-
-If you have to do this merge step yourself, you have two options:
-1. Copy the edits over yourself from the README to the website's [`docs/index.markdown`](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/blob/main/docs/index.markdown) page.
-2. Run a script to do this for you.
-
-After either approach, commit and push the edits you make to the [`docs/index.markdown`](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/blob/main/docs/index.markdown) page.
-
-Step 2 is not only faster, it also adds HTML `target` properties to all URLs, so that when a user clicks a link in the website, a new browser tab is opened.
-
-In a terminal window, change the directory to your local copy of the repo [`the-ai-alliance.github.io`](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/)
-
-Run the following script, commit and push your edits, then delete some temporary files created by script:
-
-```shell
-copy-from-github-readme/copy-to-aia.sh
-git checkin -m 'Merging changes from the GitHub org README' .
-git push
-rm -f index-*.md readme-*.md
-```
+You should now have a published website and you should know how to edit the content. Reach out to Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), Joe Olson ([email](mailto:Joe.Olson@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06LFUAM5HN)), or Adam Pingel ([email](mailto:adam.pingel@ibm.com), [Slack](https://ai-alliance-workspace.slack.com/team/U06J2U2921F)) if you need help.

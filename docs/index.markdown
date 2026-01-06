@@ -7,9 +7,6 @@ has_children: false
 
 # MICROSITE_TITLE
 
-| **Authors**     | [WORK_GROUP_NAME](WORK_GROUP_URL){:target="wg"} (See the [Contributors]({{site.baseurl}}/contributing/#contributors)) |
-| **Last Update** | {{site.last_version}}, {{site.last_modified_timestamp}} |
-
 Welcome to the **The AI Alliance**: **MICROSITE_TITLE**. 
 
 {: .tip }
@@ -80,6 +77,8 @@ _different_ than a list of child pages (i.e., separate markdown files).
 That list is always shown at the bottom automatically, as defined in
 the default.html template file.
 -->
+
+| **Last Update** | {{site.last_version}}, {{site.last_modified_timestamp}} |
 
 ---
 

@@ -33,19 +33,9 @@ Keep the following anchor in case you change the section "Join..." text.
 The link is used by the default docs/_includes/header_buttons_custom.html, for example.
 {% endcomment %}
 <a name="join-this-project"></a>
-## Join this Project Work Group
+## Join the Alliance or This Project Work Group
 
-Want to help us drive the evolution of this project? Please join our work group. 
-
-Use the form on the Alliance's [Become a collaborator](https://thealliance.ai/become-a-collaborator){:target="join-collab"} page to let us know your interests. 
-
-Check these boxes on the form:
-
-- [ ] TODO
-
-In the &ldquo;Message&rdquo; box mention this project, **MICROSITE_TITLE**, and add anything else you would like us to know.
-
-If your organization would like to join the AI Alliance, go [here](https://thealliance.ai/membership){:target="join-org"}.
+Want to help us drive the evolution of this project? Please join our work group or the Alliance as a whole. See [this page](https://www.aialliance.org/join){:target="aia-join"} for more information.
 
 ## Other Notes on Contributing
 
