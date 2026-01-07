@@ -71,7 +71,7 @@ heading_anchors: true
 # Aux links for the upper right navigation
 aux_links:
   "The AI Alliance":
-    - "https://thealliance.ai"
+    - "https://aialliance.org"
 
 nav_external_links:
   - title: "The AI Alliance repo for MICROSITE_TITLE"

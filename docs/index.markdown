@@ -55,7 +55,7 @@ Some additional links.[^2]
 * [Contributing]({{site.baseurl}}/contributing): We welcome your contributions! Here's how you can contribute.
 * [About Us]({{site.baseurl}}/about): More about the AI Alliance and this project.
 * [Project GitHub Repo](https://github.com/The-AI-Alliance/REPO_NAME){:target="repo"}
-* [The AI Alliance](https://thealliance.ai){:target="ai-alliance"}: The AI Alliance website.
+* [The AI Alliance](https://aialliance.org){:target="aia"}: The AI Alliance website.
 
 Note our convention that external URLs include a target, specified with `{:target="some_name"}`. Adding these targets means browsers will automatically open external links in a new tab. You will also notice that external links get a little box and arrow adornment. This is done automatically through a clever CSS hack in `docs/_includes/css/custom.scss.liquid`.
 
