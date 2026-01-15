@@ -8,34 +8,28 @@ Provide a brief description of the documentation or website changes:
 * How do these changes improve the documentation/website?
 
 ## Related Issues
-List any related issues or PRs:
-* Fixes #123
-* Related to #456
-
-## Testing Performed
-Describe how you tested your changes:
-- [ ] Verified site builds successfully (i.e., `make view-local` runs successfully)
-- [ ] Checked links and formatting (run `./check-external-links.sh`, which ensures that all external links have `target="..."` definitions - but it doesn't verify the links are valid...)
-- [ ] Tested in local development environment
-- [ ] Screenshots of changes (if applicable)
-
-## Code Changes
-List all files modified/added:
-* docs/foobar.markdown
-* ...
+List any related issues or PRs (#number, ...):
 
 ## Preview
 Provide a link to a preview of the changes (if applicable) or just say that running `make view-local` is sufficient to see them. What should the reviewer check out, specifically?
 
 ## Checklist
-- [ ] I have read the [CONTRIBUTING.md](CONTRIBUTING.md) guide
-- [ ] My changes follow the documentation style guide
-- [ ] I have updated any related documentation
-- [ ] I have added/updated tests if applicable
-- [ ] I have included necessary screenshots or examples
 
-## Additional Context
-Add any other context or information that might be helpful for reviewers:
-* Related discussions
-* Special considerations
-* Open questions  
+Confirm that the following have been completed, where applicable:
+
+- [ ] I have read and understood the [CONTRIBUTING](https://github.com/The-AI-Alliance/community/blob/main/CONTRIBUTING.md) guide.
+
+For "microsite" and other documentation changes:
+
+- [ ] I have followed the documentation style guide.
+- [ ] I have included appropriate screenshots, example code, etc.
+- [ ] I have verified the microsite builds successfully, i.e., `make view-local` runs without errors.
+- [ ] I have checked that external links have `target="..."` specifications by running `./check-external-links.sh` and fixed any missing cases. (This tool doesn't add missing links nor does it verify the links are valid.)
+
+For code changes:
+
+- [ ] I have tested the code changes in my local development environment.
+- [ ] I have added and/or updated tests for all code changes.
+- [ ] I have followed the existing code styles and conventions.
+- [ ] I have removed all API keys and other sensitive information.
+- [ ] I have updated any related documentation.

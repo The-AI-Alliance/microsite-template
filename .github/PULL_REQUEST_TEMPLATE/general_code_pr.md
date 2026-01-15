@@ -8,10 +8,7 @@ Please provide a brief description of the changes made in this pull request:
 * How does it improve the existing repository?
 
 ## Related Issues
-List any related issues or PRs that this submission addresses:
-
-* Issue numbers (e.g., #123, #456)
-* PR numbers (e.g., #789)
+List any related issues or PRs (#number, ...):
 
 ## Testing Performed
 Describe the testing performed to validate the changes:
@@ -23,9 +20,9 @@ Describe the testing performed to validate the changes:
 ## Code Changes
 Provide an overview of the code changes made:
 
-* New files or directories added
-* Modified files or functions
-* Deleted files or functions
+* Important new files or directories added
+* Important modified files or functions
+* Important deleted files or functions
 
 ## Example Usage
 Include an example of how to use the new function or feature:
@@ -34,15 +31,22 @@ Include an example of how to use the new function or feature:
 * Expected output or results
 
 ## Checklist
-Confirm that the following have been completed:
 
-* [ ] All new functions have been documented in the `docs/` directory
-* [ ] Unit tests have been added for new functions
-* [ ] Code follows the existing style and convention
-* [ ] API keys or sensitive information have been removed
+Confirm that the following have been completed, where applicable:
 
-## Additional Context
-Any additional context or information that might be helpful for reviewers:
+- [ ] I have read and understood the [CONTRIBUTING](https://github.com/The-AI-Alliance/community/blob/main/CONTRIBUTING.md) guide.
 
-* Relevant discussions or meetings
-* Open questions or areas for further discussion  
+For "microsite" and other documentation changes:
+
+- [ ] I have followed the documentation style guide.
+- [ ] I have included appropriate screenshots, example code, etc.
+- [ ] I have verified the microsite builds successfully, i.e., `make view-local` runs without errors.
+- [ ] I have checked that external links have `target="..."` specifications by running `./check-external-links.sh` and fixed any missing cases. (This tool doesn't add missing links nor does it verify the links are valid.)
+
+For code changes:
+
+- [ ] I have tested the code changes in my local development environment.
+- [ ] I have added and/or updated tests for all code changes.
+- [ ] I have followed the existing code styles and conventions.
+- [ ] I have removed all API keys and other sensitive information.
+- [ ] I have updated any related documentation.
