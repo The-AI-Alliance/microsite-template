@@ -15,6 +15,8 @@ index="$dir/docs/index.markdown"
 work_branch=main
 publish_branch=main
 default_assignees="deanwampler,adampingel,jolson-ibm"
+default_dashboard=39
+default_dashboard_name="Misc. Alliance Tasks"
 
 help() {
 	cat << EOF
@@ -37,8 +39,7 @@ These arguments are optional:
 -r | --repo-name name  The name of GitHub repo. If you are running this script in the
                        repo's root directory, its name will be used, by default.
 -d | --dashboard N     The "N" for the ${dashboard_base}/N link to use for the project's dashboard.
-                       There is no default value, so no dashboard will be associated with the
-                       project automatically.
+                       Default: "$default_dashboard" ("$default_dashboard_name").
 -a | --assignees list  Comma-separated list of GitHub user names to whom issues are assigned.
                        E.g., "--assignees bob,ted". Default: "$default_assignees".
 --use-latest           By default, this script previously assumed that you would publish
@@ -131,8 +132,8 @@ determine_dashboard_url() {
 	echo $dashboard_url
 }
 
-dashboard=
-dashboard_url=
+dashboard=$default_dashboard
+dashboard_url=$(determine_dashboard_url $dashboard)
 assignees="$default_assignees"
 do_push=true
 show_next_steps=false
