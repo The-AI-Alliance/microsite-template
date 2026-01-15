@@ -15,7 +15,9 @@ index="$dir/docs/index.markdown"
 work_branch=main
 publish_branch=main
 default_assignees="deanwampler,adampingel,jolson-ibm"
-default_dashboard=39
+
+dashboard_base="The-AI-Alliance"
+default_dashboard_number=39
 default_dashboard_name="Misc. Alliance Tasks"
 
 help() {
@@ -39,7 +41,7 @@ These arguments are optional:
 -r | --repo-name name  The name of GitHub repo. If you are running this script in the
                        repo's root directory, its name will be used, by default.
 -d | --dashboard N     The "N" for the ${dashboard_base}/N link to use for the project's dashboard.
-                       Default: "$default_dashboard" ("$default_dashboard_name").
+                       Default: "$default_dashboard_number" ("$default_dashboard_name").
 -a | --assignees list  Comma-separated list of GitHub user names to whom issues are assigned.
                        E.g., "--assignees bob,ted". Default: "$default_assignees".
 --use-latest           By default, this script previously assumed that you would publish
@@ -132,8 +134,8 @@ determine_dashboard_url() {
 	echo $dashboard_url
 }
 
-dashboard=$default_dashboard
-dashboard_url=$(determine_dashboard_url $dashboard)
+dashboard=$(determine_dashboard $default_dashboard_number)
+dashboard_url=$(determine_dashboard_url $default_dashboard_number)
 assignees="$default_assignees"
 do_push=true
 show_next_steps=false
@@ -225,8 +227,8 @@ then
 	work_branch=$(get_value "$work_branch" "Work (integration) branch name" true)
 	publish_branch=$(get_value "$publish_branch" "Website publication branch name" true)
 	db=$(get_value "$dashboard" "Project dashboard (number)")
-	dashboard=determine_dashboard "$db"
-	dashboard_url=determine_dashboard_url "$db"	
+	dashboard=$(determine_dashboard "$db")
+	dashboard_url=$(determine_dashboard_url "$db")
 	assignees=$(get_value "$assignees" "Issue and PR assignees")	
 	do_push=$(get_value "$do_push" "Push changes to GitHub? Enter true or false")
 fi
