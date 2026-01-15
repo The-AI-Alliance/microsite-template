@@ -37,10 +37,12 @@ The link is used by the default docs/_includes/header_buttons_custom.html, for e
 
 Want to help us drive the evolution of this project? Please join our work group or the Alliance as a whole. See [this page](https://www.aialliance.org/join){:target="aia-join"} for more information.
 
+If you decide to [join as an individual](https://share.hsforms.com/12dRIKDc5SSGUENOtAstjMgqmmqo){:target="aia-join-indiv"}, be sure to check the boxes for your areas of interest. If you want [your organization to join](https://events.thealliance.ai/membership-enquiry){:target="aia-join-org"}, mention your interests in the _Membership Interest_ box.
+
 ## Other Notes on Contributing
 
 The sources for this website are in the GitHub repo's [`docs`](https://github.com/The-AI-Alliance/REPO_NAME/tree/main/docs){:target="repo-docs"} directory. 
 
 Notice that every page on this website has an _Edit this page on GitHub_ link to the corresponding location for the page in the GitHub repo, making it easy to view a page, then go straight to the source, make edits, and submit a PR! This is the best way to help us fix typos and make other small improvements.
 
-This documentation is built with [GitHub Pages](https://pages.github.com/){:target="github-pages"}, which uses [Jekyll](https://github.com/jekyll/jekyll){:target="gh-jekyll"} to serve the website. We use the [Just the Docs](https://just-the-docs.github.io/just-the-docs/){:target="just-the-docs"} Jekyll theme. See the repo file [`GITHUB_PAGES.md`](https://github.com/The-AI-Alliance/REPO_NAME/tree/main/GITHUB_PAGES.md){:target="_blank"} for more information.
+This documentation is built with [GitHub Pages](https://pages.github.com/){:target="github-pages"}, which uses [Jekyll](https://github.com/jekyll/jekyll){:target="gh-jekyll"} to serve the website. We use the [Just the Docs](https://just-the-docs.github.io/just-the-docs/){:target="just-the-docs"} Jekyll theme. See the repo file [`GITHUB_PAGES.md`](https://github.com/The-AI-Alliance/REPO_NAME/tree/main/GITHUB_PAGES.md){:target="_blank"} for more information, including how you can run the website locally to test any changes.
