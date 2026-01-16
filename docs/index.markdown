@@ -78,8 +78,6 @@ That list is always shown at the bottom automatically, as defined in
 the default.html template file.
 -->
 
-| **Last Update** | {{site.last_version}}, {{site.last_modified_timestamp}} |
-
 ---
 
 <details open markdown="block">
