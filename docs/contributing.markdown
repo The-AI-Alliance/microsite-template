@@ -4,12 +4,6 @@ title: Contributing
 nav_order: 90
 ---
 
-# Contributors
-
-The following people and organizations have contributed to the creation and maintenance of this project:
-
-* TODO
-
 # How to Contribute to this Project
 
 We welcome your contributions! 
@@ -35,9 +29,7 @@ The link is used by the default docs/_includes/header_buttons_custom.html, for e
 <a name="join-this-project"></a>
 ## Join the Alliance or This Project Work Group
 
-Want to help us drive the evolution of this project? Please join our work group or the Alliance as a whole. See [this page](https://www.aialliance.org/join){:target="aia-join"} for more information.
-
-If you decide to [join as an individual](https://share.hsforms.com/12dRIKDc5SSGUENOtAstjMgqmmqo){:target="aia-join-indiv"}, be sure to check the boxes for your areas of interest. If you want [your organization to join](https://events.thealliance.ai/membership-enquiry){:target="aia-join-org"}, mention your interests in the _Membership Interest_ box.
+Want to help us drive the evolution of this project? Please join our work group or the Alliance as a whole. See the [Join Our Community](https://www.aialliance.org/join){:target="aia-join"} page for more information about membership for individuals and organizations.
 
 ## Other Notes on Contributing
 
