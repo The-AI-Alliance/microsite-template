@@ -95,16 +95,18 @@ enable_copy_code_button: true
 back_to_top: true
 back_to_top_text: "Back to the top"
 
-# Show Footer and where (Added by AIA team). 
-# "show_footer" determines if the primiary footer content like the version,
+# Whether or not to show some footer information and where (Added by AIA team). 
+# "show_footer" determines if the primary footer content like the version,
 # timestamp and "edit this page" appear at the bottom of the "main" content,
-# before the copyright in the side bar, or neither place. Use one of these 
-# values:
+# before the copyright in the side bar, both places, or neither place. 
+# Use one of these values:
 #   side_bar  Show in the side bar above the copyright, etc.
-#   main      Show the main content footer. If not shown here, 
-#             NO footer content is shown here, unlike for side bar rendering.
+#   main      Show the main content footer. Unlike for side bar rendering, 
+#             if not shown in the main content, NO footer content is shown
+#             here, including the built-in support for a custom footer include file.
+#             You can change this behavior by editing _layout/default.html...
 #   both      Show in both places.
-#   ""        Don't show this content in either place. 
+#   ""        Don't show this content in either place. (Also suppresses main footer...)
 show_footer: side_bar
 # show_footer: main
 # show_footer: both
