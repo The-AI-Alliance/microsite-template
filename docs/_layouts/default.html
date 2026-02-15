@@ -69,6 +69,37 @@ layout: table_wrappers
       {% endif %}
     </nav>
     <footer class="site-footer">
+      {% if site.show_footer == "side_bar" or  site.show_footer == "both" %}
+        {% if site.last_edit_timestamp or site.gh_edit_link %}
+          {% if
+            site.gh_edit_link and
+            site.gh_edit_link_text and
+            site.gh_edit_repository and
+            site.gh_edit_branch and
+            site.gh_edit_view_mode
+          %}
+            <div class="d-flex mt-2">
+              <p class="text-small text-grey-dk-000 mb-0">
+                <a href="{{ site.gh_edit_repository }}/{{site.gh_edit_view_mode}}/{{site.gh_edit_branch}}/{{site.gh_edit_source}}/{{ page.path }}" id="edit-this-page" target="_blank">{{ site.gh_edit_link_text }}</a>
+              </p>
+            </div>
+          {% endif %}
+          {% if site.last_edit_timestamp and site.last_edit_time_format %}
+            <div class="d-flex mt-2">
+              <p class="text-small text-grey-dk-000 mb-0 mr-2">
+                {% if site.last_version %}
+                  Version: <span class="d-inline-block">{{ site.last_version }}</span>
+                {% endif %}
+                {% if page.last_modified_date %}
+                  Page last modified: <span class="d-inline-block">{{ page.last_modified_date | date: site.last_edit_time_format }}</span>.
+                {% elsif site.last_modified_date %}
+                  Site last modified: <span class="d-inline-block">{{ site.last_modified_date | date: site.last_edit_time_format }}</span>.
+                {% endif %}
+              </p>
+            </div>
+          {% endif %}
+        {% endif %}
+      {% endif %}
       <p>
         Copyright &copy; {{ site.copyright_years }}, <a href="https://www.aialliance.org" target="_aia">The AI Alliance</a>.
       </p>
@@ -177,49 +208,51 @@ layout: table_wrappers
           </div>
         {% endif %}
 
-        {% capture footer_custom %}
-          {%- include footer_custom.html -%}
-        {% endcapture %}
-        {% if footer_custom != "" or site.last_edit_timestamp or site.gh_edit_link %}
-          <hr>
-          <footer>
-            {% if site.back_to_top %}
-              <p><a href="#top" id="back-to-top">{{ site.back_to_top_text }}</a></p>
-            {% endif %}
 
-            {{ footer_custom }}
-            {% if site.last_edit_timestamp or site.gh_edit_link %}
-              {% if
-                site.gh_edit_link and
-                site.gh_edit_link_text and
-                site.gh_edit_repository and
-                site.gh_edit_branch and
-                site.gh_edit_view_mode
-              %}
-                <div class="d-flex mt-2">
-                  <p class="text-small text-grey-dk-000 mb-0">
-                    <a href="{{ site.gh_edit_repository }}/{{site.gh_edit_view_mode}}/{{site.gh_edit_branch}}/{{site.gh_edit_source}}/{{ page.path }}" id="edit-this-page" target="_blank">{{ site.gh_edit_link_text }}</a>
-                  </p>
-                </div>
+        {% if site.show_footer == "main" or site.show_footer == "both" %}
+          {% capture footer_custom %}
+            {%- include footer_custom.html -%}
+          {% endcapture %}
+          {% if footer_custom != "" or site.last_edit_timestamp or site.gh_edit_link %}
+            <hr>
+            <footer>
+              {% if site.back_to_top %}
+                <p><a href="#top" id="back-to-top">{{ site.back_to_top_text }}</a></p>
               {% endif %}
-              {% if site.last_edit_timestamp and site.last_edit_time_format %}
-                <div class="d-flex mt-2">
-                  <p class="text-small text-grey-dk-000 mb-0 mr-2">
-                    {% if site.last_version %}
-                      Version: <span class="d-inline-block">{{ site.last_version }}</span>
-                    {% endif %}
-                    {% if page.last_modified_date %}
-                      Page last modified: <span class="d-inline-block">{{ page.last_modified_date | date: site.last_edit_time_format }}</span>.
-                    {% elsif site.last_modified_date %}
-                      Site last modified: <span class="d-inline-block">{{ site.last_modified_date | date: site.last_edit_time_format }}</span>.
-                    {% endif %}
-                  </p>
-                </div>
+
+              {{ footer_custom }}
+              {% if site.last_edit_timestamp or site.gh_edit_link %}
+                {% if
+                  site.gh_edit_link and
+                  site.gh_edit_link_text and
+                  site.gh_edit_repository and
+                  site.gh_edit_branch and
+                  site.gh_edit_view_mode
+                %}
+                  <div class="d-flex mt-2">
+                    <p class="text-small text-grey-dk-000 mb-0">
+                      <a href="{{ site.gh_edit_repository }}/{{site.gh_edit_view_mode}}/{{site.gh_edit_branch}}/{{site.gh_edit_source}}/{{ page.path }}" id="edit-this-page" target="_blank">{{ site.gh_edit_link_text }}</a>
+                    </p>
+                  </div>
+                {% endif %}
+                {% if site.last_edit_timestamp and site.last_edit_time_format %}
+                  <div class="d-flex mt-2">
+                    <p class="text-small text-grey-dk-000 mb-0 mr-2">
+                      {% if site.last_version %}
+                        Version: <span class="d-inline-block">{{ site.last_version }}</span>
+                      {% endif %}
+                      {% if page.last_modified_date %}
+                        Page last modified: <span class="d-inline-block">{{ page.last_modified_date | date: site.last_edit_time_format }}</span>.
+                      {% elsif site.last_modified_date %}
+                        Site last modified: <span class="d-inline-block">{{ site.last_modified_date | date: site.last_edit_time_format }}</span>.
+                      {% endif %}
+                    </p>
+                  </div>
+                {% endif %}
               {% endif %}
-            {% endif %}
-          </footer>
+            </footer>
+          {% endif %}
         {% endif %}
-
       </div>
     </div>
 

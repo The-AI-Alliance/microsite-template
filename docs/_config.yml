@@ -27,7 +27,7 @@ exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile", "Gemfile.lock", "pac
 
 # Added by AI Alliance: a glossary URL, which in this case is internal
 # to this site!
-glossaryurl: https://the-ai-alliance.github.io/glossary/glossary
+glossaryurl: https://the-ai-alliance.github.io/glossary
 
 # Regression tests
 # By default, the pages in /docs/tests are excluded when the site is built.
@@ -94,6 +94,21 @@ enable_copy_code_button: true
 # Back to top link
 back_to_top: true
 back_to_top_text: "Back to the top"
+
+# Show Footer and where (Added by AIA team). 
+# "show_footer" determines if the primiary footer content like the version,
+# timestamp and "edit this page" appear at the bottom of the "main" content,
+# before the copyright in the side bar, or neither place. Use one of these 
+# values:
+#   side_bar  Show in the side bar above the copyright, etc.
+#   main      Show the main content footer. If not shown here, 
+#             NO footer content is shown here, unlike for side bar rendering.
+#   both      Show in both places.
+#   ""        Don't show this content in either place. 
+show_footer: side_bar
+# show_footer: main
+# show_footer: both
+# show_footer: 
 
 # Footer last edited timestamp
 last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
