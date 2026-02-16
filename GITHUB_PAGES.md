@@ -114,16 +114,29 @@ In the pages, you can use emojis, e.g., `:+1:` yields :+1:, `:smirk:` yields :sm
 
 ### Redirects
 
-The `docs/_layouts/redirect.html` page makes it easy to define a redirect. Suppose you have a page `docs/foo/bar.markdown` and you decide to rename it `docs/foo/not-so-bar.markdown`, but you don't want to break the old link. Instead, you want the old URL to redirect to the new one. Change the content in `docs/foo/bar.markdown` to the following:
+The `docs/_layouts/redirect.html` page makes it easy to define a redirect either within the same site, (i.e., _relative_) or to a different site (i.e., _absolute_). 
+
+Suppose you have a page `docs/foo/bar.markdown` and you decide to rename it `docs/foo/not-so-bar.markdown`, but you don't want to break the old link. Instead, you want the old URL to redirect to the new one. Change the content in `docs/foo/bar.markdown` to the following:
 
 ```yaml
 ---
 layout: redirect
-redirect_rel_url: foo/not-so-bar
+redirect_rel_url: /foo/not-so-bar
 ---
 ```
 
-Note that `redirect_rel_url` is _relative_ to the site root path.
+Note that `redirect_rel_url` is _relative_ to the site root path, which is defined by `site.baseurl` in `docs/_config.yml`. _Don't_ use relative paths like `../a/b`. So the word relative is ... ah hem... _relative_.
+
+Similarly, for _absolute_ redirects to a new site, use `redirect_abs_url` as follows:
+
+```yaml
+---
+layout: redirect
+redirect_abs_url: https://example.com/foo/not-so-bar
+---
+```
+
+What about any parameters, anchor tags, etc. in the original URL? Those are appended to the new URL by `docs/_layouts/redirect.html`. See the comments in that file on how this works and other tips.
 
 ## Previewing Your Work Locally
 
