@@ -33,7 +33,7 @@ This is the hack we use for reconstructing the full URL, adapted from StackOverf
   <script type="text/javascript">
 
     {% if page.redirect_rel_url %}
-      {% assign url_prefix = site.url | append: "/" | append: site.baseurl: | append: page.redirect_rel_url %}
+      {% assign url_prefix = site.url | append: "/" | append: site.baseurl | append: page.redirect_rel_url %}
     {% elsif page.redirect_abs_url %}
       {% assign url_prefix = page.redirect_abs_url %}
     {% else %}
