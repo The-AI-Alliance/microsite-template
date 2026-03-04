@@ -17,7 +17,10 @@ It also handles our way of referencing the separate glossary site, where
 the markdown URL will be '[Term]({{site.glossaryurl}}/#term)' and not have
 an explicit 'http...' leader. 
 
-It incorrectly flags image URLs, e.g., '![label](https://example.com/image.png)'.
+It attempts to correctly ignore image URLs, e.g., '![label](https://example.com/image.png)',
+by looking at the file extension (jpg|jpeg|png|svg|mp3|mp4). This means
+that if a URL that should have a target happens to have one of those strings,
+it won't be checked for the target!
 
 It doesn't exit with an error if such links are found, because in some
 cases, this might be intentional.
@@ -35,7 +38,6 @@ path1 ...              Check these paths. Directories will be visited recursivel
                        excluding files under "_site" and "_sass".
 NOTES:
 1. Skips files found under "temp", "tmp", "_site", and "_sass" directories.
-2. Falsely flags some image URLs.
 EOF
 }
 
@@ -79,7 +81,7 @@ eg=$(which egrep)
 # Use a somewhat complicated script to find the URLs starting
 # with http, print only the matches and then filter out the 
 # URLs that contain "target". It won't work perfectly, but ...
-[[ -n "$VERBOSE" ]] && echo "Checking markdown files. Image URLs will be incorrectly flagged!"
+[[ -n "$VERBOSE" ]] && echo "Checking markdown files:"
 for path in "${paths[@]}"
 do
 	if [[ -n "$VERBOSE" ]]
@@ -91,12 +93,12 @@ do
 		--include '*.markdown' --include '*.md' \
  		--exclude-dir 'temp' --exclude-dir 'tmp' \
 		--exclude-dir '_site' --exclude-dir '_sass' \
-		$path | $eg -v 'target='
+		$path | $eg -v 'target=' | $eg -v '\.(jpg|jpeg|png|svg|mp3|mp4)'
 	$eg -nHoR '\(\{\{site.glossaryurl\}\}[^)]*\)(\S*)' \
 		--include '*.markdown' --include '*.md' \
  		--exclude-dir 'temp' --exclude-dir 'tmp' \
 		--exclude-dir '_site' --exclude-dir '_sass' \
-		$path | $eg -v 'target='
+		$path | $eg -v 'target=' | $eg -v '\.(jpg|jpeg|png|svg|mp3|mp4)'
 done
 
 [[ -n "$VERBOSE" ]] && echo "Checking HTML files:"
@@ -111,5 +113,5 @@ do
 		--include '*.html' \
  		--exclude-dir 'temp' --exclude-dir 'tmp' \
 		--exclude-dir '_site' --exclude-dir '_sass' \
-		$path | $eg -v 'target='
+		$path | $eg -v 'target=' | $eg -v '\.(jpg|jpeg|png|svg|mp3|mp4)'
 done
