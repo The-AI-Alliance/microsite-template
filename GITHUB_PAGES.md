@@ -74,6 +74,7 @@ last_modified_date: 2025-07-18
 last_version: V0.2.2
 ```
 
+
 ## Editing Conventions and Tips
 
 ### Links
@@ -86,11 +87,11 @@ For _internal_ cross-references, use the conventional `[title]({{site.baseurl}}/
 For _external_ links (those that start with `http` or `https`), add `{:target="_blank"}` to every external link in Markdown and `target="_blank"` for every HTML anchor tag, e.g.,
 
 ```markdown
-[AI Alliance website](https://www.aialliance.org){:target="_blank"}
+[AI Alliance website](https://aialliance.org){:target="_blank"}
 ```
 
 ```html
-<a href="https://www.aialliance.org" target="_blank">AI Alliance website</a>
+<a href="https://aialliance.org" target="_blank">AI Alliance website</a>
 ```
 
 While tedious this provides a better experience for users of the website.
@@ -114,29 +115,16 @@ In the pages, you can use emojis, e.g., `:+1:` yields :+1:, `:smirk:` yields :sm
 
 ### Redirects
 
-The `docs/_layouts/redirect.html` page makes it easy to define a redirect either within the same site, (i.e., _relative_) or to a different site (i.e., _absolute_). 
-
-Suppose you have a page `docs/foo/bar.markdown` and you decide to rename it `docs/foo/not-so-bar.markdown`, but you don't want to break the old link. Instead, you want the old URL to redirect to the new one. Change the content in `docs/foo/bar.markdown` to the following:
+The `docs/_layouts/redirect.html` page makes it easy to define a redirect. Suppose you have a page `docs/foo/bar.markdown` and you decide to rename it `docs/foo/not-so-bar.markdown`, but you don't want to break the old link. Instead, you want the old URL to redirect to the new one. Change the content in `docs/foo/bar.markdown` to the following:
 
 ```yaml
 ---
 layout: redirect
-redirect_rel_url: /foo/not-so-bar
+redirect_rel_url: foo/not-so-bar
 ---
 ```
 
-Note that `redirect_rel_url` is _relative_ to the site root path, which is defined by `site.baseurl` in `docs/_config.yml`. _Don't_ use relative paths like `../a/b`. So the word relative is ... ah hem... _relative_.
-
-Similarly, for _absolute_ redirects to a new site, use `redirect_abs_url` as follows:
-
-```yaml
----
-layout: redirect
-redirect_abs_url: https://example.com/foo/not-so-bar
----
-```
-
-What about any parameters, anchor tags, etc. in the original URL? Those are appended to the new URL by `docs/_layouts/redirect.html`. See the comments in that file on how this works and other tips.
+Note that `redirect_rel_url` is _relative_ to the site root path.
 
 ## Previewing Your Work Locally
 
@@ -252,6 +240,42 @@ gem install bundler jekyll jemoji
 bundle install
 bundle update html-pipeline
 ```
+
+The `gem` or `bundle` commands sometimes fail.
+
+If the `gem` command fails with a message like the following:
+
+> You don't have write permissions for the /Library/Ruby/Gems/2.6.0 directory.
+
+This means `gem install ...` is trying to run against the MacOS default ruby installation, which requires `sudo`. You are probably running `user/bin/gem`. You need a newer version of ruby anyway for running Jekyll. So follow the [Ruby installation instructions](https://www.ruby-lang.org/en/documentation/installation/) or use Homebrew (https://brew.sh) to install a recent version of ruby, then make sure that `which gem` (or a similar command) shows a path like `/usr/local/.../bin/gem`, `/opt/homebrew/...`, etc.
+
+Another possible error is something like the following:
+
+> ```
+> Bundler found conflicting requirements for the RubyGems version:
+>   In Gemfile:
+>     foo-bar (>= 3.0.0) was resolved to 3.0.0, which depends on
+>       RubyGems (>= 3.3.22)
+> 
+>   Current RubyGems version:
+>     RubyGems (= 3.3.11)
+> ```
+
+In this case, try upgrading ruby to get a newer version, e.g., `brew upgrade ruby`, if you installed it with Homebrew.
+
+Another `bundle` command failure reports a message like this:
+
+>```
+> ... "/usr/local/opt/ruby/bin/bundle:25:in `load': cannot load such file -- /usr/local/lib/ruby/gems/3.1.0/gems/bundler-X.Y.Z/exe/bundle (LoadError)"
+
+
+Check that the directory shown, e.g., `/usr/local/lib/ruby/gems/3.1.0/gems/bundler-X.Y.Z`, actually exists. If not, try running the `make clean-jekyll` command provided by the `Makefile`, e.g.,
+
+```shell
+make clean-jekyll setup-jekyll
+```
+
+Answer "y" (yes) to the prompts and ignore any warnings that you can't uninstall a "default" gem.
 
 Finally, if you are still stuck, please [post an issue](https://github.com/The-AI-Alliance/REPO_NAME/issues) to get help.
 
