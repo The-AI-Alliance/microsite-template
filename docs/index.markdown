@@ -7,7 +7,7 @@ has_children: false
 
 # MICROSITE_TITLE
 
-Welcome to the **The AI Alliance**: **MICROSITE_TITLE**. 
+Welcome to **The AI Alliance: MICROSITE_TITLE**. 
 
 {: .tip }
 > **TIPS:** 

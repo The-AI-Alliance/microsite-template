@@ -8,7 +8,8 @@ nav_order: 90
 
 We welcome your contributions! 
 
-TODO: more specific ways to contribute.
+{: .todo}
+> **TODO:** Add more specific ways to contribute.
 
 Ways to suggest ideas:
 * Post a [pull request](https://github.com/The-AI-Alliance/REPO_NAME/pulls){:target="prs"}! 
