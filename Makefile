@@ -47,12 +47,14 @@ endif
 define gem-error-message
 
 ERROR: Did the gem command fail with a message like this?
+ERROR:
 ERROR: 	 "You don't have write permissions for the /Library/Ruby/Gems/2.6.0 directory."
 ERROR: To run the "gem install ..." command for the MacOS default ruby installation requires "sudo".
 ERROR: Instead, use Homebrew (https://brew.sh) to install ruby and make sure "/usr/local/.../bin/gem"
 ERROR: is on your PATH before "user/bin/gem".
 ERROR:
 ERROR: Or did the gem command fail with a message like this?
+ERROR:
 ERROR:   Bundler found conflicting requirements for the RubyGems version:
 ERROR:     In Gemfile:
 ERROR:       foo-bar (>= 3.0.0) was resolved to 3.0.0, which depends on
@@ -60,15 +62,41 @@ ERROR:         RubyGems (>= 3.3.22)
 ERROR:   
 ERROR:     Current RubyGems version:
 ERROR:       RubyGems (= 3.3.11)
-ERROR: In this case, try "brew upgrade ruby" to get a newer version.
+ERROR:
+ERROR: In this case, try "brew upgrade ruby@3.3.5" (or use whatever ruby manager
+ERROR: you use) to get a newer version.
+ERROR: 
+ERROR: NOTE: At this time, Ruby 4.0+ aren't supported by GitHub Pages!
+ERROR: If you instead see an error message like this:
+ERROR: 
+ERROR:   Resolving dependencies...
+ERROR:   Could not find compatible versions
+ERROR:   
+ERROR:   Because github-pages >= 232 depends on jekyll-commonmark-ghpages = 0.5.1
+ERROR:     and jekyll-commonmark-ghpages >= 0.2.0 depends on jekyll-commonmark ~> 1.4.0,
+ERROR:     github-pages >= 232 requires jekyll-commonmark ~> 1.4.0.
+ERROR:   And because jekyll-commonmark >= 1.4.0 depends on commonmarker ~> 0.22
+ERROR:     and commonmarker >= 0.22.0, < 1.0.0.pre depends on Ruby >= 2.6, < 4.0,
+ERROR:     github-pages >= 232 requires Ruby >= 2.6, < 4.0.
+ERROR:   So, because Gemfile depends on github-pages ~> 232
+ERROR:     and current Ruby version is = 4.0.3,
+ERROR:     version solving has failed.
+ERROR:
+ERROR: This means you are trying to use Ruby 4.0+, which isn't supported by
+ERROR: GitHub Pages! Use your Ruby management tool (eg., 'chruby', Homebrew, ...)
+ERROR: to install a 3.X version, e.g., 3.3.5. Tools like 'chruby' let you install
+ERROR: and use multiple versions of Ruby.
 
 endef
 
 define bundle-error-message
 
 ERROR: Did the bundle command fail with a message like this?
+ERROR:
 ERROR: 	 "/usr/local/opt/ruby/bin/bundle:25:in `load': cannot load such file -- /usr/local/lib/ruby/gems/3.1.0/gems/bundler-X.Y.Z/exe/bundle (LoadError)"
+ERROR:
 ERROR: Check that the /usr/local/lib/ruby/gems/3.1.0/gems/bundler-X.Y.Z directory actually exists. 
+ERROR:
 ERROR: If not, try running the clean-jekyll command first:
 ERROR:   make clean-jekyll setup-jekyll
 ERROR: Answer "y" (yes) to the prompts and ignore any warnings that you can't uninstall a "default" gem.
@@ -77,6 +105,9 @@ endef
 
 define ruby_installation_message
 See ruby-lang.org for installation instructions.
+
+WARNING: Install the latest Ruby version 3 release. 
+WARNING: Version 4 releases aren't supported by GitHub Pages.
 endef
 
 .PHONY: all view-pages view-local clean help 
@@ -138,6 +169,7 @@ bundle-installation::
 ruby-installed-check:
 	@command -v ruby > /dev/null || ${MAKE} ruby-missing-error
 	@command -v gem  > /dev/null || ${MAKE} gem-missing-error
+	@ruby --version | grep -q 'ruby 3' || ${MAKE} ruby-version-error
 
 bundle-command-check:
 	@command -v bundle > /dev/null || \
@@ -151,6 +183,11 @@ jekyll-error:
 	$(error "ERROR: Failed to run Jekyll. Try running 'make setup-jekyll'.")
 ruby-missing-error:
 	$(error "ERROR: 'ruby' is required. ${ruby_installation_message}")
+ruby-version-error: show-ruby-version
+	$(error "ERROR: The wrong version of 'ruby' was found. ${ruby_installation_message}")
+show-ruby-version:
+	@echo "Ruby version found:"
+	@ruby --version
 gem-missing-error:
 	$(error "ERROR: Ruby's 'gem' is required. ${ruby_installation_message}")
 gem-error:
