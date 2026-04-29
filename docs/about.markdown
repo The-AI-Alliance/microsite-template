@@ -7,7 +7,7 @@ has_children: false
 
 # About The MICROSITE_TITLE and The AI Alliance
 
-The **MICROSITE_TITLE** is part of the [The AI Alliance](https://www.aialliance.org){:target="aia"}. 
+The [AI Alliance](https://www.aialliance.org){:target="aia"} created and develops the **MICROSITE_TITLE**.
 
 {: .attention }
 > **Join Us!** We are looking for [collaborators]({{site.baseurl}}/contributing).

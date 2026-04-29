@@ -24,13 +24,15 @@ These are the main steps, with details below:
 1. **If** you plan to publish the website from the `latest` branch, merge changes to that branch from `main`.
 1. Edit the repo's _Settings_. 
     1. On the repo's home page in GitHub, click the _Settings_ "gear" on the upper right-hand side. 
-    1. Click the checkbox labeled _Require contributors to sign off on web-based commits Loading._ (Near the top under _Repository name_.) 
     1. Scroll down to _Features_ and click _Discussions_ to enable them (unless you don't want them; in this case, remove the URL on the `docs/contributing.markdown` page!).
         1. Click the green _Setup discussions_ button, then edit and submit the "welcome" message. (The default is usually fine.)
-    1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `main` or `latest` branch depending on which one you want to use, then select the `/docs` directory. (**NOTE:** Make the repo is _public_ or else the pages won't get published.)
-1. Add the website in the appropriate location on the Alliance GitHub organization [README](https://github.com/The-AI-Alliance/) and the Alliance GitHub [website](https://the-ai-alliance.github.io/#the-ai-alliance-projects). 
+    1. Click the checkbox labeled _Require contributors to sign off on web-based commits Loading._ (Under the _Commits_ part of the page, near the bottom.) 
+    1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `main` or `latest` branch depending on which one you want to use, then select the `/docs` directory. (**NOTE:** Make sure the repo is _public_ or else the pages won't get published.) The public URL will be [https://the-ai-alliance.github.io/REPO_NAME](https://the-ai-alliance.github.io/REPO_NAME)
+1. Add the website description and URL in the appropriate location on the Alliance GitHub organization [README](https://github.com/The-AI-Alliance/.github/tree/main/profile) files and the Alliance GitHub [website](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/). (See [Need Help?](#anchor-need-help) below...) 
 1. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSE.*` files that don't apply to your project.
-1. Final steps.
+1. Final steps: If you are using a separate publication branch, e.g., `latest`, don't forget to merge all changes from `main` to the publication branch and push both branches upstream, e.g., `git push --all` (when using the CLI in a terminal).
+
+You should now have a published website!
 
 > [!NOTE] 
 > We are planning to automate as many of the manual steps as we can.
@@ -211,4 +213,10 @@ Similarly, you may not need all three `LICENSE.*` files:
 
 If you are using a separate publication branch, e.g., `latest`, don't forget to merge all changes from `main` to the publication branch and push both branches upstream, e.g., `git push --all` (when using the CLI in a terminal).
 
-You should now have a published website and you should know how to edit the content. Reach out to Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), Joe Olson ([email](mailto:jolson@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U06LFUAM5HN)), or Adam Pingel ([email](mailto:apingel@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U06J2U2921F)) if you need help.
+You should now have a published website and you should know how to edit the content. 
+
+<a id="anchor-need-help"></a>
+
+## Need Help?
+
+Reach out to Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), Joe Olson ([email](mailto:jolson@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U06LFUAM5HN)), or Adam Pingel ([email](mailto:apingel@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U06J2U2921F)) if you need help.
