@@ -38,4 +38,4 @@ The website is published using [GitHub Pages](https://pages.github.com/), where 
 See [GITHUB_PAGES.md](GITHUB_PAGES.md) for more information.
 
 > [!NOTE]
-> As described above, all documentation is licensed under Creative Commons Attribution 4.0 International. See [LICENSE.CC-BY-4.0](LICENSE.CC-BY-4.0)).
+> As described above, all documentation is licensed under Creative Commons Attribution 4.0 International. See [LICENSE.CC-BY-4.0](LICENSE.CC-BY-4.0).
