@@ -2,9 +2,15 @@
 # entries we added plus Python and Ruby .gitignore files
 # generated at https://www.toptal.com/developers/gitignore/
 
-# A "temporary" place to put stuff...
+# OS and other things.
+.DS_Store
+Thumbs.db
 tmp/
 temp/
+Gemfile.lock
+docs/.jekyll-metadata
+docs/.sass-cache/
+docs/_site/
 
 # Releases
 releases/*.temp
