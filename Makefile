@@ -1,48 +1,86 @@
-
-pages_url    := https://the-ai-alliance.github.io/REPO_NAME/
-docs_dir     := docs
-site_dir     := ${docs_dir}/_site
-clean_dirs   := ${site_dir} ${docs_dir}/.sass-cache
+# Makefile for the REPO_NAME code and GitHub pages website.
+# See other project Makefiles for definitions for using Ollama, etc., etc.
+# E.g., https://github.com/The-AI-Alliance/ai-application-testing/blob/main/Makefile
 
 # Environment variables
-MAKEFLAGS            = --warn-undefined-variables
-MAKEFLAGS_RECURSIVE ?= # --print-directory (only useful for recursive makes...)
-UNAME               ?= $(shell uname)
-ARCHITECTURE        ?= $(shell uname -m)
+MAKEFLAGS             ?= --warn-undefined-variables
+MAKEFLAGS_RECURSIVE   ?= # --print-directory (only useful for recursive makes...)
+UNAME                 ?= $(shell uname)
+ARCHITECTURE          ?= $(shell uname -m)
+
+# Definitions for the website.
+GITHUB_PAGES_URL      ?= https://the-ai-alliance.github.io/REPO_NAME/
+DOCS_DIR              ?= docs
+SITE_DIR              ?= ${DOCS_DIR}/_site
+CLEAN_DOCS_DIRS       ?= ${SITE_DIR} ${DOCS_DIR}/.sass-cache
 
 # Override when running `make view-local` using e.g., `JEKYLL_PORT=8000 make view-local`
-JEKYLL_PORT         ?= 4000
+JEKYLL_PORT           ?= 4000
 
-# Used for version tagging release artifacts.
-GIT_HASH            ?= $(shell git show --pretty="%H" --abbrev-commit |head -1)
-NOW                 ?= $(shell date +"%Y%m%d-%H%M%S")
+# Used for version tagging of release artifacts, log file names, etc.
+GIT_HASH              ?= $(shell git show --pretty="%H" --abbrev-commit |head -1)
+TIMESTAMP             ?= $(shell date +"%Y%m%d-%H%M%S")
+
+# Time execution
+TIME                  ?= time  # time execution of long processes
+
+# Source files location
+SRC_DIR               ?= src
+
+# Colored output using tput. Adapted from
+# https://stackoverflow.com/a/53528374
+# Posted by Robert Ranjan
+# Retrieved 2026-05-18, License - CC BY-SA 4.0
+# TIP: Run `make show-colors` (This target is at the end of this file.)
+
+RED=$(shell tput setaf 1)
+GREEN=$(shell tput setaf 2)
+ORANGE=$(shell tput setaf 3)
+BLUE=$(shell tput setaf 4)
+PINK=$(shell tput setaf 5)
+DARK_GREEN=$(shell tput setaf 6)
+LIGHT_GREY=$(shell tput setaf 7)
+BLACK=$(shell tput setaf 8)
+# virtually identical to RED:
+RED2=$(shell tput setaf 9)
+RESET=$(shell tput sgr0)
+
+ERROR        = ${RED}ERROR:
+WARN         = ${ORANGE}WARNING:
+WARNING      = ${ORANGE}WARNING:
+NOTE         = ${BLUE}NOTE:
+INFO         = ${DARK_GREEN}INFO:
+TIP          = ${BLUE}TIP:
+HIGHLIGHT    = ${BLUE}
+
+# TODO: If you aren't using GitHub Pages in the docs directory,
+# delete the next three lines and all uses of DOCS_DIR.
+# Similarly for the `src` directory...
+ifndef DOCS_DIR
+$(error ${ERROR} There is no ${DOCS_DIR} directory!${RESET})
+endif
+ifndef SRC_DIR
+$(error ${ERROR} There is no ${SRC_DIR} directory!${RESET})
+endif
 
 define help_message
-Quick help for this make process.
+${BLUE}Quick help for this make process.${RESET}
 
-make all                # Clean and locally view the document.
-make clean              # Remove built artifacts, etc.
-make view-pages         # View the published GitHub pages in a browser.
-make view-local         # View the pages locally (requires Jekyll).
+${GREEN}make all${RESET}                # Clean and locally view the document.
+${GREEN}make clean${RESET}              # Remove built artifacts, etc.
+${GREEN}make view-pages${RESET}         # View the published GitHub pages in a browser.
+${GREEN}make view-local${RESET}         # View the pages locally (requires Jekyll).
                         # Tip: "JEKYLL_PORT=8000 make view-local" uses port 8000 instead of 4000!
 
-Miscellaneous tasks for help, debugging, setup, etc.
+${BLUE}Miscellaneous tasks for help, debugging, setup, etc.${RESET}
 
-make help               # Prints this output.
-make print-info         # Print the current values of some make and env. variables.
-make setup-jekyll       # Install Jekyll. Make sure Ruby is installed. 
+${GREEN}make help${RESET}               # Prints this output.
+${GREEN}make print-info${RESET}         # Print the current values of some make and env. variables.
+${GREEN}make setup-jekyll${RESET}       # Install Jekyll. Make sure Ruby is installed. 
                         # (Only needed for local viewing of the document.)
-make run-jekyll         # Used by "view-local"; assumes everything is already built.
-                        # Tip: "JEKYLL_PORT=8000 make run-jekyll" uses port 8000 instead of 4000!
+${GREEN}make run-jekyll${RESET}         # Used by "view-local"; assumes everything is already built.
+                        # ${TIP} "JEKYLL_PORT=8000 make run-jekyll" uses port 8000 instead of 4000!${RESET}
 endef
-
-define missing_shell_command_error_message
-is needed by ${PWD}/Makefile. Try 'make help' and look at the README.
-endef
-
-ifndef docs_dir
-$(error ERROR: There is no ${docs_dir} directory!)
-endif
 
 define gem-error-message
 
@@ -120,26 +158,26 @@ help::
 	@echo
 
 print-info:
-	@echo "GitHub Pages URL:    ${pages_url}"
-	@echo "current dir:         ${PWD}"
-	@echo "docs dir:            ${docs_dir}"
-	@echo "site dir:            ${site_dir}"
-	@echo "clean dirs:          ${clean_dirs} (deleted by 'make clean')"
+	@echo "${GREEN}GitHub Pages URL${RESET}:    ${GITHUB_PAGES_URL}"
+	@echo "${GREEN}current dir${RESET}:         ${PWD}"
+	@echo "${GREEN}docs dir${RESET}:            ${DOCS_DIR}"
+	@echo "${GREEN}site dir${RESET}:            ${SITE_DIR}"
+	@echo "${GREEN}clean dirs${RESET}:          ${CLEAN_DOCS_DIRS} (deleted by 'make clean')"
 	@echo
-	@echo "MAKEFLAGS:           ${MAKEFLAGS}"
-	@echo "MAKEFLAGS_RECURSIVE: ${MAKEFLAGS_RECURSIVE}"
-	@echo "JEKYLL_PORT:         ${JEKYLL_PORT}"
-	@echo "UNAME:               ${UNAME}"
-	@echo "ARCHITECTURE:        ${ARCHITECTURE}"
-	@echo "GIT_HASH:            ${GIT_HASH}"
-	@echo "NOW:                 ${NOW}"
+	@echo "${GREEN}MAKEFLAGS${RESET}:           ${MAKEFLAGS}"
+	@echo "${GREEN}MAKEFLAGS_RECURSIVE${RESET}: ${MAKEFLAGS_RECURSIVE}"
+	@echo "${GREEN}JEKYLL_PORT${RESET}:         ${JEKYLL_PORT}"
+	@echo "${GREEN}UNAME${RESET}:               ${UNAME}"
+	@echo "${GREEN}ARCHITECTURE${RESET}:        ${ARCHITECTURE}"
+	@echo "${GREEN}GIT_HASH${RESET}:            ${GIT_HASH}"
+	@echo "${GREEN}TIMESTAMP${RESET}:           ${TIMESTAMP}"
 
 clean::
-	rm -rf ${clean_dirs} 
+	rm -rf ${CLEAN_DOCS_DIRS} 
 
 view-pages::
-	@python -m webbrowser "${pages_url}" || \
-		$(error "ERROR: I could not open the GitHub Pages URL. Try ⌘-click or ^-click on this URL instead: ${pages_url}")
+	@python -m webbrowser "${GITHUB_PAGES_URL}" || \
+		$(error ${ERROR}: I could not open the GitHub Pages URL. Try ⌘-click or ^-click on this URL instead: ${GITHUB_PAGES_URL}${RESET})
 
 view-local:: setup-jekyll run-jekyll
 
@@ -147,9 +185,9 @@ view-local:: setup-jekyll run-jekyll
 # `localhost:4000/The-AI-Alliance/REPO_NAME` when running locally.
 run-jekyll: clean
 	@echo
-	@echo "Once you see the http://127.0.0.1:${JEKYLL_PORT}/ URL printed, open it with command+click..."
+	@echo "${TIP}Once you see the http://127.0.0.1:${JEKYLL_PORT}/ URL printed, open it with command+click...${RESET}"
 	@echo
-	cd ${docs_dir} && \
+	cd ${DOCS_DIR} && \
 		bundle exec jekyll serve --port ${JEKYLL_PORT} --baseurl '' --incremental || \
 		${MAKE} jekyll-error
 
@@ -159,7 +197,7 @@ setup-jekyll:: ruby-installed-check ruby-gem-installation bundle-command-check b
 .PHONY: jekyll-error ruby-missing-error gem-missing-error gem-error bundle-error bundle-missing-error
 
 ruby-gem-installation::
-	@echo "Updating Ruby gems required for local viewing of the docs, including jekyll."
+	@echo "${INFO}Updating Ruby gems required for local viewing of the docs, including jekyll.${RESET}"
 	gem install jekyll bundler jemoji || ${MAKE} gem-error
 
 bundle-installation::
@@ -180,19 +218,32 @@ bundle-command-check:
 # invoked, independent of the shell script logic. Hence, the only way to make
 # this invocation conditional is to use a make target invocation, as shown above.
 jekyll-error:
-	$(error "ERROR: Failed to run Jekyll. Try running 'make setup-jekyll'.")
+	$(error ${ERROR} Failed to run Jekyll. Try running 'make setup-jekyll'.${RESET})
 ruby-missing-error:
-	$(error "ERROR: 'ruby' is required. ${ruby_installation_message}")
+	$(error ${WARNING} 'ruby' is required for running the GitHub Pages docs locally. ${ruby_installation_message}${RESET})
 ruby-version-error: show-ruby-version
-	$(error "ERROR: The wrong version of 'ruby' was found. ${ruby_installation_message}")
+	$(error ${ERROR} The wrong version of 'ruby' was found. ${ruby_installation_message}${RESET})
 show-ruby-version:
-	@echo "Ruby version found:"
+	@echo "${INFO}Ruby version found:${RESET}"
 	@ruby --version
 gem-missing-error:
-	$(error "ERROR: Ruby's 'gem' is required. ${ruby_installation_message}")
+	$(error ${ERROR} Ruby's 'gem' is required. ${ruby_installation_message}${RESET})
 gem-error:
-	$(error ${gem-error-message})
+	$(error ${ERROR} ${gem-error-message}${RESET})
 bundle-error:
-	$(error ${bundle-error-message})
+	$(error ${ERROR} ${bundle-error-message}${RESET})
 bundle-missing-error:
-	$(error "ERROR: Ruby gem command 'bundle' is required. I tried 'gem install bundle', but it apparently didn't work!")
+	$(error ${ERROR} Ruby gem command 'bundle' is required. I tried 'gem install bundle', but it apparently didn't work!${RESET})
+
+
+# Use this target to see the colors defined above.
+show-colors:
+	$(info This is <${RED}RED${RESET}>)
+	$(info This is <${RED2}RED2${RESET}>)
+	$(info This is <${GREEN}GREEN${RESET}>)
+	$(info This is <${ORANGE}ORANGE${RESET}>)
+	$(info This is <${BLUE}BLUE${RESET}>)
+	$(info This is <${PINK}PINK${RESET}>)
+	$(info This is <${DARK_GREEN}DARK_GREEN${RESET}>)
+	$(info This is <${LIGHT_GREY}LIGHT_GREY${RESET}>)
+	$(info This is <${BLACK}BLACK${RESET}>)

@@ -29,6 +29,7 @@ These are the main steps, with details below:
     1. Click the checkbox labeled _Require contributors to sign off on web-based commits Loading._ (Under the _Commits_ part of the page, near the bottom.) 
     1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `main` or `latest` branch depending on which one you want to use, then select the `/docs` directory. (**NOTE:** Make sure the repo is _public_ or else the pages won't get published.) The public URL will be [https://the-ai-alliance.github.io/REPO_NAME](https://the-ai-alliance.github.io/REPO_NAME)
 1. Add the website description and URL in the appropriate location on the Alliance GitHub organization [README](https://github.com/The-AI-Alliance/.github/tree/main/profile) files and the Alliance GitHub [website](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/). (See [Need Help?](#anchor-need-help) below...) 
+1. Add Python source files to `src` and test files `src/test`. Edit the `Makefile` as appropriate for your build processes, e.g., the use of `uv` and other tools. (Search the `Makefile` for `TODO` comments.)
 1. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSE.*` files that don't apply to your project.
 1. Final steps: If you are using a separate publication branch, e.g., `latest`, don't forget to merge all changes from `main` to the publication branch and push both branches upstream, e.g., `git push --all` (when using the CLI in a terminal).
 
@@ -209,7 +210,13 @@ Similarly, you may not need all three `LICENSE.*` files:
 * `LICENSE.CC-BY-4.0`: Recommended for documentation.
 * `LICENSE.CDLA-2.0`: Recommended for datasets.
 
-### 11. Final steps.
+### 11. Add Your Source Code
+
+Add Python source code files to `src` and test files `src/test`. 
+
+Edit the `Makefile` as appropriate for your build processes, e.g., whether or not to use `uv` and other tools. Search the `Makefile` for `TODO` comments.
+
+### 12. Final steps.
 
 If you are using a separate publication branch, e.g., `latest`, don't forget to merge all changes from `main` to the publication branch and push both branches upstream, e.g., `git push --all` (when using the CLI in a terminal).
 
