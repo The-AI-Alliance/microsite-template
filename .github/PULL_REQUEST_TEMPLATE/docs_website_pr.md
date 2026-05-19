@@ -1,4 +1,4 @@
-# PR Template: Documentation/Website Change
+# PR Template: Documentation or Website Change
 
 ## Description of Changes
 Provide a brief description of the documentation or website changes:
@@ -16,14 +16,16 @@ Provide a link to a preview of the changes (if applicable) or just say that runn
 ## Checklist
 
 Confirm that the following have been completed, where applicable:
-
 - [ ] I have read and understood the [CONTRIBUTING](https://github.com/The-AI-Alliance/community/blob/main/CONTRIBUTING.md) guide.
 
-For "microsite" and other documentation changes:
+For general documentation changes:
 
 - [ ] I have followed the documentation style guide.
-- [ ] I have included appropriate screenshots, example code, etc.
-- [ ] I have verified the microsite builds successfully, i.e., `make view-local` runs without errors.
+- [ ] I have included appropriate screenshots, example code, etc., where applicable.
+
+For changes to the GitHub Pages website in the `docs/` directory:
+
+- [ ] I have verified the website builds successfully, i.e., `make view-local` runs without errors.
 - [ ] I have checked that external links have `target="..."` specifications by running `./check-external-links.sh` and fixed any missing cases. (This tool doesn't add missing links nor does it verify the links are valid.)
 
 For code changes:

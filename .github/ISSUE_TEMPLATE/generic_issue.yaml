@@ -1,6 +1,6 @@
-name: Task/Feature Suggestion or Other Issue
-description: Use to request a feature, etc.
-title: "[Task/Feature/Issue] "  
+name: Task or Feature Suggestion or Question
+description: Use to request a feature, suggest a task, ask a question, etc.
+title: "[Suggestion/Question] "  
 assignees: [ASSIGNEES]
 projects: [DASHBOARD]
 body:
@@ -13,12 +13,13 @@ body:
       required: true
 - type: textarea
   attributes:
-    label: Task/Feature/Issue Details
+    label: Task, Feature, or Question Details
     description: |
       Please describe:
       * What feature you want implemented that doesn't exist today or what task do you want to see accomplished?
       * Why would this be a valuable thing to do?
       * Are there any alternative solutions you have considered?
+      * Or what question you have.
   validations:
     required: true
 - type: textarea
