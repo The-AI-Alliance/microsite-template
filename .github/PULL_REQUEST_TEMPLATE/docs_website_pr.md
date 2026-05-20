@@ -16,6 +16,7 @@ Provide a link to a preview of the changes (if applicable) or just say that runn
 ## Checklist
 
 Confirm that the following have been completed, where applicable:
+
 - [ ] I have read and understood the [CONTRIBUTING](https://github.com/The-AI-Alliance/community/blob/main/CONTRIBUTING.md) guide.
 
 For general documentation changes:
