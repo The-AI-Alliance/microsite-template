@@ -25,8 +25,7 @@ exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile", "Gemfile.lock", "pac
 , "docs/tests/", "notes.md", "vendor"
 ]
 
-# Added by AI Alliance: a glossary URL, which in this case is internal
-# to this site!
+# Added by AI Alliance: our glossary URL.
 glossaryurl: https://the-ai-alliance.github.io/glossary
 
 # Regression tests
