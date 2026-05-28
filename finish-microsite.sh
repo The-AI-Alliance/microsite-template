@@ -14,7 +14,7 @@ cfg="$dir/docs/_config.yml"
 index="$dir/docs/index.markdown"
 work_branch=main
 publish_branch=main
-default_assignees="deanwampler,adampingel,jolson-ibm"
+default_assignees="deanwampler,adampingel,jolson-allianceai"
 
 dashboard_base="The-AI-Alliance"
 default_dashboard_number=39
