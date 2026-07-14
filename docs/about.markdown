@@ -5,9 +5,9 @@ nav_order: 100
 has_children: false
 ---
 
-# About The MICROSITE_TITLE and The AI Alliance
+# About The MICROSITE_TITLE_MACRO and The AI Alliance
 
-The [AI Alliance](https://www.thealliance.ai){:target="aia"} created and develops the [MICROSITE_TITLE](https://events.thealliance.ai/REPO_NAME){:target="aia-tapestry"}.
+The [AI Alliance](https://www.thealliance.ai){:target="aia"} created and develops the [MICROSITE_TITLE_MACRO](https://events.thealliance.ai/REPO_NAME_MACRO){:target="aia-tapestry"}.
 
 {: .attention }
 > **Join Us!** We are looking for [collaborators]({{site.baseurl}}/contributing).
@@ -16,7 +16,7 @@ The [AI Alliance](https://thealliance.ai){:target="aia"} is a global collaborati
 
 You can find information about all AI Alliance projects on the [AI Alliance website](https://www.thealliance.ai/){:target="aia"} and our [GitHub organization](https://the-ai-alliance.github.io/){:target="aia-github"}.
 
-If you have any questions or concerns about this effort, please contact us at [contact@thealliance.ai](mailto:contact@thealliance.ai?subject=Questions about MICROSITE_TITLE).
+If you have any questions or concerns about this effort, please contact us at [contact@thealliance.ai](mailto:contact@thealliance.ai?subject=Questions about MICROSITE_TITLE_MACRO).
 
 
 ## Other AI Alliance Information

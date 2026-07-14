@@ -1,10 +1,10 @@
 ![The AI Alliance banner](https://the-ai-alliance.github.io/assets/images/ai-alliance-logo-horiz-pos-blue-cmyk-trans.png)
 
-# README for MICROSITE_TITLE
+# README for MICROSITE_TITLE_MACRO
 
-> [Published website](https://the-ai-alliance.github.io/REPO_NAME/)
+> [Published website](https://the-ai-alliance.github.io/REPO_NAME_MACRO/)
 
-This repo contains the code and documentation for the AI Alliance MICROSITE_TITLE. See the [published website](https://the-ai-alliance.github.io/REPO_NAME/) for project details.
+This repo contains the code and documentation for the AI Alliance MICROSITE_TITLE_MACRO. See the [published website](https://the-ai-alliance.github.io/REPO_NAME_MACRO/) for project details.
 
 The rest of this README provides information for contributors, developers, and users of this repository.
 

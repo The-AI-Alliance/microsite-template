@@ -1,8 +1,8 @@
 name: Task or Feature Suggestion or Question
 description: Use to request a feature, suggest a task, ask a question, etc.
 title: "[Suggestion/Question] "  
-assignees: [ASSIGNEES]
-projects: [DASHBOARD]
+assignees: [ASSIGNEES_MACRO]
+projects: [DASHBOARD_MACRO]
 body:
 - type: checkboxes
   attributes:

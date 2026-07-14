@@ -2,8 +2,8 @@ name: Code Change to Make
 description: A change to the project source code
 title: "[Code] "  
 labels: "code"
-assignees: [ASSIGNEES]
-projects: [DASHBOARD]
+assignees: [ASSIGNEES_MACRO]
+projects: [DASHBOARD_MACRO]
 body:
 - type: checkboxes
   attributes:

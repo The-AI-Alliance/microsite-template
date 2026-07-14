@@ -2,8 +2,8 @@ name: 📖 Documentation/Website Change
 description: Request changes to documentation or website content  
 title: "[Docs/Website] "  
 labels: documentation  
-assignees: [ASSIGNEES]
-projects: [DASHBOARD]
+assignees: [ASSIGNEES_MACRO]
+projects: [DASHBOARD_MACRO]
 body:
 - type: checkboxes
   attributes:

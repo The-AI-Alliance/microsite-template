@@ -27,7 +27,7 @@ These are the main steps, with details below:
     1. Scroll down to _Features_ and click _Discussions_ to enable them (unless you don't want them; in this case, remove the URL on the `docs/contributing.markdown` page!).
         1. Click the green _Setup discussions_ button, then edit and submit the "welcome" message. (The default is usually fine.)
     1. Click the checkbox labeled _Require contributors to sign off on web-based commits Loading._ (Under the _Commits_ part of the page, near the bottom.) 
-    1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `main` or `latest` branch depending on which one you want to use, then select the `/docs` directory. (**NOTE:** Make sure the repo is _public_ or else the pages won't get published.) The public URL will be [https://the-ai-alliance.github.io/REPO_NAME](https://the-ai-alliance.github.io/REPO_NAME)
+    1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `main` or `latest` branch depending on which one you want to use, then select the `/docs` directory. (**NOTE:** Make sure the repo is _public_ or else the pages won't get published.) The public URL will be [https://the-ai-alliance.github.io/REPO_NAME_MACRO](https://the-ai-alliance.github.io/REPO_NAME_MACRO)
     1. On the left-hand side, click the link for _Advanced Security_. Enable all the alerts and security updates. For the _Dependabot version updates_, the configuration should already be correct (as defined in the included `.github/dependabot.yml` file), but you can change it by clicking the _Configure_ button.
 1. Add the website description and URL in the appropriate location on the Alliance GitHub organization [README](https://github.com/The-AI-Alliance/.github/tree/main/profile) files and the Alliance GitHub [website](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/). (See [Need Help?](#anchor-need-help) below...) 
 1. Add Python source files to `src` and test files `src/test`. Edit the `Makefile` as appropriate for your build processes, e.g., the use of `uv` and other tools. (Search the `Makefile` for `TODO` comments.)
@@ -79,8 +79,8 @@ Open the `terminal` application. It will show a command prompt at your home dire
 Type in the following command for your repo:
 
 ```shell
-git clone https://github.com/The-AI-Alliance/REPO_NAME.git
-cd REPO_NAME
+git clone https://github.com/The-AI-Alliance/REPO_NAME_MACRO.git
+cd REPO_NAME_MACRO
 ```
 
 Here `cd` is the _change directory_ command that changes your current working directory to be the root directory of the repo you just cloned.
@@ -174,7 +174,7 @@ However, if you don't want to enable discussions, then remove the URL on the `do
 
 On the left-hand side of the _Settings_, click the link for _Pages_. Under _Branch_, select your publication branch, either `main`, `latest`, or a custom branch you specified above. Then select the `/docs` directory and finally, click _Save_.
 
-Your website should be published after a few minutes to `https://the-ai-alliance.github.io/REPO_NAME/``.
+Your website should be published after a few minutes to `https://the-ai-alliance.github.io/REPO_NAME_MACRO/``.
 
 > [!TIP]
 > At the top of the repo page, click _Actions_ to see the progress of building your website. This action will be executed every time you make a change to a file in your publication branch (i.e., `main` by default). If for some reason building the website fails, this page can provide useful debugging help.

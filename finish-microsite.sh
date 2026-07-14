@@ -7,7 +7,6 @@
 #------------------------------------------------------------------------
 
 ymdformat="%Y-%m-%d"
-tsformat="$ymdformat %H:%M %z"
 script=$0
 dir=$(dirname $script)
 cfg="$dir/docs/_config.yml"
@@ -259,29 +258,25 @@ info "Replacing macro placeholders with the new values:"
 [[ -z "$ymdtimestamp" ]] && ymdtimestamp=$(date +"$ymdformat")
 date -j -f "$ymdformat" +"$ymdformat" "$ymdtimestamp" > /dev/null 2>&1
 [[ $? -ne 0 ]] && error "Invalid YMD timestamp format for timestamp: $ymdtimestamp" "Required format: $ymdformat"
-[[ -z "$timestamp" ]] && timestamp=$(date +"$tsformat")
-date -j -f "$tsformat" +"$tsformat" "$timestamp" > /dev/null 2>&1
-[[ $? -ne 0 ]] && error "Invalid timestamp format for timestamp: $timestamp" "Required format: $tsformat"
 
 other_files=(
-	Makefile
 	update-main.sh
 	docs/_config.yml
 )
+make_files=(Makefile $(echo .*.mk))
 markdown_files=($(find docs -name '*.markdown') $(find . -name '*.md'))
 html_files=($(find docs/_layouts docs/_includes -name '*.html'))
 github_files=($(find .github \( -name '*.yaml' -o -name '*.md' \)))
 
 info "Replacing macros with correct values:"
-info "  REPO_NAME:              $repo_name"
-info "  MICROSITE_TITLE:        $microsite_title"
-info "  MICROSITE_DESCRIPTION:  $microsite_description"
-info "  DASHBOARD_URL:          $dashboard_url"
-info "  DASHBOARD:              $dashboard"
-info "  PUBLISH_BRANCH:         $publish_branch"
-info "  ASSIGNEES:              $assignees"
-info "  YMD_TSTAMP:             $ymdtimestamp"
-info "  TIMESTAMP:              $timestamp"
+info "  REPO_NAME_MACRO:              $repo_name"
+info "  MICROSITE_TITLE_MACRO:        $microsite_title"
+info "  MICROSITE_DESCRIPTION_MACRO:  $microsite_description"
+info "  DASHBOARD_URL_MACRO:          $dashboard_url"
+info "  DASHBOARD_MACRO:              $dashboard"
+info "  PUBLISH_BRANCH_MACRO:         $publish_branch"
+info "  ASSIGNEES_MACRO:              $assignees"
+info "  LAST_MODIFIED_TIME_MACRO:     $ymdtimestamp"
 info
 
 
@@ -295,20 +290,20 @@ fi
 
 info "Processing Files:"
 
-for file in "${other_files[@]}" "${markdown_files[@]}" "${html_files[@]}" "${github_files[@]}"
+for file in "${other_files[@]}" "${make_files[@]}" "${markdown_files[@]}" "${html_files[@]}" "${github_files[@]}"
 do
 	info "  $file"
 	if [[ -z $NOOP ]]
 	then
-		sed -e "s?REPO_NAME?$repo_name?g" \
-		    -e "s?MICROSITE_TITLE?$microsite_title?g" \
-		    -e "s?MICROSITE_DESCRIPTION?$microsite_description?g" \
-		    -e "s?DASHBOARD_URL?$dashboard_url?g" \
-		    -e "s?DASHBOARD?$dashboard?g" \
-		    -e "s?PUBLISH_BRANCH?$publish_branch?g" \
-		    -e "s?ASSIGNEES?$assignees?g" \
-		    -e "s?YMD_TSTAMP?$ymdtimestamp?g" \
-		    -e "s?TIMESTAMP?$timestamp?g" \
+		sed -e "s?REPO_NAME_MACRO?$repo_name?g" \
+		    -e "s?MICROSITE_TITLE_MACRO?$microsite_title?g" \
+		    -e "s?MICROSITE_DESCRIPTION_MACRO?$microsite_description?g" \
+		    -e "s?DASHBOARD_URL_MACRO?$dashboard_url?g" \
+		    -e "s?DASHBOARD_MACRO?$dashboard?g" \
+		    -e "s?PUBLISH_BRANCH_MACRO?$publish_branch?g" \
+		    -e "s?ASSIGNEES_MACRO?$assignees?g" \
+		    -e "s?YMD_TSTAMP_MACRO?$ymdtimestamp?g" \
+		    -e "s?LAST_MODIFIED_TIME_MACRO?$timestamp?g" \
 		    -i ".back" "$file"
 	else
 		$NOOP sed ... -i .back $file
