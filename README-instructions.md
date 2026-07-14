@@ -31,7 +31,7 @@ These are the main steps, with details below:
     1. On the left-hand side, click the link for _Advanced Security_. Enable all the alerts and security updates. For the _Dependabot version updates_, the configuration should already be correct (as defined in the included `.github/dependabot.yml` file), but you can change it by clicking the _Configure_ button.
 1. Add the website description and URL in the appropriate location on the Alliance GitHub organization [README](https://github.com/The-AI-Alliance/.github/tree/main/profile) files and the Alliance GitHub [website](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/). (See [Need Help?](#anchor-need-help) below...) 
 1. Add Python source files to `src` and test files `src/test`. Edit the `Makefile` as appropriate for your build processes, e.g., the use of `uv` and other tools. (Search the `Makefile` for `TODO` comments.)
-1. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSE.*` files that don't apply to your project.
+1. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSES/LICENSE.*` files that don't apply to your project.
 1. Final steps: If you are using a separate publication branch, e.g., `latest`, don't forget to merge all changes from `main` to the publication branch and push both branches upstream, e.g., `git push --all` (when using the CLI in a terminal).
 
 You should now have a published website!
@@ -207,15 +207,15 @@ When you are ready for broader exposure for your site, there are a few places wh
 
 After editing the [.github page](https://github.com/The-AI-Alliance/.github/blob/main/profile/), notify Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), who will run a tool that will copy the changes to the [https://the-ai-alliance.github.io/](https://the-ai-alliance.github.io/) site. (This process is described in the [the-ai-alliance.github.io](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/) repo.)
 
-### 10. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSE.*` files that don't apply to your project.
+### 10. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSES/LICENSE.*` files that don't apply to your project.
 
 The first two files,`README-instructions.md` (this file!) and `finish-microsite.sh`,  are no longer needed, so you can remove them from your repo. Select each one in the GitHub UI and click the `...` menu on the upper right-hand side, then select _Delete file_.
 
 Similarly, you may not need all three `LICENSE.*` files:
 
-* `LICENSE.Apache-2.0`: Recommended for code.
-* `LICENSE.CC-BY-4.0`: Recommended for documentation.
-* `LICENSE.CDLA-2.0`: Recommended for datasets.
+* `LICENSES/LICENSE.Apache-2.0`: Recommended for code.
+* `LICENSES/LICENSE.CC-BY-4.0`: Recommended for documentation.
+* `LICENSES/LICENSE.CDLA-2.0`: Recommended for datasets.
 
 ### 11. Add Your Source Code
 
