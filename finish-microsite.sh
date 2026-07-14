@@ -302,7 +302,6 @@ do
 		    -e "s?DASHBOARD_MACRO?$dashboard?g" \
 		    -e "s?PUBLISH_BRANCH_MACRO?$publish_branch?g" \
 		    -e "s?ASSIGNEES_MACRO?$assignees?g" \
-		    -e "s?YMD_TSTAMP_MACRO?$ymdtimestamp?g" \
 		    -e "s?LAST_MODIFIED_TIME_MACRO?$timestamp?g" \
 		    -i ".back" "$file"
 	else

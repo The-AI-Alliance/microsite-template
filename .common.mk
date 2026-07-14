@@ -5,26 +5,6 @@
 # To see them in action, try "make show-colors".
 include .console-colors.mk
 
-# Some of the following definitions may be overridden in Makefile. Some notes:
-# TESTS_DIR: Assumed RELATIVE to ${SRC_DIR}.
-# OUTPUT_TESTS_DIR: Where test output is written. RELATIVE to ${PWD}, NOT ${SRC_DIR}.
-SRC_DIR                  ?= src
-TESTS_DIR                ?= ${SRC_DIR}/tests
-OUTPUT_DIR               ?= ${PWD}/output
-OUTPUT_TESTS_DIR         ?= ${OUTPUT_DIR}/tests
-OUTPUT_LOGS_ROOT_DIR     ?= ${OUTPUT_DIR}/logs
-OUTPUT_LOGS_DIR          ?= ${OUTPUT_LOGS_ROOT_DIR}/${TIMESTAMP_MACRO}
-OUTPUT_LOGS_TESTS_DIR    ?= ${OUTPUT_TESTS_DIR}/logs/${TIMESTAMP_MACRO}
-CLEAN_CODE_DIRS          := ${OUTPUT_DIR}
-CLEAN_DIRS               += ${CLEAN_CODE_DIRS}
-
-QUALITY_CHECKS_NO_TESTS  := format ruff pylint type-check
-QUALITY_CHECKS           := ${QUALITY_CHECKS_NO_TESTS}
-PYLINT_IGNORE_ARGS       := --ignore=.venv --ignore-pattern='.*cache.*'
-
-PYTEST_RUN_CMD           := uv run --active coverage run -m pytest -q -v -s
-PYTEST_COV_REPORT_CMD    := uv run --active coverage report -m
-
 # The environment
 REPO_NAME                ?= REPO_NAME_MACRO
 MAKEFLAGS                ?= --warn-undefined-variables
@@ -34,10 +14,30 @@ ARCHITECTURE             ?= $(shell uname -m)
 
 # Used for version tagging release artifacts.
 GIT_HASH                 ?= $(shell git show --pretty="%H" --abbrev-commit |head -1)
-TIMESTAMP_MACRO                ?= $(shell date +"%Y%m%d-%H%M%S")
+TIMESTAMP                ?= $(shell date +"%Y%m%d-%H%M%S")
 
 # Time execution
 TIME                     ?= time  # time execution of long processes
+
+# Some of the following definitions may be overridden in Makefile. Some notes:
+# TESTS_DIR: Assumed RELATIVE to ${SRC_DIR}.
+# OUTPUT_TESTS_DIR: Where test output is written. RELATIVE to ${PWD}, NOT ${SRC_DIR}.
+SRC_DIR                  ?= src
+TESTS_DIR                ?= ${SRC_DIR}/tests
+OUTPUT_DIR               ?= ${PWD}/output
+OUTPUT_TESTS_DIR         ?= ${OUTPUT_DIR}/tests
+OUTPUT_LOGS_ROOT_DIR     ?= ${OUTPUT_DIR}/logs
+OUTPUT_LOGS_DIR          ?= ${OUTPUT_LOGS_ROOT_DIR}/${TIMESTAMP}
+OUTPUT_LOGS_TESTS_DIR    ?= ${OUTPUT_TESTS_DIR}/logs/${TIMESTAMP}
+CLEAN_CODE_DIRS          := ${OUTPUT_DIR}
+CLEAN_DIRS               += ${CLEAN_CODE_DIRS}
+
+QUALITY_CHECKS_NO_TESTS  := format ruff pylint type-check
+QUALITY_CHECKS           := ${QUALITY_CHECKS_NO_TESTS}
+PYLINT_IGNORE_ARGS       := --ignore=.venv --ignore-pattern='.*cache.*'
+
+PYTEST_RUN_CMD           := uv run --active coverage run -m pytest -q -v -s
+PYTEST_COV_REPORT_CMD    := uv run --active coverage report -m
 
 ifndef SRC_DIR
 $(error ${ERROR} There is no ${SRC_DIR} directory!${_END})
@@ -156,7 +156,7 @@ print-info-env::
 	@echo "  ${DARK_GREEN}MAKEFLAGS_RECURSIVE:${_END} ${MAKEFLAGS_RECURSIVE}"
 	@echo "  ${DARK_GREEN}UNAME:${_END}               ${CODE}${UNAME}${_END}"
 	@echo "  ${DARK_GREEN}ARCHITECTURE:${_END}        ${CODE}${ARCHITECTURE}${_END}"
-	@echo "  ${DARK_GREEN}TIMESTAMP_MACRO:${_END}           ${CODE}${TIMESTAMP_MACRO}${_END}"
+	@echo "  ${DARK_GREEN}TIMESTAMP:${_END}           ${CODE}${TIMESTAMP}${_END}"
 	@echo "  ${DARK_GREEN}REPO_NAME:${_END}           ${CODE}${REPO_NAME}${_END}"
 	@echo "  ${DARK_GREEN}GIT_HASH:${_END}            ${CODE}${GIT_HASH}${_END}"
 	@echo "  ${DARK_GREEN}PWD:${_END}                 ${CODE}${PWD}${_END} (current Directory)"
