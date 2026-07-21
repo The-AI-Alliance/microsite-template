@@ -245,7 +245,7 @@ info "  GitHub:"
   info "    Dashboard:              $dashboard"
   info "    Dashboard URL:          $dashboard_url"
 [[ -n "$assignees" ]] && \
-  info "    Issue assignees:        $assignees"
+  info "    Issue assignees:        $assignees (also used for CODEOWNERS)"
 info "    Work branch:            $work_branch"
 info "    Publishing branch:      $publish_branch"
 info "    Push changes to GitHub? $do_push"
@@ -267,7 +267,7 @@ make_files=(Makefile $(echo .*.mk))
 markdown_files=($(find docs -name '*.markdown') $(find . -name '*.md'))
 html_files=($(find docs/_layouts docs/_includes -name '*.html'))
 github_files=($(find .github \( -name '*.yaml' -o -name '*.md' \)))
-
+assignees_spaces=$(echo ${assignees//,/ })
 info "Replacing macros with correct values:"
 info "  REPO_NAME_MACRO:              $repo_name"
 info "  MICROSITE_TITLE_MACRO:        $microsite_title"
@@ -276,6 +276,7 @@ info "  DASHBOARD_URL_MACRO:          $dashboard_url"
 info "  DASHBOARD_MACRO:              $dashboard"
 info "  PUBLISH_BRANCH_MACRO:         $publish_branch"
 info "  ASSIGNEES_MACRO:              $assignees"
+info "  ASSIGNEES_MACRO_SPACES:       $assignees_spaces"
 info "  LAST_MODIFIED_TIME_MACRO:     $ymdtimestamp"
 info
 
@@ -302,6 +303,7 @@ do
 		    -e "s?DASHBOARD_MACRO?$dashboard?g" \
 		    -e "s?PUBLISH_BRANCH_MACRO?$publish_branch?g" \
 		    -e "s?ASSIGNEES_MACRO?$assignees?g" \
+		    -e "s?ASSIGNEES_MACRO_SPACES?$assignees_spaces?g" \
 		    -e "s?LAST_MODIFIED_TIME_MACRO?$timestamp?g" \
 		    -i ".back" "$file"
 	else

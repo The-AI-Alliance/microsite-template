@@ -1,0 +1,57 @@
+[project]
+name = "ai_application_testing"
+version = "0.5.0"
+description = "Code and documentation for the AI Alliance user guide and tools for 'Testing Generative AI Agent Applications'."
+readme = "README.md"
+requires-python = ">=3.13"
+# For LLM inference dependencies, see the ai-application-testing project's
+# pyproject.toml for an example.
+dependencies = [
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[build-system]
+requires = [
+  "setuptools>=83.0.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project.optional-dependencies]
+dev = [
+    "hypothesis>=6.156.1",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "pylint>=4.0.6",
+    "black>=26.5.1",
+    "ruff>=0.15.21",
+    "ty>=0.0.59",
+]
+
+[tool.pytest.ini_options]
+markers = [
+    "ai: marks tests that that are slow to execute due to AI inference (deselect with '-m \"not ai\")",
+]
+testpaths = ["src/tests"]
+pythonpath = ["src"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.black]
+line-length = 120
+target-version = ['py313']
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.pylint.main]
+init-hook = "import sys; sys.path.insert(0, 'src')"
+
+[tool.ty.src]
+include = ["src"]

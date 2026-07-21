@@ -1,0 +1,12 @@
+# See https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners#example-of-a-codeowners-file
+# for more details about CODEOWNERs files.
+
+# These owners will be the default owners for everything in
+# the repo. Unless a later, more-specific match in this file
+# takes precedence. The assignees will be used for PRs.
+# Edit to taste...
+/docs/     ASSIGNEES_SPACES_MACRO
+/src/      ASSIGNEES_SPACES_MACRO
+*          ASSIGNEES_SPACES_MACRO
+
+

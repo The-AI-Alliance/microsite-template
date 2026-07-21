@@ -30,7 +30,7 @@ These are the main steps, with details below:
     1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `main` or `latest` branch depending on which one you want to use, then select the `/docs` directory. (**NOTE:** Make sure the repo is _public_ or else the pages won't get published.) The public URL will be [https://the-ai-alliance.github.io/REPO_NAME_MACRO](https://the-ai-alliance.github.io/REPO_NAME_MACRO)
     1. On the left-hand side, click the link for _Advanced Security_. Enable all the alerts and security updates. For the _Dependabot version updates_, the configuration should already be correct (as defined in the included `.github/dependabot.yml` file), but you can change it by clicking the _Configure_ button.
 1. Add the website description and URL in the appropriate location on the Alliance GitHub organization [README](https://github.com/The-AI-Alliance/.github/tree/main/profile) files and the Alliance GitHub [website](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/). (See [Need Help?](#anchor-need-help) below...) 
-1. Add Python source files to `src` and test files `src/test`. Edit the `Makefile` as appropriate for your build processes, e.g., the use of `uv` and other tools. (Search the `Makefile` for `TODO` comments.)
+1. Add any Python source files to `src` and test files `src/tests`. See the discussion below about common targets for code already supported by the `Makefile` and `.common.mk`, etc.
 1. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSES/LICENSE.*` files that don't apply to your project.
 1. Final steps: If you are using a separate publication branch, e.g., `latest`, don't forget to merge all changes from `main` to the publication branch and push both branches upstream, e.g., `git push --all` (when using the CLI in a terminal).
 
@@ -207,7 +207,25 @@ When you are ready for broader exposure for your site, there are a few places wh
 
 After editing the [.github page](https://github.com/The-AI-Alliance/.github/blob/main/profile/), notify Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), who will run a tool that will copy the changes to the [https://the-ai-alliance.github.io/](https://the-ai-alliance.github.io/) site. (This process is described in the [the-ai-alliance.github.io](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/) repo.)
 
-### 10. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSES/LICENSE.*` files that don't apply to your project.
+### 10. Add Your Source Code
+
+If your project will have Python source code, the `Makefile` includes `.common.mk`, which defines standard targets like `unit-tests`, `format`, `lint`, and `type-check`. All of these targets are built by the `before-pr` target, which we recommend you run and ask collaborators to run before submitting a PR.
+
+These targets assume that your Python source code files will be under `src` and the test files are under `src/tests`.
+
+> [!NOTE]
+> The `pytest` target fails unless there are tests under `src/tests`. Hence, it is disabled by default in `Makefile`. See the target `unit-tests-default` defined there and the comments above it.
+
+There is a workflow `.github/workflows/ci.yml`, which you should ensure is triggered in the `Rulesets / main-pr-enforcement` (under project _Settings > Rules > Rulesets_) if and when you add source code. This CI workflow is only triggered for source-related content, i.e., `Makefile`, `.*.mk`, `*.toml`, and `src/**` files. It doesn't do anything for the microsite content under `docs`.
+
+The workflow assumes your integration branch is `main` (edit as required) and it runs the task `make before-pr` on PRs to that branch.
+
+> [!TIP]
+> 1. Try `make before-pr`. It should print a lot of "stuff", but not do anything when you first create this repo. It should also not fail!
+> 1. For other examples of how the `make` process is used see the [Tapestry](https://github.com/The-AI-Alliance/tapesty) and the [`ai-application-testing`](https://github.com/The-AI-Alliance/ai-application-testing) projects.
+> 1. Edit `CODEOWNERS` to designate owners responsible for different sections of the repository.
+
+### 11. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSES/LICENSE.*` files that don't apply to your project.
 
 The first two files,`README-instructions.md` (this file!) and `finish-microsite.sh`,  are no longer needed, so you can remove them from your repo. Select each one in the GitHub UI and click the `...` menu on the upper right-hand side, then select _Delete file_.
 
@@ -217,13 +235,7 @@ Similarly, you may not need all three `LICENSE.*` files:
 * `LICENSES/LICENSE.CC-BY-4.0`: Recommended for documentation.
 * `LICENSES/LICENSE.CDLA-2.0`: Recommended for datasets.
 
-### 11. Add Your Source Code
-
-Add Python source code files to `src` and test files `src/test`. 
-
-Edit the `Makefile` as appropriate for your build processes, e.g., whether or not to use `uv` and other tools. Search the `Makefile` for `TODO` comments.
-
-### 12. Final steps.
+### 12. Final Steps
 
 If you are using a separate publication branch, e.g., `latest`, don't forget to merge all changes from `main` to the publication branch and push both branches upstream, e.g., `git push --all` (when using the CLI in a terminal).
 

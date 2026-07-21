@@ -1,4 +1,7 @@
-# PR Template: Documentation or Website Change
+# [PR Template] Documentation/Website Changes
+
+> Replace the title with a more descriptive alternative. Delete
+> content below that doesn't apply to your PR. Also delete this paragraph!
 
 ## Description of Changes
 Provide a brief description of the documentation or website changes:
@@ -36,3 +39,4 @@ For code changes:
 - [ ] I have followed the existing code styles and conventions.
 - [ ] I have removed all API keys and other sensitive information.
 - [ ] I have updated any related documentation.
+- [ ] I have confirmed that the command `make before-pr` completes successfully.

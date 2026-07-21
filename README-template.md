@@ -20,10 +20,6 @@ All _documentation_ contributions are licensed under the [Creative Commons Attri
 
 All _data_ contributions are licensed under the [Community Data License Agreement - Permissive - Version 2.0](https://github.com/The-AI-Alliance/community/blob/main/LICENSE.CDLA-2.0) (which is also in this repo, [LICENSES/LICENSE.CDLA-2.0](LICENSES/LICENSE.CDLA-2.0)).
 
-### Quick Tip - View the Website Locally
-
-See [GITHUB_PAGES.md](GITHUB_PAGES.md) for information on viewing the site locally with `jekyll`.
-
 ### We use the "Developer Certificate of Origin" (DCO).
 
 > [!WARNING]
@@ -36,6 +32,10 @@ See the Alliance contributing guide [section on DCO](https://github.com/The-AI-A
 The website is published using [GitHub Pages](https://pages.github.com/), where the pages are written in Markdown and served using [Jekyll](https://github.com/jekyll/jekyll). We use the [Just the Docs](https://just-the-docs.github.io/just-the-docs/) Jekyll theme.
 
 See [GITHUB_PAGES.md](GITHUB_PAGES.md) for more information.
+
+### Quick Tip - View the Website Locally
+
+See [GITHUB_PAGES.md](GITHUB_PAGES.md) for information on viewing the site locally with `jekyll`.
 
 > [!NOTE]
 > As described above, all documentation is licensed under Creative Commons Attribution 4.0 International. See [LICENSES/LICENSE.CC-BY-4.0](LICENSES/LICENSE.CC-BY-4.0).
