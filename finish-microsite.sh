@@ -260,6 +260,7 @@ date -j -f "$ymdformat" +"$ymdformat" "$ymdtimestamp" > /dev/null 2>&1
 [[ $? -ne 0 ]] && error "Invalid YMD timestamp format for timestamp: $ymdtimestamp" "Required format: $ymdformat"
 
 other_files=(
+	CODEOWNERS
 	update-main.sh
 	docs/_config.yml
 )
@@ -276,7 +277,7 @@ info "  DASHBOARD_URL_MACRO:          $dashboard_url"
 info "  DASHBOARD_MACRO:              $dashboard"
 info "  PUBLISH_BRANCH_MACRO:         $publish_branch"
 info "  ASSIGNEES_MACRO:              $assignees"
-info "  ASSIGNEES_MACRO_SPACES:       $assignees_spaces"
+info "  ASSIGNEES_SPACES_MACRO:       $assignees_spaces"
 info "  LAST_MODIFIED_TIME_MACRO:     $ymdtimestamp"
 info
 
@@ -303,7 +304,7 @@ do
 		    -e "s?DASHBOARD_MACRO?$dashboard?g" \
 		    -e "s?PUBLISH_BRANCH_MACRO?$publish_branch?g" \
 		    -e "s?ASSIGNEES_MACRO?$assignees?g" \
-		    -e "s?ASSIGNEES_MACRO_SPACES?$assignees_spaces?g" \
+		    -e "s?ASSIGNEES_SPACES_MACRO?$assignees_spaces?g" \
 		    -e "s?LAST_MODIFIED_TIME_MACRO?$timestamp?g" \
 		    -i ".back" "$file"
 	else
