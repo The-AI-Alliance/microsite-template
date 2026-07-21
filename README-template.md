@@ -39,3 +39,7 @@ See [GITHUB_PAGES.md](GITHUB_PAGES.md) for information on viewing the site local
 
 > [!NOTE]
 > As described above, all documentation is licensed under Creative Commons Attribution 4.0 International. See [LICENSES/LICENSE.CC-BY-4.0](LICENSES/LICENSE.CC-BY-4.0).
+
+## Built-in Support for Python Code Development
+
+The included `Makefile` and `.common.mk` define targets for `uv`-based commands for running unit tests, linting, formatting, and type checking Python code. Try `make help-code` for details.

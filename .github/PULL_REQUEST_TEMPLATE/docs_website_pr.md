@@ -1,4 +1,4 @@
-# [PR Template] Documentation/Website Changes
+# [PR Template] Website or Other Documentation Changes
 
 > Replace the title with a more descriptive alternative. Delete
 > content below that doesn't apply to your PR. Also delete this paragraph!
