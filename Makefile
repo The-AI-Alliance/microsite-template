@@ -1,6 +1,7 @@
 # Makefile for the REPO_NAME_MACRO code and GitHub pages website.
 # See other project Makefiles for definitions for using Ollama, etc., etc.
 # E.g., https://github.com/The-AI-Alliance/ai-application-testing/blob/main/Makefile
+# This project has a LOT of additional targets...
 
 # Common includes. See the end of this file, too!
 include .common.mk

@@ -66,7 +66,7 @@ view-pages::
 view-local:: setup-jekyll run-jekyll
 
 # Passing --baseurl '' allows us to use `localhost:4000` rather than require
-# `localhost:4000/The-AI-Alliance/ai-application-testing` when running locally.
+# `localhost:4000/The-AI-Alliance/${REPO_NAME}` when running locally.
 
 run-jekyll: clean
 	@echo

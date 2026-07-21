@@ -5,26 +5,17 @@
 # To see them in action, try "make show-colors".
 include .console-colors.mk
 
-# The environment
-REPO_NAME                ?= REPO_NAME_MACRO
-MAKEFLAGS                ?= --warn-undefined-variables
-MAKEFLAGS_RECURSIVE      ?= # --print-directory (only useful for recursive makes...)
-UNAME                    ?= $(shell uname)
-ARCHITECTURE             ?= $(shell uname -m)
-
-# Used for version tagging release artifacts.
-GIT_HASH                 ?= $(shell git show --pretty="%H" --abbrev-commit |head -1)
-TIMESTAMP                ?= $(shell date +"%Y%m%d-%H%M%S")
-
-# Time execution
-TIME                     ?= time  # time execution of long processes
-
 # Some of the following definitions may be overridden in Makefile. Some notes:
-# TESTS_DIR: Assumed RELATIVE to ${SRC_DIR}.
-# OUTPUT_TESTS_DIR: Where test output is written. RELATIVE to ${PWD}, NOT ${SRC_DIR}.
+# SRC_DIR: Root of the source code. This can be changed dynamically by targets
+#   to test specific modules in "other" directories.
+# WHICH_TESTS: By default, it is empty, meaning that all tests found under
+#   ${SRC_DIR} will be run. WHICH_TESTS can also be used on the command line
+#   to specify a particular directory, test file or test to run. Specify this
+#   value RELATIVE to ${SRC_DIR}! See the pytest docs for the syntax to use:
+#   https://docs.pytest.org/en/stable/how-to/usage.html for syntax
 SRC_DIR                  ?= src
-TESTS_DIR                ?= ${SRC_DIR}/tests
-OUTPUT_DIR               ?= ${PWD}/output
+WHICH_TESTS              ?=
+OUTPUT_DIR               ?= output
 OUTPUT_TESTS_DIR         ?= ${OUTPUT_DIR}/tests
 OUTPUT_LOGS_ROOT_DIR     ?= ${OUTPUT_DIR}/logs
 OUTPUT_LOGS_DIR          ?= ${OUTPUT_LOGS_ROOT_DIR}/${TIMESTAMP}
@@ -32,18 +23,57 @@ OUTPUT_LOGS_TESTS_DIR    ?= ${OUTPUT_TESTS_DIR}/logs/${TIMESTAMP}
 CLEAN_CODE_DIRS          := ${OUTPUT_DIR}
 CLEAN_DIRS               += ${CLEAN_CODE_DIRS}
 
+# The quality targets we run as part of "before-pr":
 QUALITY_CHECKS_NO_TESTS  := format ruff pylint type-check
-QUALITY_CHECKS           := ${QUALITY_CHECKS_NO_TESTS}
-PYLINT_IGNORE_ARGS       := --ignore=.venv --ignore-pattern='.*cache.*'
+QUALITY_CHECKS           := ${QUALITY_CHECKS_NO_TESTS} unit-tests
 
-PYTEST_RUN_CMD           := uv run --active coverage run -m pytest -q -v -s
-PYTEST_COV_REPORT_CMD    := uv run --active coverage report -m
+# Commands as variables:
+# Time execution of commands. Prefix the command invocation with "${TIME}":
+TIME                     ?= time
+# Common flags for "uv run" (--active is recommended by some warnings that
+# can be seen during recursive uv invocations, but using it can cause
+# conflicting versions of dependencies to be installed in the top-level
+# environment, if the directories for those invocations have their own
+# "pyproject.toml" files. Therefore, DON'T USE THIS FLAG!):
+UV_RUN                   ?= uv run
+PYLINT_IGNORE_ARGS       := --ignore=.venv --ignore-pattern='.*cache.*'
+# Define PYTEST_*_OPT_ARGS in targets to customize behavior.
+PYTEST_RUN_OPT_ARGS      ?=
+PYTEST_COV_OPT_ARGS      ?=
+PYTEST_RUN_CMD           := ${UV_RUN} coverage run -m pytest -v -s ${PYTEST_RUN_OPT_ARGS}
+PYTEST_COV_REPORT_CMD    := ${UV_RUN} coverage report -m ${PYTEST_COV_OPT_ARGS}
+
+# The environment:
+MAKEFLAGS                ?= --warn-undefined-variables
+UNAME                    ?= $(shell uname)
+ARCHITECTURE             ?= $(shell uname -m)
+LOCAL_REPO_PATH          ?= $(shell git rev-parse --show-toplevel)
+REPO_NAME                ?= $(notdir ${LOCAL_REPO_PATH})
+# Used for version tagging release artifacts, temporary directories, etc.
+GIT_HASH                 ?= $(shell git show --pretty="%H" --abbrev-commit |head -1)
+TIMESTAMP                ?= $(shell date +"%Y%m%d-%H%M%S")
+
+# Model "appendix":
+# For cases where model inference is done in local environments, e.g., laptops,
+# define a variable that can be used to select appropriate versions of models,
+# E.g., if the architecture is "arm64" (Apple Silicon), then we define a
+# MODEL_APPENDIX=-mlx, which Makefiles can append to variables that specify LLMs.
+# Otherwise, this variable is empty. However, the value won't be changed if the
+# variable is already set in the Makefile that includes this file, _before_ this
+# file was included. So, for example, you could set MODEL_APPENDIX to specify a
+# quantized version of a model that way.
+
+ifeq (${ARCHITECTURE}, arm64)
+	MODEL_APPENDIX ?= -mlx
+else
+	MODEL_APPENDIX ?=
+endif
 
 ifndef SRC_DIR
 $(error ${ERROR} There is no ${SRC_DIR} directory!${_END})
 endif
 
-# When you see ${CODE}${_END} without anything between them, it is there 
+# When you see ${CODE}${_end} without anything between them, it is there
 # to make it easier to line up multi-line description comments.
 
 define help-message-general
@@ -53,23 +83,27 @@ ${CODE}make all${_END}                # Makes the ${CODE}help${_END} and ${CODE}
 ${CODE}make help${_END}               # Prints this output.
 ${CODE}make print-info${_END}         # Print the current values of some make and environment variables.
 
-${HIGHLIGHT}Working with code:${_END}
+${HIGHLIGHT}Working with the code:${_END}
 
-${CODE}make one-time-setup${_END}     # "One time setup" of dependencies. Requires MacOS or Linux.
-${CODE}make tests${_END}              # Run the test suite.
-${CODE}make clean${_END}              # Remove built artifacts, etc.
+${CODE}make one-time-setup${_END}     # "One time setup" of ${CODE}uv${_END} dependencies (in ${CODE}.venv${_END}).
+${CODE}make setup${_END}              # Alias for ${CODE}one-time-setup${_END}.
+${CODE}make force-one-time-setup${_END} # "Force" the one time setup to run again, by first deleting ${CODE}.venv${_END}.
+${CODE}make force-setup${_END}        # Alias for ${CODE}force-one-time-setup${_END}.
+
+${CODE}make unit-tests${_END}         # Run the unit test suite.
+${CODE}make tests${_END}              # Alias for ${CODE}unit-tests${_END}.
+${CODE}make clean${_END}              # Remove built artifacts, temporary files, etc.
 ${CODE}make format${_END}             # Format the Python code with ${CODE}black${_END}.
+${CODE}make black${_END}              # Alias for ${CODE}format${_END}.
 ${CODE}make lint${_END}               # Lint the Python code by making the ${CODE}ruff${_END} and ${CODE}pylint${_END} targets.
 ${CODE}make ruff${_END}               # Lint the Python code with ${CODE}ruff${_END}.
 ${CODE}make pylint${_END}             # Lint the Python code with ${CODE}pylint${_END}.
 ${CODE}make type-check${_END}         # Type check the Python code with ${CODE}ty${_END}.
 ${CODE}make type-check-watch${_END}   # Type check the Python code with ${CODE}ty${_END} in "watch" mode,
 ${CODE}${_END}                        # so you can fix mistakes and keep it updating.
-${CODE}make before-pr${_END}          # Make ${CODE}format${_END}, ${CODE}lint${_END}, ${CODE}type-check${_END}, and ${CODE}tests${_END}.
-${CODE}${_END}                        # DO THIS BEFORE SUBMITTING A PR!
-${CODE}before-pr-no-tests${_END}      # Everything in ${CODE}before-pr${_END} except ${CODE}tests${_END}
-${CODE}make clean${_END}              # Delete temporary artifacts under ${CODE}CLEAN_DIRS${_END} = ${CODE}${CLEAN_DIRS}${_END}.
-${CODE}make clean-code${_END}         # Delete temporary artifacts under ${CODE}CLEAN_CODE_DIRS${_END} = ${CODE}${CLEAN_CODE_DIRS}${_END}.
+${CODE}make before-pr${_END}          # Make ${CODE}format${_END}, ${CODE}lint${_END}, ${CODE}type-check${_END}, and ${CODE}unit-tests${_END}.
+${CODE}${_END}                        # ${RED}DO THIS BEFORE SUBMITTING A PR!${_END}
+${CODE}make before-pr-no-tests${_END} # Everything in ${CODE}before-pr${_END} except ${CODE}unit-tests${_END}.
 
 ${NOTE_LABEL}
 Use the ${CODE}clean${_END} and ${CODE}clean-code${_END} targets with caution, since they both delete the ${CODE}OUTPUT_CODE_DIR${_END} 
@@ -79,7 +113,7 @@ ${help-top-level-message}
 endef
 
 
-.PHONY: all help help-general help-command-not-installed print-info clean clean-code
+.PHONY: all help help-general help-command-no-message help-command-not-installed print-info clean clean-code
 all:: help print-info
 
 clean::
@@ -94,7 +128,15 @@ help-general::
 	$(info )
 	$(info ${help-message-general})
 
-# NOTE: help-command-% must be defined BEFORE help-% or it is ignored!
+# NOTE: The order of declaration is important for the help-* targets.
+help-command-no-message::
+	$(info ${WARNING_LABEL}Sorry, no built-in help is available for CLI command '${CODE}${CMD}${_END}'.")
+	@true
+
+help-command-not-installed::
+	$(info ${WARNING_LABEL}Command ${CODE}${CMD}${_END} is not installed.)
+	@true
+
 help-command-%::
 	$(info ${INFO_LABEL}Help on ${CODE}${@:help-command-%=%}${_END}:)
 	$(info ${${@}-message})
@@ -102,19 +144,10 @@ help-command-%::
 	$(info ${INFO_LABEL}(If no help is shown, then none is defined for ${CODE}${@:help-command-%=%}${_END} in this Makefile.))
 	@true
 
-help-command-no-message::
-	$(warning ${WARNING_LABEL}Sorry, no built-in help is available for CLI command '${CODE}${CMD}${_END}'.")
-	@true
-
-
 help-%::
 	$(info )
 	$(info ${${@}-message})
 	$(info )
-	@true
-
-help-command-not-installed::
-	$(info ${WARNING_LABEL}Command ${CODE}${CMD}${_END} is not installed.)
 	@true
 
 .PHONY: error
@@ -128,7 +161,7 @@ ${ERROR_LABEL}${MSG} (exit status = ${RED}${STATUS}${_END})!!
 endef
 
 define command-check-failed-message
-${TIP_LABEL}Installation help may be defined in this Makefile. Try ${CODE}make help-command-${CMD}${_END} 
+${TIP_LABEL}Installation help may be defined in this Makefile. Try ${CODE}make help-command-${CMD}${_END}
 ${TIP_LABEL}or try ${CODE}make install-${CMD}${_END}. See also the project's ${CODE}README.md${_END}.
 endef
 
@@ -152,25 +185,34 @@ endef
 print-info:: print-info-env
 print-info-env::
 	@echo "${HIGHLIGHT}Some 'environment' settings:${_END}"
-	@echo "  ${DARK_GREEN}MAKEFLAGS:${_END}           ${CODE}${MAKEFLAGS}${_END}"
-	@echo "  ${DARK_GREEN}MAKEFLAGS_RECURSIVE:${_END} ${MAKEFLAGS_RECURSIVE}"
-	@echo "  ${DARK_GREEN}UNAME:${_END}               ${CODE}${UNAME}${_END}"
-	@echo "  ${DARK_GREEN}ARCHITECTURE:${_END}        ${CODE}${ARCHITECTURE}${_END}"
-	@echo "  ${DARK_GREEN}TIMESTAMP:${_END}           ${CODE}${TIMESTAMP}${_END}"
-	@echo "  ${DARK_GREEN}REPO_NAME:${_END}           ${CODE}${REPO_NAME}${_END}"
-	@echo "  ${DARK_GREEN}GIT_HASH:${_END}            ${CODE}${GIT_HASH}${_END}"
-	@echo "  ${DARK_GREEN}PWD:${_END}                 ${CODE}${PWD}${_END} (current Directory)"
-	@echo "  ${DARK_GREEN}SRC_DIR:${_END}             ${CODE}${SRC_DIR}${_END}"
-	@echo "  ${DARK_GREEN}TESTS_DIR:${_END}           ${CODE}${TESTS_DIR}${_END}"
+	@echo
+	@echo "  ${DARK_GREEN}MAKEFLAGS:${_END}             ${CODE}${MAKEFLAGS}${_END}"
+	@echo "  ${DARK_GREEN}UNAME:${_END}                 ${CODE}${UNAME}${_END}"
+	@echo "  ${DARK_GREEN}ARCHITECTURE:${_END}          ${CODE}${ARCHITECTURE}${_END}"
+	@echo "  ${DARK_GREEN}MODEL_APPENDIX:${_END}        ${CODE}${MODEL_APPENDIX}${_END}"
+	@echo "  ${DARK_GREEN}TIMESTAMP:${_END}             ${CODE}${TIMESTAMP}${_END}"
+	@echo "  ${DARK_GREEN}REPO_NAME:${_END}             ${CODE}${REPO_NAME}${_END}"
+	@echo "  ${DARK_GREEN}GIT_HASH:${_END}              ${CODE}${GIT_HASH}${_END}"
+	@echo "  ${DARK_GREEN}PWD:${_END}                   ${CODE}${PWD}${_END} (current Directory)"
+	@echo "  ${DARK_GREEN}SRC_DIR:${_END}               ${CODE}${SRC_DIR}${_END}"
+	@echo "  ${DARK_GREEN}WHICH_TESTS:${_END}           ${CODE}${WHICH_TESTS}${_END}"
 	@echo
 
-.PHONY: before-pr before-pr-no-tests
+# The idiom of targets named "*-default" is an override hook. They are declared here
+# with a single colon (:), so Makefiles can define their own recipe for the "core" of
+# the corresponding targets, e.g., before-pr, pylint, tests, etc.
 
-before-pr:: before-pr-no-tests tests
-before-pr-no-tests:: ${QUALITY_CHECKS}
+.PHONY: before-pr before-pr-default before-pr-no-tests print-pwd
+
+before-pr:: print-pwd ${QUALITY_CHECKS}
+before-pr-no-tests:: print-pwd ${QUALITY_CHECKS_NO_TESTS}
+
+print-pwd::
+	$(info ${HIGHLIGHT}In directory: ${CODE}${PWD}${_END})
+	@true
 
 .PHONY: tests unit-tests unit-tests-prerequisite unit-tests-default unit-tests-postrequisite
-.PHONY: format format-prerequisite format-default format-postrequisite
+.PHONY: format format-prerequisite format-default format-postrequisite black
 .PHONY: ruff ruff-prerequisite ruff-default ruff-postrequisite
 .PHONY: pylint pylint-prerequisite pylint-default pylint-postrequisite
 .PHONY: type-check type-check-prerequisite type-check-default type-check-postrequisite
@@ -181,28 +223,24 @@ tests:: unit-tests
 unit-tests:: unit-tests-prerequisite unit-tests-default unit-tests-postrequisite
 unit-tests-prerequisite unit-tests-postrequisite::
 unit-tests-default:
-	@echo "${INFO_LABEL}Target ${CODE}unit-tests${_END}: Running the unit tests (with coverage) in ${CODE}${SRC_DIR}/tests${_END}:"
-	@if [ ! -d "${SRC_DIR}/tests" ]; then echo "${WARN_LABEL} No test directory ${CODE}${SRC_DIR}/tests${_END} found!"; \
-	else \
-		cd ${SRC_DIR}; \
-		echo "${INFO_LABEL}Running: ${CODE}${PYTEST_RUN_CMD} && ${PYTEST_COV_REPORT_CMD}${_END}"; \
-		${PYTEST_RUN_CMD} && ${PYTEST_COV_REPORT_CMD}; \
-	fi
+	@echo "${INFO_LABEL}Target ${CODE}unit-tests${_END}: Running the unit tests (with coverage)."
+	cd ${SRC_DIR} && ${PYTEST_RUN_CMD} ${WHICH_TESTS}
+	cd ${SRC_DIR} && ${PYTEST_COV_REPORT_CMD}
 
 # Convenient short hand for the two linters.
 lint:: ruff pylint
 
-format:: format-prerequisite format-default format-postrequisite
+format black:: format-prerequisite format-default format-postrequisite
 format-prerequisite format-postrequisite::
 format-default:
 	@echo "${INFO_LABEL}Target ${CODE}format${_END}: Running ${CODE}black${_END} on the code in ${CODE}${SRC_DIR}${_END}."
-	uv run black ${SRC_DIR}
+	cd ${SRC_DIR} && ${UV_RUN} black .
 
 ruff:: ruff-prerequisite ruff-default ruff-postrequisite
 ruff-prerequisite ruff-postrequisite::
 ruff-default:
 	@echo "${INFO_LABEL}Target ${CODE}ruff${_END}: Running ${CODE}ruff${_END} to lint the code in ${CODE}${SRC_DIR}${_END}."
-	uv run ruff check --fix ${SRC_DIR}
+	cd ${SRC_DIR} && ${UV_RUN} ruff check --fix .
 
 pylint:: pylint-prerequisite pylint-default pylint-postrequisite
 pylint-prerequisite pylint-postrequisite::
@@ -211,23 +249,27 @@ pylint-default:
 
 pylint-default-save:
 	@echo "${INFO_LABEL}Target ${CODE}pylint${_END}: Running ${CODE}pylint${_END} on the code in ${CODE}${SRC_DIR}${_END} (configuration in ${CODE}pylintrc.toml${_END})"
-	uv run pylint ${PYLINT_IGNORE_ARGS} ${SRC_DIR}
+	cd ${SRC_DIR} && ${UV_RUN} pylint ${PYLINT_IGNORE_ARGS} .
 
 type-check:: type-check-prerequisite type-check-default type-check-postrequisite
 type-check-prerequisite type-check-postrequisite::
 type-check-default:
 	@echo "${INFO_LABEL}Target ${CODE}type-check${_END}: Running ${CODE}ty${_END} to type check the code in ${CODE}${SRC_DIR}${_END}."
-	uv run ty check ${SRC_DIR}
+	cd ${SRC_DIR} && ${UV_RUN} ty check .
 
 type-check-watch:: type-check-prerequisite type-check-watch-default type-check-postrequisite
 type-check-watch-default:
 	@echo "${INFO_LABEL}Target ${CODE}type-check-watch${_END}: Running ${CODE}ty${_END} to type check the code in ${CODE}${SRC_DIR}${_END} using 'watch' mode."
-	uv run ty check --watch ${SRC_DIR}
+	cd ${SRC_DIR} && ${UV_RUN} ty check --watch .
 
 .PHONY: one-time-setup clean-setup uninstall-uv 
+.PHONY: force-setup force-one-time-setup rm-venv
 .PHONY: command-check-uv install-uv uv-venv install-dev-dependencies 
 
 setup one-time-setup:: install-uv uv-venv install-dev-dependencies
+force-setup force-one-time-setup:: rm-venv setup
+rm-venv::
+	rm -rf .venv
 
 clean-setup:: uninstall-uv
 
@@ -236,8 +278,10 @@ install-%::
 		echo "${INFO_LABEL}command ${CODE}$$cmd${_END} is already installed." || ${MAKE} CMD=$$cmd help-command-not-installed help-command-$$cmd
 
 uv-venv:: command-check-uv
-	@test -d .venv && echo "${INFO}Directory ${CODE}.venv${_END} already exists; not running ${CODE}uv venv${_END}." || uv venv
-	@echo "${TIP_LABEL}run ${CODE}source .venv/bin/activate${_END} if subsequent commands fail!"
+	@test -d .venv && echo "${INFO_LABEL}directory ${CODE}.venv${_END} already exists; not running ${CODE}uv venv${_END}." || uv venv
+	@echo "${TIP_LABEL}Try running ${CODE}source .venv/bin/activate${_END} if subsequent make commands fail."
+	@echo "${TIP_LABEL}If they ${RED}still${_END} don't work, try ${CODE}make force-setup${_END}, which deletes ${CODE}.venv${_END}"
+	@echo "${TIP_LABEL}and runs ${CODE}setup${_END} again."
 
 install-dev-dependencies::
 	uv pip install -e ".[dev]"
@@ -252,7 +296,7 @@ command-check-uv::
 install-jq:: help-command-jq
 
 %-error:
-	$(info ${ERROR}${@} - Error ${_END})
+	$(info ${ERROR}${@:%-error=%} - Error ${_END})
 	$(error ${${@}-message})
 
 define help-command-uv-message
@@ -262,7 +306,7 @@ endef
 
 define help-command-uninstall-uv-message
 ${WARNING_LABEL}You have to uninstall ${CODE}uv${_END} manually.
-${INFO_LABEL}If you used HomeBrew to install it, use ${CODE}brew uninstall uv${_END}. 
+${INFO_LABEL}If you used HomeBrew to install it, use ${CODE}brew uninstall uv${_END}.
 ${INFO_LABEL}Otherwise, if you executed one of the installation commands from
 ${INFO_LABEL}${CODE}https://docs.astral.sh/uv/${_END}, find the installation location and delete it.
 endef
