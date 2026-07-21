@@ -216,12 +216,15 @@ These targets assume that your Python source code files will be under `src` and 
 > [!NOTE]
 > The `pytest` target fails unless there are tests under `src/tests`. Hence, it is disabled by default in `Makefile`. See the target `unit-tests-default` defined there and the comments above it.
 
-There is a workflow `.github/workflows/ci.yml`, which you should ensure is triggered in the `Rulesets / main-pr-enforcement` (under project _Settings > Rules > Rulesets_) if and when you add source code. This CI workflow is only triggered for source-related content, i.e., `Makefile`, `.*.mk`, `*.toml`, and `src/**` files. It doesn't do anything for the microsite content under `docs`.
+There is a workflow `.github/workflows/ci.yml`, which you will have to enable for PRs in the `Rulesets / main-pr-enforcement` (under project _Settings > Rules > Rulesets_), if and when you add source code. This CI workflow is only triggered for source-related content, i.e., `Makefile`, `.*.mk`, `*.toml`, and `src/**` files. It doesn't do anything for the microsite content under `docs`. It's harmless to set it up now, so you don't forget about it later.
+
+> [!WARNING]
+> Cloning the `microsite-template` repository doesn't appear to set this up automatically, even though this ruleset is configured the `microsite-template` repository.
 
 The workflow assumes your integration branch is `main` (edit as required) and it runs the task `make before-pr` on PRs to that branch.
 
 > [!TIP]
-> 1. Try `make before-pr`. It should print a lot of "stuff", but not do anything when you first create this repo. It should also not fail!
+> 1. Try `make before-pr`. It should print a lot of "stuff", but not do anything when you first create this repository. It should also not fail!
 > 1. For other examples of how the `make` process is used see the [Tapestry](https://github.com/The-AI-Alliance/tapesty) and the [`ai-application-testing`](https://github.com/The-AI-Alliance/ai-application-testing) projects.
 > 1. Edit `CODEOWNERS` to designate owners responsible for different sections of the repository.
 
