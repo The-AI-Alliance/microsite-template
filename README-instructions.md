@@ -219,7 +219,9 @@ These targets assume that your Python source code files will be under `src` and 
 There is a workflow `.github/workflows/ci.yml`, which you will have to enable for PRs in the `Rulesets / main-pr-enforcement` (under project _Settings > Rules > Rulesets_), if and when you add source code. This CI workflow is only triggered for source-related content, i.e., `Makefile`, `.*.mk`, `*.toml`, and `src/**` files. It doesn't do anything for the microsite content under `docs`. It's harmless to set it up now, so you don't forget about it later.
 
 > [!WARNING]
-> Cloning the `microsite-template` repository doesn't appear to set this up automatically, even though this ruleset is configured the `microsite-template` repository.
+> Cloning the `microsite-template` repository doesn't appear to set this up automatically, even though this ruleset is configured the `microsite-template` repository. The easiest way to do this is to click the _Protect this branch_ button shown in this prompt on the landing page for your new repository:
+> ![Branch protection rule prompt](https://github.com/The-AI-Alliance/microsite-template/blob/main/docs/assets/images/branch-protection-prompt.jpg)
+> Then fill in the form that pops up. In particular, select _Require status checks to pass_, then click _Add checks_, type in _ci_, and select it.
 
 The workflow assumes your integration branch is `main` (edit as required) and it runs the task `make before-pr` on PRs to that branch.
 
