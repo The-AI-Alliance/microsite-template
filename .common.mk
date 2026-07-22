@@ -24,6 +24,10 @@ CLEAN_CODE_DIRS          := ${OUTPUT_DIR}
 CLEAN_DIRS               += ${CLEAN_CODE_DIRS}
 
 # The quality targets we run as part of "before-pr":
+# GITHUB_CI is set to a non-empty string in our .github/workflows/ci.yml
+# when running "make before-pr". We use that flag to change some of flags
+# defined below.
+GITHUB_CI                :=
 QUALITY_CHECKS_NO_TESTS  := format ruff pylint type-check
 QUALITY_CHECKS           := ${QUALITY_CHECKS_NO_TESTS} unit-tests
 
@@ -42,6 +46,14 @@ PYTEST_RUN_OPT_ARGS      ?=
 PYTEST_COV_OPT_ARGS      ?=
 PYTEST_RUN_CMD           := ${UV_RUN} coverage run -m pytest -v -s ${PYTEST_RUN_OPT_ARGS}
 PYTEST_COV_REPORT_CMD    := ${UV_RUN} coverage report -m ${PYTEST_COV_OPT_ARGS}
+
+ifeq (${GITHUB_CI},)
+	BLACK_OPT_ARGS :=
+else
+	# In CI, only check if reformatting would happen. exit code 1
+	# is returned if so, causing the PR to fail.
+	BLACK_OPT_ARGS := --check
+endif
 
 # The environment:
 MAKEFLAGS                ?= --warn-undefined-variables
@@ -103,9 +115,11 @@ ${CODE}make black${_END}              # Alias for ${CODE}format${_END}.
 ${CODE}make lint${_END}               # Lint the Python code by making the ${CODE}ruff${_END} and ${CODE}pylint${_END} targets.
 ${CODE}make ruff${_END}               # Lint the Python code with ${CODE}ruff${_END}.
 ${CODE}make pylint${_END}             # Lint the Python code with ${CODE}pylint${_END}.
-${CODE}make type-check${_END}         # Type check the Python code with ${CODE}ty${_END}.
+${CODE}make type-check${_END}         # Type check the Python code making the ${CODE}ty${_END} target.
 ${CODE}make type-check-watch${_END}   # Type check the Python code with ${CODE}ty${_END} in "watch" mode,
 ${CODE}${_END}                        # so you can fix mistakes and keep it updating.
+${CODE}make ty${_END}                 # Type check the Python code with ${CODE}ty${_END}.
+${CODE}make ty-watch${_END}           # Type check the Python code with ${CODE}ty${_END} in "watch" mode.
 ${CODE}make before-pr${_END}          # Make ${CODE}format${_END}, ${CODE}lint${_END}, ${CODE}type-check${_END}, and ${CODE}unit-tests${_END}.
 ${CODE}${_END}                        # ${RED}DO THIS BEFORE SUBMITTING A PR!${_END}
 ${CODE}make before-pr-no-tests${_END} # Everything in ${CODE}before-pr${_END} except ${CODE}unit-tests${_END}.
@@ -220,8 +234,8 @@ print-pwd::
 .PHONY: format format-prerequisite format-default format-postrequisite black
 .PHONY: ruff ruff-prerequisite ruff-default ruff-postrequisite
 .PHONY: pylint pylint-prerequisite pylint-default pylint-postrequisite
-.PHONY: type-check type-check-prerequisite type-check-default type-check-postrequisite
-.PHONY: type-check-watch type-check-watch-default
+.PHONY: type-check ty type-check-prerequisite type-check-default type-check-postrequisite
+.PHONY: type-check-watch ty-watch type-check-watch-default
 .PHONY: lint
 
 tests:: unit-tests
@@ -239,7 +253,7 @@ format black:: format-prerequisite format-default format-postrequisite
 format-prerequisite format-postrequisite::
 format-default:
 	@echo "${INFO_LABEL}Target ${CODE}format${_END}: Running ${CODE}black${_END} on the code in ${CODE}${SRC_DIR}${_END}."
-	cd ${SRC_DIR} && ${UV_RUN} black .
+	cd ${SRC_DIR} && ${UV_RUN} black ${BLACK_OPT_ARGS} .
 
 ruff:: ruff-prerequisite ruff-default ruff-postrequisite
 ruff-prerequisite ruff-postrequisite::
@@ -256,13 +270,15 @@ pylint-default-save:
 	@echo "${INFO_LABEL}Target ${CODE}pylint${_END}: Running ${CODE}pylint${_END} on the code in ${CODE}${SRC_DIR}${_END} (configuration in ${CODE}pylintrc.toml${_END})"
 	cd ${SRC_DIR} && ${UV_RUN} pylint ${PYLINT_IGNORE_ARGS} .
 
-type-check:: type-check-prerequisite type-check-default type-check-postrequisite
+type-check:: ty
+ty:: type-check-prerequisite type-check-default type-check-postrequisite
 type-check-prerequisite type-check-postrequisite::
 type-check-default:
 	@echo "${INFO_LABEL}Target ${CODE}type-check${_END}: Running ${CODE}ty${_END} to type check the code in ${CODE}${SRC_DIR}${_END}."
 	cd ${SRC_DIR} && ${UV_RUN} ty check .
 
-type-check-watch:: type-check-prerequisite type-check-watch-default type-check-postrequisite
+type-check-watch:: ty-watch
+ty-watch:: type-check-prerequisite type-check-watch-default type-check-postrequisite
 type-check-watch-default:
 	@echo "${INFO_LABEL}Target ${CODE}type-check-watch${_END}: Running ${CODE}ty${_END} to type check the code in ${CODE}${SRC_DIR}${_END} using 'watch' mode."
 	cd ${SRC_DIR} && ${UV_RUN} ty check --watch .
@@ -275,6 +291,7 @@ setup one-time-setup:: install-uv uv-venv install-dev-dependencies
 force-setup force-one-time-setup:: rm-venv setup
 rm-venv::
 	rm -rf .venv
+	rm -f uv.lock
 
 clean-setup:: uninstall-uv
 
