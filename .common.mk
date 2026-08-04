@@ -247,6 +247,22 @@ print-pwd::
 	$(info ${HIGHLIGHT}In directory: ${CODE}${PWD}${_END})
 	@true
 
+# Note the structure used for common tasks, like running the unit tests:
+#   unit-tests:: unit-tests-prerequisite unit-tests-default unit-tests-postrequisite
+# The *-prerequisite and *-postrequisite are hooks that Makefile can add additional
+# dependencies to, as desired. Use the :: syntax for such definitions:
+#   unit-tests-prerequisite:: even-more
+#   even-more::
+#     @echo "Even more stuff!"
+# In contrast, the *-default targets are designed to be OVERRIDDEN. They
+# are declared below with a single ":", so that a new definition in Makefile
+# overrides them, instead of adding additional dependencies and/or commands
+# to run. A common usage is disabling a task. If there are now unit tests
+# in a cloned project, then unit-tests-default will fail, as written below,
+# so the Makefile should use this idiom in that case:
+#   unit-tests-default:  # note the single ":"!
+#     @echo "Unit tests currently are disabled. Delete this definition when you add the first unit tests!"
+
 .PHONY: tests unit-tests unit-tests-prerequisite unit-tests-default unit-tests-postrequisite
 .PHONY: format format-prerequisite format-default format-postrequisite black
 .PHONY: ruff ruff-prerequisite ruff-default ruff-postrequisite
@@ -287,9 +303,6 @@ ruff-watch-default:
 pylint:: pylint-prerequisite pylint-default pylint-postrequisite
 pylint-prerequisite pylint-postrequisite::
 pylint-default:
-	@echo "${WARNING_LABEL}The ${CODE}pylint${_END} target is currently not passing, so it is disabled. See the repo issue #165."
-
-pylint-default-save:
 	@echo "${INFO_LABEL}Target ${CODE}pylint${_END}: Running ${CODE}pylint${_END} on the code in ${CODE}${SRC_DIR}${_END} (configuration in ${CODE}pylintrc.toml${_END})"
 	cd ${SRC_DIR} && ${UV_RUN} pylint ${PYLINT_ARGS} ${PYLINT_OPT_ARGS} .
 
