@@ -30,7 +30,7 @@ endef
 # are added to the project. (Ignore warnings about overriding the
 # definition that you will see in the meantime!)
 unit-tests-default:
-	@echo "${skip-contrib-target}"
+	@echo "${WARNING_LABEL}The ${CODE}${@:%-default=%}${_END} target is currently not passing, so it is disabled."
 	@true
 
 # Common includes. See the beginning of this file, too!
