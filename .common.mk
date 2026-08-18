@@ -73,7 +73,7 @@ PYTEST_RUN_CMD           := ${UV_RUN} coverage run -m pytest -v -s ${PYTEST_RUN_
 PYTEST_COV_REPORT_CMD    := ${UV_RUN} coverage report -m ${PYTEST_COV_OPT_ARGS}
 
 # The environment:
-MAKEFLAGS                 = --warn-undefined-variables
+MAKEFLAGS                ?= --warn-undefined-variables
 UNAME                    ?= $(shell uname)
 ARCHITECTURE             ?= $(shell uname -m)
 LOCAL_REPO_PATH          ?= $(shell git rev-parse --show-toplevel)
@@ -106,18 +106,18 @@ endif
 # to make it easier to line up multi-line description comments.
 
 define help-message-general
-${HIGHLIGHT}Quick help for this make process: General Targets${_END}
+${HIGHLIGHT} Quick help for this make process: General Targets ${_END}
 
-${NOTE}You can ignore the following warnings you might see:${_END}
-${NOTE}  .custom.mk:N: warning: overriding commands for target ...${_END}
-${NOTE}  .common.mk:N: warning: ignoring old commands for target ...${_END}
-${NOTE}  `VIRTUAL_ENV=.../.venv` does not match the project environment path `.venv` ...${_END}
+${NOTE} You can ignore the following warnings you might see: ${_END}
+${NOTE}   .custom.mk:N: warning: overriding commands for target ... ${_END}
+${NOTE}   .common.mk:N: warning: ignoring old commands for target ... ${_END}
+${NOTE}   `VIRTUAL_ENV=.../.venv` does not match the project environment path `.venv` ... ${_END}
 
 ${CODE}make all${_END}                # Makes the ${CODE}help${_END} and ${CODE}print-info${_END} targets.
 ${CODE}make help${_END}               # Prints this output.
 ${CODE}make print-info${_END}         # Print the current values of some make and environment variables.
 
-${HIGHLIGHT}Working with the code:${_END}
+${HIGHLIGHT} Working with the code: ${_END}
 
 ${CODE}make one-time-setup${_END}     # "One time setup" of ${CODE}uv${_END} dependencies (in ${CODE}.venv${_END}).
 ${CODE}make setup${_END}              # Alias for ${CODE}one-time-setup${_END}.
@@ -148,8 +148,13 @@ content, which can take a ${RED}LOT${_END} of compute to generate due to the inf
 ${help-top-level-message}
 endef
 
+define no-help-for-command-message
+${WARNING_LABEL}Sorry, no built-in help is available for CLI command '${CODE}${CMD}${_END}'.
+endef
 
-.PHONY: all help help-general help-command-no-message help-command-not-installed print-info clean clean-code
+.PHONY: all print-info clean clean-code
+.PHONY: help help-general help-command-not-installed
+
 all:: help print-info
 
 clean::
@@ -158,26 +163,26 @@ clean::
 clean-code::
 	rm -rf ${CLEAN_CODE_DIRS}
 
+# When you see @true commands, like here, they ensure that the recipe ends
+# with a "clean" successful status and no confusing messages are printed,
+# like "make: Nothing to be done for `help'".
 help:: help-general 
 	@true
+
+# NOTE: The order of declaration is important for the help-* targets, because
+# the help-*-% targets should come last.
+
 help-general::
 	$(info )
 	$(info ${help-message-general})
-
-# NOTE: The order of declaration is important for the help-* targets.
-help-command-no-message::
-	$(info ${WARNING_LABEL}Sorry, no built-in help is available for CLI command '${CODE}${CMD}${_END}'.")
-	@true
 
 help-command-not-installed::
 	$(info ${WARNING_LABEL}Command ${CODE}${CMD}${_END} is not installed.)
 	@true
 
 help-command-%::
-	$(info ${INFO_LABEL}Help on ${CODE}${@:help-command-%=%}${_END}:)
-	$(info ${${@}-message})
-	$(info ${INFO_LABEL})
-	$(info ${INFO_LABEL}(If no help is shown, then none is defined for ${CODE}${@:help-command-%=%}${_END} in this Makefile.))
+	$(info ${${LABEL}_LABEL}Help on ${CODE}${@:help-command-%=%}${_END}:)
+	$(info $(if ${${@}-message},${${@}-message},${no-help-for-command-message}))
 	@true
 
 help-%::
@@ -209,18 +214,10 @@ command-check-%:
 silent-command-check-%:
 	cmd=${@:silent-command-check-%=%} && echo $$cmd && command -v $$cmd > /dev/null
 
-# A default definition of a potentially useful message. Override when needed with
-# override define help-custom-targets-message
-# ...
-# endef
-define help-custom-targets-message
-  ${NOTE}No custom targets defined.${_END}
-endef
-
 .PHONY: print-info-env
 print-info:: print-info-env
 print-info-env::
-	@echo "${HIGHLIGHT}Some 'environment' settings:${_END}"
+	@echo "${HIGHLIGHT} Some 'environment' settings: ${_END}"
 	@echo
 	@echo "  ${DARK_GREEN}MAKEFLAGS:${_END}             ${CODE}${MAKEFLAGS}${_END}"
 	@echo "  ${DARK_GREEN}UNAME:${_END}                 ${CODE}${UNAME}${_END}"
@@ -234,9 +231,42 @@ print-info-env::
 	@echo "  ${DARK_GREEN}WHICH_TESTS:${_END}           ${CODE}${WHICH_TESTS}${_END}"
 	@echo
 
-# The idiom of targets named "*-default" is an override hook. They are declared here
-# with a single colon (:), so Makefiles can define their own recipe for the "core" of
-# the corresponding targets, e.g., before-pr, pylint, tests, etc.
+
+# In what follows, note the structure used for common tasks, like running the unit tests:
+#   unit-tests:: unit-tests-prerequisite unit-tests-default unit-tests-postrequisite
+# The *-prerequisite and *-postrequisite are hooks that permit a Makefile to APPEND
+# additional dependencies or recipes to execute before or after the "core" command is
+# run by *-default. You use the double-colon syntax, "::", for additional *-prerequisite
+# and *-postrequisite definitions:
+#   unit-tests-prerequisite:: even-more
+#   even-more::
+#     @echo "Even more stuff!"
+#
+# NOTE: Because .common.mk is included in the Makefile before your definitions, your
+# definitions APPEND dependencies and/or recipes.
+#
+# In contrast, the *-default targets are designed to be OVERRIDDEN. They
+# are declared below with a single ":", so that a new definition in a Makefile
+# OVERRIDES them, instead of adding additional dependencies and/or recipes
+# to run. A common usage is to disable a task. For example, if there are no
+# unit tests in the project, then unit-tests-default will fail, because of how
+# it is defined below. (This isn't true for ruff, black, pylint, and ty, which
+# silently ignore when there is no python code.) In this case, the Makefile
+# should use this idiom:
+#
+#   unit-tests-default:  # note the single ":"!
+#     @echo "${skip-default-target-message}"
+#     @true
+#
+# The "skip-default-target-message" variable is defined in .common.mk to provide a useful
+# notice to the reader that the target is skipped.
+#
+# Using a single colon, ":", vs. two, "::", is essential. Using two colons would
+# add dependencies or recipes, not replace them. However, because the *-default
+# targets are defined below with one colon, if you use two colons, it triggers a
+# make error. One or two has to be used consistently for all target definitions.
+# Note that a warning will be issued when make detects a target override. These
+# are harmless, although "noisy".
 
 .PHONY: before-pr before-pr-default before-pr-no-tests print-pwd
 
@@ -244,24 +274,8 @@ before-pr:: print-pwd ${QUALITY_CHECKS}
 before-pr-no-tests:: print-pwd ${QUALITY_CHECKS_NO_TESTS}
 
 print-pwd::
-	$(info ${HIGHLIGHT}In directory: ${CODE}${PWD}${_END})
+	$(info ${INFO_LABEL}In directory: ${CODE}${PWD}${_END})
 	@true
-
-# Note the structure used for common tasks, like running the unit tests:
-#   unit-tests:: unit-tests-prerequisite unit-tests-default unit-tests-postrequisite
-# The *-prerequisite and *-postrequisite are hooks that Makefile can add additional
-# dependencies to, as desired. Use the :: syntax for such definitions:
-#   unit-tests-prerequisite:: even-more
-#   even-more::
-#     @echo "Even more stuff!"
-# In contrast, the *-default targets are designed to be OVERRIDDEN. They
-# are declared below with a single ":", so that a new definition in Makefile
-# overrides them, instead of adding additional dependencies and/or commands
-# to run. A common usage is disabling a task. If there are now unit tests
-# in a cloned project, then unit-tests-default will fail, as written below,
-# so the Makefile should use this idiom in that case:
-#   unit-tests-default:  # note the single ":"!
-#     @echo "Unit tests currently are disabled. Delete this definition when you add the first unit tests!"
 
 .PHONY: tests unit-tests unit-tests-prerequisite unit-tests-default unit-tests-postrequisite
 .PHONY: format format-prerequisite format-default format-postrequisite black
@@ -321,7 +335,7 @@ type-check-watch-default:
 
 .PHONY: one-time-setup clean-setup uninstall-uv 
 .PHONY: force-setup force-one-time-setup rm-venv
-.PHONY: command-check-uv install-uv uv-venv install-dev-dependencies 
+.PHONY: command-check-uv uv-venv install-dev-dependencies
 
 setup one-time-setup:: install-uv uv-venv install-dev-dependencies
 force-setup force-one-time-setup:: rm-venv setup
@@ -333,7 +347,9 @@ clean-setup:: uninstall-uv
 
 install-%::
 	@cmd=${@:install-%=%} && command -v $$cmd > /dev/null && \
-		echo "${INFO_LABEL}command ${CODE}$$cmd${_END} is already installed." || ${MAKE} CMD=$$cmd help-command-not-installed help-command-$$cmd
+		echo "${INFO_LABEL}Command ${CODE}$$cmd${_END} is already installed." || \
+		${MAKE} MAKEFLAGS= CMD=$$cmd LABEL=WARNING help-command-not-installed help-command-$$cmd
+		@true
 
 uv-venv:: command-check-uv
 	@test -d .venv && echo "${INFO_LABEL}directory ${CODE}.venv${_END} already exists; not running ${CODE}uv venv${_END}." || uv venv
@@ -354,7 +370,7 @@ command-check-uv::
 install-jq:: help-command-jq
 
 %-error:
-	$(info ${ERROR}${@:%-error=%} - Error ${_END})
+	$(info ${ERROR} ${@:%-error=%} - Error ${_END})
 	$(error ${${@}-message})
 
 define help-command-uv-message
@@ -376,10 +392,16 @@ ${INFO_LABEL}The CLI command ${CODE}jq${_END} is useful, but not required, for p
 ${INFO_LABEL}See ${CODE}https://jqlang.org/download/${_END} for installation instructions.
 endef
 
-define help-command-node-message
-${INFO_LABEL}The JavaScript runtime ${CODE}node${_END} is required if you want to use the MCP server
-${INFO_LABEL}inspector ${CODE}@modelcontextprotocol/inspector${_END}. Otherwise, node is not used in
-${INFO_LABEL}this project. See ${CODE}https://nodejs.org/en/download/${_END} for installation instructions.
+define skip-default-target-message
+${WARNING_LABEL}Skipping ${CODE}${@:%-default=%}${_END} in ${CODE}${SRC_DIR}${_END}! Target ${CODE}$@${_END} is overridden in ${CODE}Makefile${_END}.
 endef
+
+
+define ignore-warnings-message
+${NOTE} You can ignore the following warnings you might see: ${_END}
+${NOTE}   .custom.mk:N: warning: overriding commands for target ... ${_END}
+${NOTE}   .common.mk:N: warning: ignoring old commands for target ... ${_END}
+endef
+
 
 open-url-message = ${TIP_LABEL}Try ${CODE}⌘+click${_END} or ${CODE}^+click${_END} on the URL.

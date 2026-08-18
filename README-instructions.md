@@ -22,6 +22,7 @@ These are the main steps, with details below:
 1. Add your initial custom content for the pages in the `docs` directory. Delete the files you don't use, e.g., `second_page.markdown` and the `nested` folder. (They are there to provide examples.)
 1. Add your initial custom content to the `README.md`.
 1. **If** you plan to publish the website from the `latest` branch, merge changes to that branch from `main`.
+1. Edit the content of `AGENTS.md`, a helper file for coding agents, and `SECURITY.md`, which defines the project security policy, as appropriate.
 1. Edit the repo's _Settings_. 
     1. On the repo's home page in GitHub, click the _Settings_ "gear" on the upper right-hand side. 
     1. Scroll down to _Features_ and click _Discussions_ to enable them (unless you don't want them; in this case, remove the URL on the `docs/contributing.markdown` page!).
@@ -29,6 +30,9 @@ These are the main steps, with details below:
     1. Click the checkbox labeled _Require contributors to sign off on web-based commits Loading._ (Under the _Commits_ part of the page, near the bottom.) 
     1. On the left-hand side, click the link for _Pages_. Under _Branch_, select the `main` or `latest` branch depending on which one you want to use, then select the `/docs` directory. (**NOTE:** Make sure the repo is _public_ or else the pages won't get published.) The public URL will be [https://the-ai-alliance.github.io/REPO_NAME_MACRO](https://the-ai-alliance.github.io/REPO_NAME_MACRO)
     1. On the left-hand side, click the link for _Advanced Security_. Enable all the alerts and security updates. For the _Dependabot version updates_, the configuration should already be correct (as defined in the included `.github/dependabot.yml` file), but you can change it by clicking the _Configure_ button.
+    1. Back on the _General_ panel, configure the default branch if you don't want to use `main`. **WARNING:** The website, READMEs and other documentation often refer to `main` as the default branch. Change those references to the new branch name.
+    1. Consider defining _branch protection rules_ under the _Branches_ panel. See other repos, like [Tapestry](https://github.com/The-AI-Alliance/tapestry/settings/branches), for examples.
+    1. Under the _Security and Quality_ panel, the `SECURITY.md` file already defines the security policy. Enable any or all of the quality and security checks shown on this panel.
 1. Add the website description and URL in the appropriate location on the Alliance GitHub organization [README](https://github.com/The-AI-Alliance/.github/tree/main/profile) files and the Alliance GitHub [website](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/). (See [Need Help?](#anchor-need-help) below...) 
 1. Add any Python source files to `src` and test files `src/tests`. See the discussion below about common targets for code already supported by the `Makefile` and `.common.mk`, etc.
 1. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSES/LICENSE.*` files that don't apply to your project.
@@ -156,21 +160,27 @@ The `README.md` contains useful _boilerplate_ for contributors, but the preamble
 
 By default, the website is published from the `main` branch, for convenience. However, if you chose to use the `latest` branch or another branch (see step 2. above), you'll need to merge the changes in `main` to that branch. We won't provide instructions here, as this is a standard developer practice. However, ask one of the developers on the team for help if needed.
 
-### 8. Edit the repo's _Settings_. 
+### 8. Edit the content of `AGENTS.md` and `SECURITY.md`
+
+`AGENTS.md` is a helper file for coding agents. You will need to update it periodically as your project evolves and expands
+
+`SECURITY.md` defines the project security policy.
+
+### 9. Edit the repo's _Settings_.
 
 To publish the website and setup some other repo features, click the _Settings_ "gear" on the upper right-hand side of the repo's top-level page. 
 
-#### 8a. Click the checkbox labeled _Require contributors to sign off on web-based commits Loading._ 
+#### 9a. Click the checkbox labeled _Require contributors to sign off on web-based commits Loading._
 
 We require [DCO](https://github.com/The-AI-Alliance/community/blob/main/CONTRIBUTING.md#developer-certificate-of-origin) ("Developer Certificate of Origin") checks for all commits. Setting this checkbox turns this on automatically for users making repo edits in the GitHub Web UI.
 
-#### 8b. Enable discussions.
+#### 9b. Enable discussions.
 
 Scroll down to _Features_ and click _Discussions_ to enable them. Click the _Set up discussions_ button and edit the first discussion topic to taste, then post it.
 
 However, if you don't want to enable discussions, then remove the URL on the `docs/contributing.markdown` page.
 
-#### 8c. Publish your website.
+#### 9c. Publish your website.
 
 On the left-hand side of the _Settings_, click the link for _Pages_. Under _Branch_, select your publication branch, either `main`, `latest`, or a custom branch you specified above. Then select the `/docs` directory and finally, click _Save_.
 
@@ -179,13 +189,28 @@ Your website should be published after a few minutes to `https://the-ai-alliance
 > [!TIP]
 > At the top of the repo page, click _Actions_ to see the progress of building your website. This action will be executed every time you make a change to a file in your publication branch (i.e., `main` by default). If for some reason building the website fails, this page can provide useful debugging help.
 
-#### 8d. Configure Dependabot
+#### 9d. Configure Dependabot
 
 On the left-hand side of the _Settings_ page, click the link for _Advanced Security_. Enable all the alerts and security updates. 
 
 For the _Dependabot version updates_ section, the configuration should already be correct. (It is defined in the included `.github/dependabot.yml` file.) However, you can click the _Configure_ button to change it.
 
-### 9. Add your website to the Alliance GitHub organization page and the Alliance website.
+#### 9e. Configure the Default Branch
+
+If you don't want to use `main` as the default integration branch, go to the _General_ panel and configure the default branch you want to use.
+
+> [!WARNING]
+> The website, READMEs and other documentation often refer to `main` as the default branch. Change those references to the new branch name.
+
+#### 9f. Define Branch Protection Rules
+
+Consider defining _branch protection rules_ under the _Branches_ panel. See other repos, like [Tapestry](https://github.com/The-AI-Alliance/tapestry/settings/branches), for examples.
+
+#### 9g. Enable Security Scans
+
+Under the _Security and Quality_ panel, the `SECURITY.md` file already defines the security policy. Enable any or all of the quality and security checks shown on this panel.
+
+### 10. Add your website to the Alliance GitHub organization page and the Alliance website.
 
 > [!NOTE]
 > This step applies for code repos, not just documentation repos.
@@ -207,7 +232,7 @@ When you are ready for broader exposure for your site, there are a few places wh
 
 After editing the [.github page](https://github.com/The-AI-Alliance/.github/blob/main/profile/), notify Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), who will run a tool that will copy the changes to the [https://the-ai-alliance.github.io/](https://the-ai-alliance.github.io/) site. (This process is described in the [the-ai-alliance.github.io](https://github.com/The-AI-Alliance/the-ai-alliance.github.io/) repo.)
 
-### 10. Add Your Source Code
+### 11. Add Your Source Code
 
 If your project will have Python source code, the `Makefile` includes `.common.mk`, which defines standard targets like `unit-tests`, `format`, `lint`, and `type-check`. All of these targets are built by the `before-pr` target, which we recommend you run and ask collaborators to run before submitting a PR.
 
@@ -229,8 +254,9 @@ The workflow assumes your integration branch is `main` (edit as required) and it
 > 1. Try `make before-pr`. It should print a lot of "stuff", but not do anything when you first create this repository. It should also not fail!
 > 1. For other examples of how the `make` process is used see the [Tapestry](https://github.com/The-AI-Alliance/tapesty) and the [`ai-application-testing`](https://github.com/The-AI-Alliance/ai-application-testing) projects.
 > 1. Edit `CODEOWNERS` to designate owners responsible for different sections of the repository.
+> 1. Update `AGENTS.md` to add any useful information for coding agents to understand about the code structure, purpose, etc.
 
-### 11. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSES/LICENSE.*` files that don't apply to your project.
+### 12. Delete the files `README-instructions.md`, `finish-microsite.sh`, and any of the `LICENSES/LICENSE.*` files that don't apply to your project.
 
 The first two files,`README-instructions.md` (this file!) and `finish-microsite.sh`,  are no longer needed, so you can remove them from your repo. Select each one in the GitHub UI and click the `...` menu on the upper right-hand side, then select _Delete file_.
 
@@ -240,7 +266,7 @@ Similarly, you may not need all three `LICENSE.*` files:
 * `LICENSES/LICENSE.CC-BY-4.0`: Recommended for documentation.
 * `LICENSES/LICENSE.CDLA-2.0`: Recommended for datasets.
 
-### 12. Final Steps
+### 13. Final Steps
 
 If you are using a separate publication branch, e.g., `latest`, don't forget to merge all changes from `main` to the publication branch and push both branches upstream, e.g., `git push --all` (when using the CLI in a terminal).
 
@@ -250,4 +276,4 @@ You should now have a published website and you should know how to edit the cont
 
 ## Need Help?
 
-Reach out to Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)), Joe Olson ([email](mailto:jolson@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U06LFUAM5HN)), or Adam Pingel ([email](mailto:apingel@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U06J2U2921F)) if you need help.
+Reach out to Dean Wampler ([email](mailto:dwampler@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U068AL1C30E)) or Joe Olson ([email](mailto:jolson@thealliance.ai), [Slack](https://ai-alliance-workspace.slack.com/team/U06LFUAM5HN)) if you need help.

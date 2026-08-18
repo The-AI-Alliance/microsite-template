@@ -74,7 +74,7 @@ Issue PRs for the `main` branch. Note that some of our microsite repos are confi
 
 ### Updating the Website Version and Last Modified Date
 
-By default, the footer of the pages shows the latest version and laste modified date. We don't require you to include this information nor do we require that you update it according to any specific requirements, if you decide to keep it. However, if you keep this information, you'll want to update this information periodically around lines 96-97 in `docs/config.yml`:
+By default, the footer of the pages shows the latest version and last modified date. We don't require you to include this information nor do we require that you update it according to any specific requirements, if you decide to keep it. However, if you keep this information, you'll want to update this information periodically around lines 96-97 in `docs/config.yml`:
 
 ```
 last_edit_time_format: "%Y-%m-%d" # uses ruby's time format...

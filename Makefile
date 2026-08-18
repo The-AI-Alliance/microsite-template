@@ -18,9 +18,9 @@ help-custom::
 	$(info ${help-custom-message})
 
 define help-custom-message
-${HIGHLIGHT}Quick help for this project's specific targets:${_END}
+${HIGHLIGHT} Quick help for this project's custom targets: ${_END}
 
-${BOLD}None defined at this time.${_END}
+${NOTE_LABEL} No custom targets are defined at this time.
 
 endef
 
@@ -30,7 +30,7 @@ endef
 # are added to the project. (Ignore warnings about overriding the
 # definition that you will see in the meantime!)
 unit-tests-default:
-	@echo "${WARNING_LABEL}The ${CODE}${@:%-default=%}${_END} target is currently not passing, so it is disabled."
+	@echo "${skip-default-target-message}"
 	@true
 
 # Common includes. See the beginning of this file, too!
