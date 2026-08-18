@@ -324,7 +324,7 @@ print-pwd::
 tests:: unit-tests
 unit-tests:: unit-tests-prerequisite unit-tests-command unit-tests-postrequisite
 unit-tests-prerequisite unit-tests-postrequisite::
-unit-tests-command-default:
+unit-tests-command-default::
 	@echo "${INFO_LABEL}Target ${CODE}unit-tests${_END}: Running the unit tests (with coverage)."
 	cd ${SRC_DIR} && ${PYTEST_RUN_CMD} ${WHICH_TESTS}
 	cd ${SRC_DIR} && ${PYTEST_COV_REPORT_CMD}
@@ -334,37 +334,37 @@ lint:: ruff pylint
 
 format black:: format-prerequisite format-command format-postrequisite
 format-prerequisite format-postrequisite::
-format-command-default:
+format-command-default::
 	@echo "${INFO_LABEL}Target ${CODE}format${_END}: Running ${CODE}black${_END} on the code in ${CODE}${SRC_DIR}${_END}."
 	cd ${SRC_DIR} && ${UV_RUN} black ${BLACK_ARGS} ${BLACK_OPT_ARGS} .
 
 ruff:: ruff-prerequisite ruff-command ruff-postrequisite
 ruff-prerequisite ruff-postrequisite::
-ruff-command-default:
+ruff-command-default::
 	@echo "${INFO_LABEL}Target ${CODE}ruff${_END}: Running ${CODE}ruff${_END} to lint the code in ${CODE}${SRC_DIR}${_END}."
 	cd ${SRC_DIR} && ${UV_RUN} ruff ${RUFF_ARGS} ${RUFF_OPT_ARGS} .
 
 ruff-watch:: ruff-prerequisite ruff-watch-command ruff-postrequisite
-ruff-watch-command-default:
+ruff-watch-command-default::
 	@echo "${INFO_LABEL}Target ${CODE}ruff${_END}: Running ${CODE}ruff${_END} to lint the code in ${CODE}${SRC_DIR}${_END} using 'watch' mode."
 	cd ${SRC_DIR} && ${UV_RUN} ruff ${RUFF_ARGS} --watch ${RUFF_OPT_ARGS} .
 
 pylint:: pylint-prerequisite pylint-command pylint-postrequisite
 pylint-prerequisite pylint-postrequisite::
-pylint-command-default:
+pylint-command-default::
 	@echo "${INFO_LABEL}Target ${CODE}pylint${_END}: Running ${CODE}pylint${_END} on the code in ${CODE}${SRC_DIR}${_END} (configuration in ${CODE}pylintrc.toml${_END})"
 	cd ${SRC_DIR} && ${UV_RUN} pylint ${PYLINT_ARGS} ${PYLINT_OPT_ARGS} .
 
 type-check:: ty
 ty:: type-check-prerequisite type-check-command type-check-postrequisite
 type-check-prerequisite type-check-postrequisite::
-type-check-command-default:
+type-check-command-default::
 	@echo "${INFO_LABEL}Target ${CODE}type-check${_END}: Running ${CODE}ty${_END} to type check the code in ${CODE}${SRC_DIR}${_END}."
 	cd ${SRC_DIR} && ${UV_RUN} ty ${TY_ARGS} ${TY_OPT_ARGS} .
 
 type-check-watch:: ty-watch
 ty-watch:: type-check-prerequisite type-check-watch-command type-check-postrequisite
-type-check-watch-command-default:
+type-check-watch-command-default::
 	@echo "${INFO_LABEL}Target ${CODE}type-check-watch${_END}: Running ${CODE}ty${_END} to type check the code in ${CODE}${SRC_DIR}${_END} using 'watch' mode."
 	cd ${SRC_DIR} && ${UV_RUN} ty ${TY_ARGS} --watch ${TY_OPT_ARGS} .
 
