@@ -239,7 +239,7 @@ If your project will have Python source code, the `Makefile` includes `.common.m
 These targets assume that your Python source code files will be under `src` and the test files are under `src/tests`.
 
 > [!NOTE]
-> The `pytest` target fails unless there are tests under `src/tests`. Hence, it is disabled by default in `Makefile`. See the target `unit-tests-default` defined there and the comments above it.
+> The built-in `pytest` target fails unless there are tests under `src/tests`. Hence, it is disabled by default in `Makefile`. See the target `unit-tests-command` defined there and the comments above it.
 
 There is a workflow `.github/workflows/ci.yml`, which you will have to enable for PRs in the `Rulesets / main-pr-enforcement` (under project _Settings > Rules > Rulesets_), if and when you add source code. This CI workflow is only triggered for source-related content, i.e., `Makefile`, `.*.mk`, `*.toml`, and `src/**` files. It doesn't do anything for the microsite content under `docs`. It's harmless to set it up now, so you don't forget about it later.
 
