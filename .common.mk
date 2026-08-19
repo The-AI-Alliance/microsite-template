@@ -1,5 +1,31 @@
 # .common.mk
-# See comment at the bottom of this file about "-include .custom.mk".
+
+# First, include a .custom.mk that _may or may not_ exist. The leading "-"
+# means that make will ignore the error if a file isn't found.
+# If this file is in a different directory, pass the option
+# "--include-dir that_dir" to make, where "that_dir" is the file's
+# location. This is another tool for customizing the make process,
+# in addition to overrides and other definitions in the Makefile.
+# One use is to add additional dependencies to standard targets defined
+# in this file. This is why many targets are defined like this:
+#   foo:: foo-prerequisite foo-command foo-postrequisite
+#
+# The "foo-command" is where the main work is done, such as running
+# tests or linting code. If you need to do something before "foo-command",
+# then add a dependency to "foo-prerequisite" and have it do the work
+# required. Similarly, after "foo-command", use "foo-postrequisite" as a
+# hook for any cleanup, etc.
+#
+# Similarly, you can *disable* a command by overriding the definition of
+# foo-command, as discussed in a long comment below.
+#
+# For most projects, this sort of customization is easy enough to do in
+# the main Makefile. We support the .custom.mk file idiom, because it is
+# useful in Project Tapestry's "contrib" directories for customization of
+# make targets *just within those directories*. See that project's .common.mk
+# and READMEs for more details (https://github.com/The-AI-Alliance/tapestry/).
+
+-include .custom.mk
 
 # Definitions of RED, GREEN, etc., and INFO, ERROR, etc. for console output.
 # To see them in action, try "make show-colors".
@@ -83,8 +109,9 @@ GIT_HASH                 ?= $(shell git show --pretty="%H" --abbrev-commit |head
 TIMESTAMP                ?= $(shell date +"%Y%m%d-%H%M%S")
 
 # Model "appendix":
-# For cases where model inference is done in local environments, e.g., laptops,
-# define a variable that can be used to select appropriate versions of models,
+# For cases where model inference is done in local environments, e.g., laptops
+# using ollama or llama.cpp, we define a variable that can be used to select
+# appropriate versions of models, targeted at particular hardware architectures.
 # E.g., if the architecture is "arm64" (Apple Silicon), then we define a
 # MODEL_APPENDIX=-mlx, which Makefiles can append to variables that specify LLMs.
 # Otherwise, this variable is empty. However, the value won't be changed if the
@@ -99,7 +126,7 @@ else
 endif
 
 ifndef SRC_DIR
-$(error ${ERROR} There is no ${SRC_DIR} directory!${_END})
+$(error ${ERROR} There is no ${SRC_DIR} directory! ${_END})
 endif
 
 # When you see ${CODE}${_end} without anything between them, it is there
@@ -107,11 +134,6 @@ endif
 
 define help-message-general
 ${HIGHLIGHT} Quick help for this make process: General Targets ${_END}
-
-${NOTE} You can ignore the following warnings you might see: ${_END}
-${NOTE}   .custom.mk:N: warning: overriding commands for target ... ${_END}
-${NOTE}   .common.mk:N: warning: ignoring old commands for target ... ${_END}
-${NOTE}   `VIRTUAL_ENV=.../.venv` does not match the project environment path `.venv` ... ${_END}
 
 ${CODE}make all${_END}                # Makes the ${CODE}help${_END} and ${CODE}print-info${_END} targets.
 ${CODE}make help${_END}               # Prints this output.
@@ -153,7 +175,7 @@ ${WARNING_LABEL}Sorry, no built-in help is available for CLI command '${CODE}${C
 endef
 
 .PHONY: all print-info clean clean-code
-.PHONY: help help-general help-command-not-installed
+.PHONY: help help-command-not-installed do-help-command
 
 all:: help print-info
 
@@ -166,23 +188,23 @@ clean-code::
 # When you see @true commands, like here, they ensure that the recipe ends
 # with a "clean" successful status and no confusing messages are printed,
 # like "make: Nothing to be done for `help'".
-help:: help-general 
+help::
+	$(info )
+	$(info ${help-message-general})
 	@true
 
 # NOTE: The order of declaration is important for the help-* targets, because
 # the help-*-% targets should come last.
-
-help-general::
-	$(info )
-	$(info ${help-message-general})
 
 help-command-not-installed::
 	$(info ${WARNING_LABEL}Command ${CODE}${CMD}${_END} is not installed.)
 	@true
 
 help-command-%::
-	$(info ${${LABEL}_LABEL}Help on ${CODE}${@:help-command-%=%}${_END}:)
-	$(info $(if ${${@}-message},${${@}-message},${no-help-for-command-message}))
+	@${MAKE} CMD=${@:help-command-%=%} do-help-command
+do-help-command::
+	$(info ${${LABEL}_LABEL}Help on ${CODE}${CMD}${_END}:)
+	$(info $(if ${help-command-${CMD}-message},${help-command-${CMD}-message},${no-help-for-command-message}))
 	@true
 
 help-%::
@@ -232,43 +254,53 @@ print-info-env::
 	@echo
 
 
-# In what follows, note the structure used for common tasks, like running the unit tests:
-#   unit-tests:: unit-tests-prerequisite unit-tests-default unit-tests-postrequisite
-# The *-prerequisite and *-postrequisite are hooks that permit a Makefile to APPEND
-# additional dependencies or recipes to execute before or after the "core" command is
-# run by *-default. You use the double-colon syntax, "::", for additional *-prerequisite
-# and *-postrequisite definitions:
-#   unit-tests-prerequisite:: even-more
-#   even-more::
-#     @echo "Even more stuff!"
-#
-# NOTE: Because .common.mk is included in the Makefile before your definitions, your
-# definitions APPEND dependencies and/or recipes.
-#
-# In contrast, the *-default targets are designed to be OVERRIDDEN. They
-# are declared below with a single ":", so that a new definition in a Makefile
-# OVERRIDES them, instead of adding additional dependencies and/or recipes
-# to run. A common usage is to disable a task. For example, if there are no
-# unit tests in the project, then unit-tests-default will fail, because of how
-# it is defined below. (This isn't true for ruff, black, pylint, and ty, which
-# silently ignore when there is no python code.) In this case, the Makefile
-# should use this idiom:
-#
-#   unit-tests-default:  # note the single ":"!
-#     @echo "${skip-default-target-message}"
-#     @true
-#
-# The "skip-default-target-message" variable is defined in .common.mk to provide a useful
-# notice to the reader that the target is skipped.
-#
-# Using a single colon, ":", vs. two, "::", is essential. Using two colons would
-# add dependencies or recipes, not replace them. However, because the *-default
-# targets are defined below with one colon, if you use two colons, it triggers a
-# make error. One or two has to be used consistently for all target definitions.
-# Note that a warning will be issued when make detects a target override. These
-# are harmless, although "noisy".
 
-.PHONY: before-pr before-pr-default before-pr-no-tests print-pwd
+# In what follows, note the structure used for common tasks, like running the unit tests:
+#   unit-tests:: unit-tests-prerequisite unit-tests-command unit-tests-postrequisite
+# The *-prerequisite and *-postrequisite are hooks that permit a .custom.mk (or a Makefile)
+# to add additional dependencies or recipes to execute before or after the "core" command is
+# executed by the *-command target.  The *-prerequisite and *-postrequisite all have empty
+# recipes in this file. So, if you want to define them with custom behaviors, you must use
+# the double-colon syntax, "::", like this:
+#
+# unit-tests-prerequisite:: even-more
+#   @echo "Doing some unit testing setup..."
+# even-more::
+#   @echo "Doing even more stuff!"
+#
+# In contrast, the *-command targets are designed to be OVERRIDDEN. A common usage is to
+# disable a task. For example, if there are no unit tests in the project, then
+# unit-tests-command will fail, because of how it is defined below. (This isn't true for
+# ruff, black, pylint, and ty, which silently ignore when there is no python code.)
+# So, projects without python tests should have the following definition in their Makefile:
+#
+# unit-tests-command::
+#   @echo "${skip-command-target-message}"
+#   @true
+#
+# The "skip-command-target-message" variable is defined in .common.mk to provide a
+# useful notice to the reader that the target is skipped.
+#
+# There is one more point to explain for how this is implemented. The _default_ way
+# *-command is actually declared is as follows:
+#
+# %-command::
+#  	@${MAKE} ${@}-default
+#
+# Take for example, unit-tests-command. Because the .custom.mk file (if any) is read
+# before this point in .common.mk, The target pattern "%-command" is _only_ used if
+# .custom.mk (and Makefile) do not define unit-tests-command themselves. When
+# this happens, the recipe calls `make unit-tests-command-default` to invoke the
+# "default" command for unit tests.
+#
+# See the bottom of this file for a note about a previous, alternative
+# implementation we used for this feature.
+
+# The default implementation of any *-command target:
+%-command:
+	@${MAKE} ${@}-default
+
+.PHONY: before-pr before-pr-no-tests print-pwd
 
 before-pr:: print-pwd ${QUALITY_CHECKS}
 before-pr-no-tests:: print-pwd ${QUALITY_CHECKS_NO_TESTS}
@@ -277,19 +309,22 @@ print-pwd::
 	$(info ${INFO_LABEL}In directory: ${CODE}${PWD}${_END})
 	@true
 
-.PHONY: tests unit-tests unit-tests-prerequisite unit-tests-default unit-tests-postrequisite
-.PHONY: format format-prerequisite format-default format-postrequisite black
-.PHONY: ruff ruff-prerequisite ruff-default ruff-postrequisite
-.PHONY: ruff-watch ruff-watch-default
-.PHONY: pylint pylint-prerequisite pylint-default pylint-postrequisite
-.PHONY: type-check ty type-check-prerequisite type-check-default type-check-postrequisite
-.PHONY: type-check-watch ty-watch type-check-watch-default
+# Note that *-command-default targets are declared phony, but the dependencies for * targets
+# are *: *-prerequisite *-command *-postrequisite
+
+.PHONY: tests unit-tests unit-tests-prerequisite unit-tests-command-default unit-tests-postrequisite
+.PHONY: format format-prerequisite format-command-default format-postrequisite black
+.PHONY: ruff ruff-prerequisite ruff-command-default ruff-postrequisite
+.PHONY: ruff-watch ruff-watch-command-default
+.PHONY: pylint pylint-prerequisite pylint-command-default pylint-postrequisite
+.PHONY: type-check ty type-check-prerequisite type-check-command-default type-check-postrequisite
+.PHONY: type-check-watch ty-watch type-check-watch-command-default
 .PHONY: lint
 
 tests:: unit-tests
-unit-tests:: unit-tests-prerequisite unit-tests-default unit-tests-postrequisite
+unit-tests:: unit-tests-prerequisite unit-tests-command unit-tests-postrequisite
 unit-tests-prerequisite unit-tests-postrequisite::
-unit-tests-default:
+unit-tests-command-default::
 	@echo "${INFO_LABEL}Target ${CODE}unit-tests${_END}: Running the unit tests (with coverage)."
 	cd ${SRC_DIR} && ${PYTEST_RUN_CMD} ${WHICH_TESTS}
 	cd ${SRC_DIR} && ${PYTEST_COV_REPORT_CMD}
@@ -297,39 +332,39 @@ unit-tests-default:
 # Convenient short hand for the two linters.
 lint:: ruff pylint
 
-format black:: format-prerequisite format-default format-postrequisite
+format black:: format-prerequisite format-command format-postrequisite
 format-prerequisite format-postrequisite::
-format-default:
+format-command-default::
 	@echo "${INFO_LABEL}Target ${CODE}format${_END}: Running ${CODE}black${_END} on the code in ${CODE}${SRC_DIR}${_END}."
 	cd ${SRC_DIR} && ${UV_RUN} black ${BLACK_ARGS} ${BLACK_OPT_ARGS} .
 
-ruff:: ruff-prerequisite ruff-default ruff-postrequisite
+ruff:: ruff-prerequisite ruff-command ruff-postrequisite
 ruff-prerequisite ruff-postrequisite::
-ruff-default:
+ruff-command-default::
 	@echo "${INFO_LABEL}Target ${CODE}ruff${_END}: Running ${CODE}ruff${_END} to lint the code in ${CODE}${SRC_DIR}${_END}."
 	cd ${SRC_DIR} && ${UV_RUN} ruff ${RUFF_ARGS} ${RUFF_OPT_ARGS} .
 
-ruff-watch:: ruff-prerequisite ruff-watch-default ruff-postrequisite
-ruff-watch-default:
+ruff-watch:: ruff-prerequisite ruff-watch-command ruff-postrequisite
+ruff-watch-command-default::
 	@echo "${INFO_LABEL}Target ${CODE}ruff${_END}: Running ${CODE}ruff${_END} to lint the code in ${CODE}${SRC_DIR}${_END} using 'watch' mode."
 	cd ${SRC_DIR} && ${UV_RUN} ruff ${RUFF_ARGS} --watch ${RUFF_OPT_ARGS} .
 
-pylint:: pylint-prerequisite pylint-default pylint-postrequisite
+pylint:: pylint-prerequisite pylint-command pylint-postrequisite
 pylint-prerequisite pylint-postrequisite::
-pylint-default:
+pylint-command-default::
 	@echo "${INFO_LABEL}Target ${CODE}pylint${_END}: Running ${CODE}pylint${_END} on the code in ${CODE}${SRC_DIR}${_END} (configuration in ${CODE}pylintrc.toml${_END})"
 	cd ${SRC_DIR} && ${UV_RUN} pylint ${PYLINT_ARGS} ${PYLINT_OPT_ARGS} .
 
 type-check:: ty
-ty:: type-check-prerequisite type-check-default type-check-postrequisite
+ty:: type-check-prerequisite type-check-command type-check-postrequisite
 type-check-prerequisite type-check-postrequisite::
-type-check-default:
+type-check-command-default::
 	@echo "${INFO_LABEL}Target ${CODE}type-check${_END}: Running ${CODE}ty${_END} to type check the code in ${CODE}${SRC_DIR}${_END}."
 	cd ${SRC_DIR} && ${UV_RUN} ty ${TY_ARGS} ${TY_OPT_ARGS} .
 
 type-check-watch:: ty-watch
-ty-watch:: type-check-prerequisite type-check-watch-default type-check-postrequisite
-type-check-watch-default:
+ty-watch:: type-check-prerequisite type-check-watch-command type-check-postrequisite
+type-check-watch-command-default::
 	@echo "${INFO_LABEL}Target ${CODE}type-check-watch${_END}: Running ${CODE}ty${_END} to type check the code in ${CODE}${SRC_DIR}${_END} using 'watch' mode."
 	cd ${SRC_DIR} && ${UV_RUN} ty ${TY_ARGS} --watch ${TY_OPT_ARGS} .
 
@@ -392,16 +427,28 @@ ${INFO_LABEL}The CLI command ${CODE}jq${_END} is useful, but not required, for p
 ${INFO_LABEL}See ${CODE}https://jqlang.org/download/${_END} for installation instructions.
 endef
 
-define skip-default-target-message
-${WARNING_LABEL}Skipping ${CODE}${@:%-default=%}${_END} in ${CODE}${SRC_DIR}${_END}! Target ${CODE}$@${_END} is overridden in ${CODE}Makefile${_END}.
+define skip-command-target-message
+${WARNING_LABEL}Skipping ${CODE}${@:%-command=%}${_END} in ${CODE}${SRC_DIR}${_END}! Target ${CODE}$@${_END} is overridden in ${CODE}Makefile${_END}.
 endef
-
-
-define ignore-warnings-message
-${NOTE} You can ignore the following warnings you might see: ${_END}
-${NOTE}   .custom.mk:N: warning: overriding commands for target ... ${_END}
-${NOTE}   .common.mk:N: warning: ignoring old commands for target ... ${_END}
-endef
-
 
 open-url-message = ${TIP_LABEL}Try ${CODE}⌘+click${_END} or ${CODE}^+click${_END} on the URL.
+
+# Definitions for the website:
+include .website.mk
+
+# Note on a previous implementation of the %-command behavior:
+#
+# An earlier implementation of this feature used the fact that two or more
+# definitions of the _same_ target with a _single_ colon act as overrides,
+# rather than appending behavior, which is what the double colon does:
+#
+# foo: foo-dependency-one
+#   @echo "Foo recipe 1"
+#
+# foo: foo-dependency-two
+#   @echo "Foo recipe 2"
+#
+# As written, `make foo` would print "Foo recipe 2". Unfortunately, make
+# would also print two warnings about overriding the previous definition!
+# The current "hack" we use with a wild-card target "%-command" above
+# effectively implements the same behavior, but without the annoying warnings.
