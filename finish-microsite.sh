@@ -13,7 +13,7 @@ cfg="$dir/docs/_config.yml"
 index="$dir/docs/index.markdown"
 work_branch=main
 publish_branch=main
-default_assignees="deanwampler,adampingel,jolson-allianceai"
+default_assignees="deanwampler,jolson-allianceai"
 
 dashboard_base="The-AI-Alliance"
 default_dashboard_number=39
@@ -295,21 +295,16 @@ info "Processing Files:"
 for file in "${other_files[@]}" "${make_files[@]}" "${markdown_files[@]}" "${html_files[@]}" "${github_files[@]}"
 do
 	info "  $file"
-	if [[ -z $NOOP ]]
-	then
-		sed -e "s?REPO_NAME_MACRO?$repo_name?g" \
-		    -e "s?MICROSITE_TITLE_MACRO?$microsite_title?g" \
-		    -e "s?MICROSITE_DESCRIPTION_MACRO?$microsite_description?g" \
-		    -e "s?DASHBOARD_URL_MACRO?$dashboard_url?g" \
-		    -e "s?DASHBOARD_MACRO?$dashboard?g" \
-		    -e "s?PUBLISH_BRANCH_MACRO?$publish_branch?g" \
-		    -e "s?ASSIGNEES_MACRO?$assignees?g" \
-		    -e "s?ASSIGNEES_SPACES_MACRO?$assignees_spaces?g" \
-		    -e "s?LAST_MODIFIED_TIME_MACRO?$timestamp?g" \
-		    -i ".back" "$file"
-	else
-		$NOOP sed ... -i .back $file
-	fi
+	$NOOP sed -e "s?REPO_NAME_MACRO?$repo_name?g" \
+	    -e "s?MICROSITE_TITLE_MACRO?$microsite_title?g" \
+	    -e "s?MICROSITE_DESCRIPTION_MACRO?$microsite_description?g" \
+	    -e "s?DASHBOARD_URL_MACRO?$dashboard_url?g" \
+	    -e "s?DASHBOARD_MACRO?$dashboard?g" \
+	    -e "s?PUBLISH_BRANCH_MACRO?$publish_branch?g" \
+	    -e "s?ASSIGNEES_MACRO?$assignees?g" \
+	    -e "s?ASSIGNEES_SPACES_MACRO?$assignees_spaces?g" \
+	    -e "s?LAST_MODIFIED_TIME_MACRO?$timestamp?g" \
+	    -i ".back" "$file"
 done
 
 info "Delete the backup '*.back' files that were just made."
