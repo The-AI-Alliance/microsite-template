@@ -71,11 +71,21 @@ A table example using standard Markdown and showing how to set the desired align
 [^2]: A second example footnote. Note that you don't need to put a blank line between them; they work like lists.
 
 <!-- 
-Use the following construct anywhere in the page to automatically
-show a table of contents for the sections on the page. This is 
-_different_ than a list of child pages (i.e., separate markdown files).
-That list is always shown at the bottom automatically, as defined in
-the default.html template file.
+Use the following <detail> tag construct at the end or the beginning of a page
+to automatically show a table of contents for the sections on the page. This is useful
+when the page is very long, although in that case you should also consider breaking
+up the content into several, smaller pages...
+
+This is _different_ than a list of child pages (i.e., separate markdown files).
+That list is always shown at the bottom automatically, as defined in the default.html
+template file.
+
+Note the "open" attribute; when present, the section will be shown. Remove it if you
+want to have the section, but closed by default. (This may be preferable when you put
+the section at the top of the page.) Note: you can't do "open='false'", either the
+attribute is present or absent...
+
+The <summary> tag is the title that is shown both when the section is open or closed.
 -->
 
 ---
