@@ -59,7 +59,35 @@ Open the URL in a browser.
 > 3. Run `JEKYLL_PORT=4444 make view-local` to use port `4444` instead of `4000`.
 > 4. `view-local` will always check the Ruby and Jekyll installation. To skip this, use `make run-jekyll` instead.
 
+## How to Use a Different Directory for the Website
+
+The GitHub Pages publication process is setup using the instructions in [`README-instructions.md`](README-instructions.md). Some of the details are repeated [below](#configuring-github-pages-in-the-repo-settings). For most repos, the defaults used are straightforward and work well.
+
+Oddly enough, GitHub only allows GitHub Pages to be published from the repo's root directory '/' _or_ `/docs`. _You can't choose a different directory!_ This is inconvenient for larger repos where you don't want the website files in the root directory and you want to use `docs` for other documentation. [Project Tapestry](https://github.com/The-AI-Alliance/tapestry/) is an example.
+
+However, a third-party tool, [`github-pages-overwriter`](https://github.com/marketplace/actions/github-pages-overwriter), from the GitHub marketplace, can be used to set up a custom workflow that uses a "staging" step to provide a workaround. It allows you to specify an arbitrary directory. In the workflow, the latest site content from the directory is written to the repo's root '/' directory, but only _in a custom, temporary branch_, `gh-pages` (by default). The repo settings are configured by you to publish from the `gh-pages` branch and the root directory. Note that you don't merge `gh-pages` back to any work branches. It is configured with the file [`.github/workflows/jekyll.yml`](https://github.com/The-AI-Alliance/tapestry/blob/develop/.github/workflows/jekyll.yml). We used this technique in [Project Tapestry](https://github.com/The-AI-Alliance/tapestry/).
+
+If you want to use a directory other than `/docs`, you will need to do the following steps:
+
+1. Move `.github/workflows/jekyll.yml.template` to `.github/workflows/jekyll.yml`:
+	* `git mv .github/workflows/jekyll.yml.template .github/workflows/jekyll.yml`
+1. In `jekyll.yml`, make the following changes, as appropriate:
+    1. Around line 10, change the branch `main` to whatever branch you intend to publish from. The `main` branch is the normal default used in most projects, including these setup instructions, but we discuss alternatives in the next section of these instructions.
+    1. Around line 39, change the directory to your preference for where the website content will live. Tapestry uses `website`, which is the default in `.github/workflows/jekyll.yml.template`.
+    1. Around line 46, change the custom branch name to your preference for where the website content will be staged. Tapestry and `.github/workflows/jekyll.yml.template` use `gh-pages`.
+1. In `.website.mk`, around line 4, change `docs` in the definition `WEBSITE_DIR := docs` to your desired directory.
+1. Configure your repo's _Settings > Pages_ to _deploy from a branch_, use the `gh_pages` branch (or the alternative you set above), and the `/ (root)` directory.
+1. Move `docs` to the correct directory. If you use `website`, then execute:
+	* `git mv docs website`
+	* `git push`
+
+> [!NOTE]
+> The corresponding action for the workflow in the repo's **Actions** view will have the title `Custom GitHub Pages Staging`, which comes from the `jekyll.yml` file.
+
 ## Contributing New or Improved Content
+
+> [!NOTE]
+> For the rest of this document, unless otherwise specified, we will assume the website content is in the `docs` directory and published from the `main` branch. If you made the changes in the previous section or changes described below, adjust these values accordingly.
 
 What gets displayed by GitHub Pages is the customized Markdown files in the `docs` directory. If you need to create a new page, copy an existing page to get the correct "header" information, then edit as needed.
 
@@ -67,10 +95,7 @@ Here are some things you should know.
 
 ### Using the Correct Branch
 
-Issue PRs for the `main` branch. Note that some of our microsite repos are configured to publish the website from another branch, usually `latest`, not `main`. For those repos, it will be necessary to merge from `main` to `latest` after merging the PR.
-
-> [!NOTE]
-> If you are curious, the details of how the publication process is configured are discussed [below](#configuring-github-pages-in-the-repo-settings).
+Issue PRs targeting the `main` branch. Note that some of our microsite repos are configured to publish the website from another branch, usually `latest`, not `main`. For those repos, it will be necessary to merge from `main` to `latest` after merging the PR.
 
 ### Updating the Website Version and Last Modified Date
 
@@ -310,5 +335,9 @@ gem list | grep jekyll
 ### Configuring GitHub Pages in the Repo Settings
 
 This section documents the one-time settings necessary to [configure publication of a repo's GitHub Pages](https://docs.github.com/en/enterprise-server@3.1/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site). 
+
+> [!IMPORTANT]
+> If you followed the instructions in [How to Use a Different Directory for the Website
+](#how-to-use-a-different-directory-for-the-website) above to use a custom directory location, then skip the rest of this section.
 
 In the repo's [_Settings > Pages_ section](https://github.com/The-AI-Alliance/REPO_NAME_MACRO/settings/pages), use the menu to select the branch from which you want to publish the website. By default, we assume `main` is the desired branch, so pick that. However, if you want to use a different branch, i.e., `latest` or another one you specified when running `finish-microsite.sh`, then select it. Finally, select the `docs` folder in the dropdown menu to the right, which is the root folder for the pages.

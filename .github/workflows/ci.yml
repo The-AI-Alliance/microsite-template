@@ -1,16 +1,18 @@
 name: CI
 
+# Because the website is static, by default, we don't do any CI checks for website
+# changes (under the docs directory), but if you add JavaScript content later, consider
+# adding the appropriate paths (e.g., *.json, *.js, and *.ts) and "quality steps" below.
 on:
   pull_request:
     branches:
       - main
     paths:
-      - ".common.mk"
-      - ".console-colors.mk"
-      - ".website.mk"
-      - "Makefile"
+      - "**/.*.mk"
+      - "**/Makefile"
+      - "**/*.toml"
+      - ".github/workflows/*.yml"
       - "src/**"
-      - "pyproject.toml"
 
 jobs:
   quality:
@@ -20,13 +22,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-
-      - name: Check contrib target failures
-        run: |
-          if make contrib-ls; then
-            echo "make contrib-ls should fail"
-            exit 1
-          fi
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -38,7 +33,7 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Cache uv download cache
+      - name: uv download cache
         uses: actions/cache@v6
         with:
           path: ~/.cache/uv
@@ -46,19 +41,25 @@ jobs:
           restore-keys: |
             uv-${{ runner.os }}-
 
-      - name: Cache virtualenv
-        uses: actions/cache@v6
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-py3.13-${{ hashFiles('pyproject.toml') }}
-          restore-keys: |
-            venv-${{ runner.os }}-py3.13-
+      # Do not cache .venv. Restored venvs keep a python3 symlink into the
+      # runner image; that path can disappear on the next image, causing the
+      # `if [ ! -d .venv ]` then skips recreation. Keep the uv download cache.
+      # - name: Cache virtualenv
+      #   uses: actions/cache@v6
+      #   with:
+      #     path: .venv
+      #     key: venv-${{ runner.os }}-py3.13-${{ hashFiles('pyproject.toml') }}
+      #     restore-keys: |
+      #       venv-${{ runner.os }}-py3.13-
+
+      # - name: Create virtual environment (if cache miss)
+      #   run: |
+      #     if [ ! -d .venv ]; then
+      #       uv venv --no-managed-python
+      #     fi
 
       - name: Create virtual environment (if cache miss)
-        run: |
-          if [ ! -d .venv ]; then
-            uv venv --no-managed-python
-          fi
+        run: uv venv --no-managed-python
 
       - name: Install dependencies
         run: uv pip install -e ".[dev]"

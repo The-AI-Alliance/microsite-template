@@ -1,9 +1,10 @@
 # [PR Template] Website or Other Documentation Changes
 
 > Replace the title with a more descriptive alternative. Delete
-> content below that doesn't apply to your PR. Also delete this paragraph!
+> content below that doesn't apply to your PR. Also delete this note!
 
 ## Description of Changes
+
 Provide a brief description of the documentation or website changes:
 
 * What content was added/modified/removed?
@@ -11,9 +12,14 @@ Provide a brief description of the documentation or website changes:
 * How do these changes improve the documentation/website?
 
 ## Related Issues
-List any related issues or PRs (#number, ...):
+
+List any related issues or PRs that this submission addresses:
+
+* Issues: (e.g., #123, #456)
+* PRs: (e.g., #789)
 
 ## Preview
+
 Provide a link to a preview of the changes (if applicable) or just say that running `make view-local` is sufficient to see them. What should the reviewer check out, specifically?
 
 ## Checklist

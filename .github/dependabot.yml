@@ -9,3 +9,22 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+
+    groups:
+
+      # All patch updates together, may be merged when CI is green.
+      patch-updates:
+        update-types: [ "patch" ]
+
+      # All minor updates together. Requires green CI + manual check.
+      minor-updates:
+        update-types: [ "minor" ]
+
+    # Space left: 3 PRs of ungrouped major updates. Requires green CI + manual check.
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5

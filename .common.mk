@@ -38,7 +38,7 @@ include .console-colors.mk
 #   ${SRC_DIR} will be run. WHICH_TESTS can also be used on the command line
 #   to specify a particular directory, test file or test to run. Specify this
 #   value RELATIVE to ${SRC_DIR}! See the pytest docs for the syntax to use:
-#   https://docs.pytest.org/en/stable/how-to/usage.html for syntax
+#   https://docs.pytest.org/en/stable/how-to/usage.html
 SRC_DIR                  ?= src
 WHICH_TESTS              ?=
 OUTPUT_DIR               ?= output
@@ -60,7 +60,8 @@ QUALITY_CHECKS           := ${QUALITY_CHECKS_NO_TESTS} unit-tests
 # Commands as variables:
 # Time execution of commands. Prefix the command invocation with "${TIME}":
 TIME                     ?= time
-# Common flags for "uv run" (--active is recommended by some warnings that
+
+# Common flags for "uv run" (--active may be useful for some warnings that
 # can be seen during recursive uv invocations, but using it can cause
 # conflicting versions of dependencies to be installed in the top-level
 # environment, if the directories for those invocations have their own
@@ -126,20 +127,20 @@ else
 endif
 
 ifndef SRC_DIR
-$(error ${ERROR} There is no ${SRC_DIR} directory! ${_END})
+$(error ${ERROR}There is no ${SRC_DIR} directory!${_END_BOLD}${_END})
 endif
 
 # When you see ${CODE}${_end} without anything between them, it is there
 # to make it easier to line up multi-line description comments.
 
 define help-message-general
-${HIGHLIGHT} Quick help for this make process: General Targets ${_END}
+${HIGHLIGHT}Quick help for this make process - General Targets:${_END_BOLD}${_END}
 
 ${CODE}make all${_END}                # Makes the ${CODE}help${_END} and ${CODE}print-info${_END} targets.
 ${CODE}make help${_END}               # Prints this output.
 ${CODE}make print-info${_END}         # Print the current values of some make and environment variables.
 
-${HIGHLIGHT} Working with the code: ${_END}
+${HIGHLIGHT}Working with the code:${_END_BOLD}${_END}
 
 ${CODE}make one-time-setup${_END}     # "One time setup" of ${CODE}uv${_END} dependencies (in ${CODE}.venv${_END}).
 ${CODE}make setup${_END}              # Alias for ${CODE}one-time-setup${_END}.
@@ -149,16 +150,18 @@ ${CODE}make force-setup${_END}        # Alias for ${CODE}force-one-time-setup${_
 ${CODE}make unit-tests${_END}         # Run the unit test suite.
 ${CODE}make tests${_END}              # Alias for ${CODE}unit-tests${_END}.
 ${CODE}make clean${_END}              # Remove built artifacts, temporary files, etc.
-${CODE}make format${_END}             # Format the Python code with ${CODE}black${_END}.
+${CODE}make format${_END}             # Format the Python code by making the ${CODE}black${_END} target.
 ${CODE}make black${_END}              # Alias for ${CODE}format${_END}.
 ${CODE}make lint${_END}               # Lint the Python code by making the ${CODE}ruff${_END} and ${CODE}pylint${_END} targets.
 ${CODE}make ruff${_END}               # Lint the Python code with ${CODE}ruff${_END}.
+${CODE}make ruff-watch${_END}         # Lint the Python code with ${CODE}ruff${_END} in "watch" mode, re-linting whenever files are saved.
 ${CODE}make pylint${_END}             # Lint the Python code with ${CODE}pylint${_END}.
-${CODE}make type-check${_END}         # Type check the Python code making the ${CODE}ty${_END} target.
-${CODE}make type-check-watch${_END}   # Type check the Python code with ${CODE}ty${_END} in "watch" mode,
+${CODE}make type-check${_END}         # Type check the Python code by making the ${CODE}ty${_END} target.
+${CODE}make type-check-watch${_END}   # Type check the Python code by making the ${CODE}ty-watch${_END} target.
 ${CODE}${_END}                        # so you can fix mistakes and keep it updating.
 ${CODE}make ty${_END}                 # Type check the Python code with ${CODE}ty${_END}.
-${CODE}make ty-watch${_END}           # Type check the Python code with ${CODE}ty${_END} in "watch" mode.
+${CODE}make ty-watch${_END}           # Type check the Python code with ${CODE}ty${_END} in "watch" mode, re-typing whenever files are saved.
+
 ${CODE}make before-pr${_END}          # Make ${CODE}format${_END}, ${CODE}lint${_END}, ${CODE}type-check${_END}, and ${CODE}unit-tests${_END}.
 ${CODE}${_END}                        # ${RED}DO THIS BEFORE SUBMITTING A PR!${_END}
 ${CODE}make before-pr-no-tests${_END} # Everything in ${CODE}before-pr${_END} except ${CODE}unit-tests${_END}.
@@ -177,7 +180,7 @@ endef
 .PHONY: all print-info clean clean-code
 .PHONY: help help-command-not-installed do-help-command
 
-all:: help print-info
+all:: help print-info clean clean-code
 
 clean::
 	rm -rf ${CLEAN_DIRS}
@@ -215,7 +218,7 @@ help-%::
 
 .PHONY: error
 error::
-	@$(info ${ERROR_LABEL}${MSG} (exit status = ${RED}${STATUS}${_END}))
+	@$(info ${command-failed-error-message})
 	@$(info ${${MSG_VARIABLE}})
 	@$(error )
 
@@ -239,7 +242,7 @@ silent-command-check-%:
 .PHONY: print-info-env
 print-info:: print-info-env
 print-info-env::
-	@echo "${HIGHLIGHT} Some 'environment' settings: ${_END}"
+	@echo "${HIGHLIGHT}Some 'environment' settings:${_END_BOLD}${_END}"
 	@echo
 	@echo "  ${DARK_GREEN}MAKEFLAGS:${_END}             ${CODE}${MAKEFLAGS}${_END}"
 	@echo "  ${DARK_GREEN}UNAME:${_END}                 ${CODE}${UNAME}${_END}"
@@ -280,6 +283,7 @@ print-info-env::
 #
 # The "skip-command-target-message" variable is defined in .common.mk to provide a
 # useful notice to the reader that the target is skipped.
+# TIP: Run "make skip-command-example" to see what the output looks like.
 #
 # There is one more point to explain for how this is implemented. The _default_ way
 # *-command is actually declared is as follows:
@@ -380,6 +384,17 @@ rm-venv::
 
 clean-setup:: uninstall-uv
 
+uninstall-uv::
+	$(info ${help-command-${@}-message})
+	@true
+
+install-dev-dependencies::
+	uv pip install -e ".[dev]"
+
+# Check if a command is installed. If not, try to provide help on installing it.
+# If make is invoked by the || clause, we unset MAKEFLAGS to hack around suppressing
+# a warning about a potentially-undefined variable used in the targets
+# help-command-not-installed and  help-command-$$cmd.
 install-%::
 	@cmd=${@:install-%=%} && command -v $$cmd > /dev/null && \
 		echo "${INFO_LABEL}Command ${CODE}$$cmd${_END} is already installed." || \
@@ -391,13 +406,6 @@ uv-venv:: command-check-uv
 	@echo "${TIP_LABEL}Try running ${CODE}source .venv/bin/activate${_END} if subsequent make commands fail."
 	@echo "${TIP_LABEL}If they ${RED}still${_END} don't work, try ${CODE}make force-setup${_END}, which deletes ${CODE}.venv${_END}"
 	@echo "${TIP_LABEL}and runs ${CODE}setup${_END} again."
-
-install-dev-dependencies::
-	uv pip install -e ".[dev]"
-
-uninstall-uv:: 
-	$(info ${help-command-${@}-message})
-	@true
 
 command-check-uv::
 	@command -v uv > /dev/null || ! ${MAKE} help-command-uv
@@ -432,6 +440,9 @@ ${WARNING_LABEL}Skipping ${CODE}${@:%-command=%}${_END} in ${CODE}${SRC_DIR}${_E
 endef
 
 open-url-message = ${TIP_LABEL}Try ${CODE}⌘+click${_END} or ${CODE}^+click${_END} on the URL.
+
+skip-command-example:
+	@echo "${skip-command-target-message}"
 
 # Definitions for the website:
 include .website.mk

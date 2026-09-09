@@ -40,8 +40,8 @@ These are the main steps, with details below:
 
 You should now have a published website!
 
-> [!NOTE] 
-> We are planning to automate as many of the manual steps as we can.
+> [!TIP]
+> Some more advanced settings and techniques are used in some AI Alliance projects, like [Project Tapestry](https://github.com/The-AI-Alliance/tapestry). See its [`.github/workflows`](https://github.com/The-AI-Alliance/tapestry/tree/develop/.github/workflows) and [Settings](https://github.com/The-AI-Alliance/tapestry/settings) in the GitHub repo.
 
 Let's look at these steps in more detail.
 
@@ -125,10 +125,18 @@ Additionally, the following information is important:
 > [!WARNING]
 > After the script makes changes, it pushes them from the local repo to the upstream repo in GitHub. If you don't want to do that, preferring to push changes upstream later, then add the option `--no-push`. Pushing upstream may fail depending on how your personal GitHub account is configured, etc. Talk to Dean Wampler if you have problems here.
 
+### 4a. Want to use a different directory for the website??
+
+Oddly enough, GitHub only allows GitHub Pages to be published from the repo's root directory `/` _or_ `/docs`. _You can't choose a different directory!_ This is inconvenient for larger repos where you don't want the website in the root directory and you want to use `docs` for other documentation.
+
+However, a third-party tool can be used that provides a custom workflow workaround. It allows you to specify an arbitrary directory, which it uses in a workflow to write the site content to the root directory, but only _in a custom branch, `gh-pages`_ (by default). The repo settings are configured by you to publish from the `gh-pages` branch and the root directory. Note that you never merge `gh-pages` back to any work branches!
+
+See the instructions for this change in [How to Use a Different Directory for the Website](./GITHUB_PAGES.md/#how-to-use-a-different-directory-for-the-website) in [`GITHUB_PAGES.md`](GITHUB_PAGES.md).
+
 ### 4. Edit the website buttons.
 
 > [!NOTE]
-> From this point forward, all the subsequent steps can be done on the GitHub UI for your repo.
+> From this point forward, all the subsequent steps can be done on the GitHub UI for your repo. We will assume you use `main` as the integration branch and `docs` as the website location. Change those values below if you are using different values.
 
 There are purple "header buttons" that appear on all pages in the website. You can see examples in existing websites, e.g., [OTDI](https://the-ai-alliance.github.io/open-trusted-data-initiative/). The buttons are defined as HTML _anchor_ tags (`<a href="...">...</a>`) in the file `docs/_includes/header_buttons_custom.html`. 
 

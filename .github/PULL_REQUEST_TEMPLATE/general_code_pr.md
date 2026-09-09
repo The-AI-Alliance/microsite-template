@@ -1,9 +1,10 @@
 # [PR Template] Code Changes
 
 > Replace the title with a more descriptive alternative. Delete
-> content below that doesn't apply to your PR. Also delete this paragraph!
+> content below that doesn't apply to your PR. Also delete this note!
 
 ## Description of Changes
+
 Please provide a brief description of the changes made in this pull request:
 
 * What is the purpose of this PR?
@@ -11,10 +12,11 @@ Please provide a brief description of the changes made in this pull request:
 * How does it improve the existing repository?
 
 ## Related Issues
+
 List any related issues or PRs that this submission addresses:
 
-* Issue numbers (e.g., #123, #456)
-* PR numbers (e.g., #789)
+* Issues: (e.g., #123, #456)
+* PRs: (e.g., #789)
 
 ## Testing Performed
 Describe the testing performed to validate the changes:
