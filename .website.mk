@@ -1,7 +1,7 @@
 # .website.mk - Definitions for the GibHub Pages website
 
 PAGES_URL    := https://the-ai-alliance.github.io/${REPO_NAME}/
-WEBSITE_DIR  := website
+WEBSITE_DIR  := docs
 SITE_DIR     := ${WEBSITE_DIR}/_site
 CLEAN_WEBSITE_DIRS += ${SITE_DIR} ${WEBSITE_DIR}/.sass-cache
 CLEAN_DIRS   += ${CLEAN_WEBSITE_DIRS}
@@ -105,7 +105,7 @@ bundle-command-check:
 # invoked, independent of the shell script logic. Hence, the only way to make
 # this invocation conditional is to use a make target invocation, as shown above.
 jekyll-error:
-	$(error ${ERROR}Failed to run Jekyll.${_END_BOLD}${_END} Try running 'make setup-jekyll'.)
+	$(error ${ERROR}Failed to run Jekyll (or another error occurred).${_END_BOLD}${_END} Consider trying 'make setup-jekyll'.)
 ruby-missing-error:
 	$(error ${ERROR}'ruby' is required.${_END_BOLD}${_END} ${ruby-installation-message})
 gem-missing-error:

@@ -9,7 +9,6 @@
   * [Issues](https://github.com/The-AI-Alliance/REPO_NAME_MACRO/issues)
   * [Pull requests](https://github.com/The-AI-Alliance/REPO_NAME_MACRO/pulls)
   * [Discussions](https://github.com/The-AI-Alliance/REPO_NAME_MACRO/discussions)
-  * [Main website](https://thealliance.ai/projects/REPO_NAME_MACRO)
 * [More on the AI Alliance community](https://github.com/The-AI-Alliance/community)
 
 ## How to Contribute to this Project
@@ -66,15 +65,11 @@ Make sure you and your coding agent do the following:
 
 ## What Else to Know Before Contributing to this Project
 
-We welcome contributions to all AI Alliance projects. However, we ask that all contributors accept certain agreements and conditions. See also the [AI Alliance governance](https://thealliance.ai/governance) for more general information about AI Alliance policies.
+We welcome contributions to all AI Alliance projects. However, we ask that all contributors accept certain agreements and conditions. See also the [AI Alliance governance]({{site.ai_alliance_url}}/governance) for more general information about AI Alliance policies.
 
 ### The AI Alliance Code of Conduct
 
 All projects and activities adhere to our [Code of Conduct](https://github.com/The-AI-Alliance/community/blob/main/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. If you observe unacceptable behavior, follow the instructions in the document to report it.
-
-### AI Alliance Competition Law Guidelines
-
-The AI Alliance and its members are committed to compliance with applicable antitrust and competition laws. See the [AI Alliance Competition Law Guidelines](https://ai-alliance.cdn.prismic.io/ai-alliance/ZnNNb5m069VX15Z1_AIAllianceCompetitionLawGuidelines.pdf) for details.
 
 ### Licenses
 
