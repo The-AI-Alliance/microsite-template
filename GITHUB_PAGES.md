@@ -110,6 +110,9 @@ last_version: V0.2.2
 
 ## Editing Conventions and Tips
 
+> [!TIP]
+> See [Microsite Cheat Sheet](https://the-ai-alliance.github.io/microsite-cheat-sheet/), for various tips on editing sites based on this _microsite template_.
+
 ### Links
 
 For _internal_ cross-references, use the conventional `[title]({{site.baseurl}}/relative_URL)` Markdown syntax.
