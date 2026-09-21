@@ -43,6 +43,8 @@ These arguments are optional:
                        Default: "$default_dashboard_number" ("$default_dashboard_name").
 -a | --assignees list  Comma-separated list of GitHub user names to whom issues are assigned.
                        E.g., "--assignees bob,ted". Default: "$default_assignees".
+-c | --copyright years By default, the current year is used for copyright notices on the website.
+                       Use this option to specify a custom year or range of years (e.g., 2025-2027).
 --use-latest           By default, this script previously assumed that you would publish
                        the website from the "latest" branch, while using "main" for integration.
                        This is difficult for less-technical users. Now the default is to use 
@@ -172,6 +174,10 @@ do
 			shift
 			assignees="$1"
 			;;
+		-c|--copyright)
+			shift
+			copyright_years="$1"
+			;;
 		--use-latest)
 			publish_branch="latest"
 			;;
@@ -190,6 +196,7 @@ do
 done
 
 [[ -z "$repo_name" ]] && repo_name=$(basename $PWD)
+[[ -z "$copyright_years" ]] && copyright_years=$(date +'%Y')
 
 $show_next_steps && next_steps $repo_name && exit 0
 
@@ -228,7 +235,8 @@ then
 	db=$(get_value "$dashboard" "Project dashboard (number)")
 	dashboard=$(determine_dashboard "$db")
 	dashboard_url=$(determine_dashboard_url "$db")
-	assignees=$(get_value "$assignees" "Issue and PR assignees")	
+	assignees=$(get_value "$assignees" "Issue and PR assignees")
+	copyright_years=$(get_value "$copyright_years" "Year or year range (NNNN-NNNN) for the website copyright")
 	do_push=$(get_value "$do_push" "Push changes to GitHub? Enter true or false")
 fi
 
@@ -248,6 +256,7 @@ info "  GitHub:"
   info "    Issue assignees:        $assignees (also used for CODEOWNERS)"
 info "    Work branch:            $work_branch"
 info "    Publishing branch:      $publish_branch"
+info "    Copyright:              $copyright_years"
 info "    Push changes to GitHub? $do_push"
 
 info "Replacing the microsite-template README.md with the new README-template.md:"
@@ -279,6 +288,7 @@ info "  PUBLISH_BRANCH_MACRO:         $publish_branch"
 info "  ASSIGNEES_MACRO:              $assignees"
 info "  ASSIGNEES_SPACES_MACRO:       $assignees_spaces"
 info "  LAST_MODIFIED_TIME_MACRO:     $ymdtimestamp"
+info "  COPYRIGHT_YEARS:              $copyright_years"
 info
 
 
@@ -304,6 +314,7 @@ do
 	    -e "s?ASSIGNEES_MACRO?$assignees?g" \
 	    -e "s?ASSIGNEES_SPACES_MACRO?$assignees_spaces?g" \
 	    -e "s?LAST_MODIFIED_TIME_MACRO?$timestamp?g" \
+	    -e "s?COPYRIGHT_YEARS?$copyright_years?g" \
 	    -i ".back" "$file"
 done
 

@@ -112,16 +112,12 @@ show_footer: side_bar
 # show_footer: both
 # show_footer: 
 
-# Footer last edited timestamp
+# Last-edited timestamp, etc.
 last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
 last_edit_time_format: "%Y-%m-%d" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
 last_modified_date: LAST_MODIFIED_TIME_MACRO
 last_version: V0.1.0
-
-# Custom: Add the range of years for the copyright here. This is done here,
-# rather than default.html, so that the latter file can remain completely 
-# generic across repos, but the range of years can be configurable per repo.
-copyright_years: 2025-2026
+copyright_years: COPYRIGHT_YEARS
 
 # "Edit this page on GitHub" link text
 gh_edit_link: true # show or hide edit this page link
